@@ -22,7 +22,7 @@ Imports:
 Suggests: 
     rmarkdown
 Remotes: 
-	github::JGCRI/rgcam
+	github::JGCRI/rgcam,
 	github::JGCRI/gcamdata
 VignetteBuilder: 
     knitr
