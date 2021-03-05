@@ -1,0 +1,30 @@
+title: rfasst
+
+navbar:
+  type: inverse
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Guides"
+      icon: fas fa-clipboard-list
+      menu:
+      -  text: Module1 emissions
+         href: articles/Module1_emissions.html
+      -  text: Module2 concentration
+         href: articles/Module2_concentration.html
+      -  text: Module3 health
+         href: articles/Module3_health.html
+      -  text: Module4 agriculture
+         href: articles/Module4_agriculture.html
+    - icon: fa-file-code-o
+      text: "Reference"
+      href: reference/index.html
+    - icon: fa-newspaper-o
+      text: "News"
+      href: news/index.html
+ 
+
+
+      
+toc:
+  depth: 2

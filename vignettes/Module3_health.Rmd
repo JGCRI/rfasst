@@ -1,0 +1,118 @@
+---
+title: "Module3_health"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Module3_health}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The function in this module estimate adverse health effects attributable to fine particulate matter (PM2.5) and ozone (O3; M6M) exposure, measured as premature mortalities, years of life lost (YLLs), and disability adjusted life years (DALYs). The following code shows as an example, the functions to estimate premature mortalities attributable to PM2.5 and the DALYs associated with ozone exposure (M6M).All the functions associated to this module can be found in the [References] (file:///C:/Users/samp699/Desktop/rfasst/docs/reference/index.html) page. 
+
+
+```{r setup_mort}
+library(rfasst)
+library(magrittr)
+
+# db_path<-"path_to_your_gcam_database"
+# query_path<-"path_to_your_gcam_queries_file"
+# db_name<-"name of the database"
+# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+# scen_name<-"name of the GCAM scenario",
+# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+
+
+  # To write the csv files into the output folder:
+
+    # m3_get_mort_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+
+    # m3_get_daly_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+
+  # To save this data by TM5-FASST region in year 2050 as dataframes:
+
+    # pm25.mort.2050<-dplyr::bind_rows(m3_get_mort_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050)
+    # head(pm25.mort.2050)
+
+    # o3.daly.2050<-dplyr::bind_rows(m3_get_daly_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050)
+    # head(o3.daly.2050)
+
+```
+
+The calculation of premature mortalities is consistent with the Global Burden of Disease 2016 ([Lim et al](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(12)61766-8/fulltext)). Mortalities are estimated for five causes, namely stroke, ischemic heart disease (IHD), chronic obstructive pulmonary disease (COPD), acute lower respiratory illness diseases (ALRI) and lung cancer (LC). As explained in the TM5-FASST documentation paper ([Van Dingenen et al 2018](https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html)), cause-specific deaths are estimated following the following equation:
+$$Mort_{t,r,c,j}=mo_{r,c,j} \cdot ((RR_{c,j}-1)/RR_{c,j})\cdot Pop_{t,r}$$
+So premature mortality in period $t$, region $r$, for cause $c$, associated with exposure to pollutant $j$ is calculated as the product between the baseline mortality rate, the change in the RR relative risk of death attributable to a change in population-weighted mean pollutant concentration, and the population exposed:
+
+* Cause-specific baseline mortality rates are taken from the World Health Organization projections [WHO 2013](https://www.who.int/healthinfo/global_burden_disease/cod_2008_sources_methods.pdf). 
+
+* For PM2.5, relative risk are estimated based on the Integrated Exposure-Response functions (ERFs) from [Burnett et al 2014](https://pubmed.ncbi.nlm.nih.gov/24518036/). For O3, relative risk is based on the ERFs from [Jerret et al 2009](https://www.nejm.org/doi/full/10.1056/nejmoa0803894).
+
+* Population exposed is cause-specific. We assume that for all the causes adults are exposed (>30 Years) while for ALRI, children under 5 years. Population fractions are calculated from the from the [SSP database] (https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&page=welcome).
+
+Years of life lost and DALYs are estimated by transforming premature mortalities into either YLLs or DALYs using constant ratios. YLL-to-Mortalities ratios are based on a reduction in statistical life expectancy (months) per 10µg/m³increase in anthropogenic PM2.5 (TM5-FASST calculations). DALY-to-Mortalities ratio are using the latest available data on mortailities and DALYs from the Institute for Health Metrics and Evaluation ([IHME](http://www.healthdata.org/)). We note that these ratios (both for YLLs and for DALYs) are calculated regionally so they differ across regions.
+
+Economic damages associated to the health impacts are calculated multiplying either the premature mortalities or the years of life lost by the corresponding Value of Statistical Life (VSL) or Value of Statistical Life Year (VSLY). Both the VSL and the VSLY are based on the values the widely accepted OECD values for 2005. This value, according to the literature ranges between US$1.8 and $4.5 million. The calculations for all regions are based on the  “unit value transfer approach” which adjusts the VSL according to their GDP and GDP growth rates [Narain and Sall 2016](https://openknowledge.worldbank.org/handle/10986/24440). In this version, we assume the income elasticity of both the VSL and the VSLY are equal to 0.8, with no adjustments across regions. A potential regional adjustment of this income elasticities will be explored in further developments of the package. We note that the central OECD values could be easily adjusted by the user as desired in the `/R/constants.R` file. Finally, the damages reported by the functions use the median value of VSL for simplicity. The reporting or Lower Bound and Upper Bounds is planned for the next package development.
+
+The following code shows some examples for the monetized premature deaths associated to exposure to PM2.5 and monetized years of life lost attributable to O3 exposure:
+
+```{r setup_ecoloss}
+library(rfasst)
+library(magrittr)
+
+# db_path<-"path_to_your_gcam_database"
+# query_path<-"path_to_your_gcam_queries_file"
+# db_name<-"name of the database"
+# prj_name<-" Name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+# scen_name<-"Name of the GCAM scenario",
+# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+
+  # To write the csv files into the output folder:
+
+    # m3_get_mort_o3_ecoloss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+
+    # m3_get_yll_o3_Ecoloss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+
+  # To save this data by TM5-FASST region in year 2050 as dataframes:
+
+    # pm25.mort.ecoloss.2050<-dplyr::bind_rows(m3_get_mort_o3_ecoloss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050)
+    # head(pm25.mort.ecoloss.2050)
+
+    # o3.yll.ecoloss.2050<-dplyr::bind_rows(m3_get_yll_o3_Ecoloss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050)
+    # head(o3.yll.ecoloss.2050)
+
+```
+
+The complete list of outputs generated by the suite of functions that form this module is listed below:
+
+* `PM25_MORT_[scenario]_[year].csv`
+* `PM25_YLL_[scenario]_[year].csv`
+* `PM25_DALY_[scenario]_[year].csv`
+* `PM25_MORT_ECOLOSS_[scenario]_[year].csv`
+* `PM25_YLL_ECOLOSS__[scenario]_[year].csv`
+* `O3_MORT_[scenario]_[year].csv`
+* `O3_YLL_[scenario]_[year].csv`
+* `O3_DALY_[scenario]_[year].csv`
+* `O3_MORT_ECOLOSS_[scenario]_[year].csv`
+* `O3_YLL_ECOLOSS__[scenario]_[year].csv`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

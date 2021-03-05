@@ -1,0 +1,58 @@
+---
+title: "Module1_emissions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Module1_emissions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+The first function of the package is `m1_emissions_rescale`. It re-scales emissions from GCAM regions to TM5-FASST regions which is the purpose of Module 1.
+
+The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the pollutant-specific country-level emissions in year 2000 reported in the [RCP database](https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&page=welcome). This approach is planned to be revised in the future, for example with the implementation a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM. 
+
+Apart from the regional adjustments, this function makes some additional pollutant-related changes such as the transformation of organic carbon into organic matter.
+
+Inputs:
+
+* NonCO2 emissions by sector: By default, they will be automatically queried from the GCAM-database
+* NonCO2 emissions from international aviation and international shipping: By default, queried from the GCAM database.
+* Mapping of pollutants that are reported by GCAM to more aggregated categories which are input in TM5-FASST (my_pol)
+* Mapping of GCAM regions to countries and ISO3 codes for downscaling GCAM results to country-level (GCAM_Reg_Adj)
+* Mapping of TM5-FASST regions to ISO3 country codes for re-grouping country-level downscaled emissions (fasst_reg)
+* Shares to distribute emissions of different species between Russia Eastern (RUE) and Western (RUS) (adj_rus)
+
+Outputs:
+
+The function produces re-scaled emissions of the main pollutants for each period and TM5-FASST region. If `saveOutput` is set to `TRUE`, the function writes the following csv files in the `output/m1` sub-directory: `[scenario]_[year].csv`
+
+The outputs from this module generated with the function `m1_emissions_rescale` are going to read by the set of functions in Module 2, which calculate  PM2.5 and O3 average concentration levels based on these emission sets.
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rfasst)
+library(magrittr)
+
+# db_path<-"path_to_your_gcam_database"
+# query_path<-"path_to_your_gcam_queries_file"
+# db_name<-"name of the database"
+# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+# scen_name<-"name of the GCAM scenario",
+# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+
+  # To write the re-scaled emissions (csv files) for all years into the output folder:
+    # m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T)
+
+  # To save as data frame emisions of main pollutants by TM5-FASST region in 2050:
+
+    # em.2050<-dplyr::bind_rows(m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
+                         
+    # head(m1_emissions_rescale)
+
+```
