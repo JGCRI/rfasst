@@ -20,9 +20,11 @@ Imports:
 	gcamdata,
 	rgcam
 Suggests: 
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 Remotes: 
 	github::JGCRI/rgcam,
 	github::JGCRI/gcamdata
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
