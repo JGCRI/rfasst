@@ -1,6 +1,5 @@
-[![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
-
-[![build](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml/badge.svg)](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml)
+[![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
+[![build](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml)
 
 <!-- ------------------------>
 <!-- ------------------------>
