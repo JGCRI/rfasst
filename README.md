@@ -1,3 +1,5 @@
+[![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
+
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="Contents"></a>Contents
