@@ -10,11 +10,12 @@
 #' @param prj_name Name of the rgcam project. This can be an existing project, or, if not, this will be the name
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
-#' @param saveOutput Writes the emission files.By default=T
+#' @param saveOutput Writes the files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -317,9 +318,33 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    pm25.map<-pm25_agg %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::mutate(units="ug/m3",
+                    year=as.numeric(as.character(year)))
+
+    rmap::map(data = pm25.map,
+              shape = fasstSubset,
+              folder = "output/maps/m2/maps_pm2.5",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeI = 0.7,
+              legendTitleSizeI=0.8,
+              background  = T)
+
+  }
+
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
   pm<-dplyr::bind_rows(pm25.agg.list)
 
   invisible(pm)
+
 
  }
 
@@ -338,10 +363,11 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ch4_o3  Includes the CH4 effect on O3 based on Fiore et al (2008).By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,ch4_o3=T){
+m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,ch4_o3=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -489,6 +515,29 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     lapply(o3.list,o3.write)
 
   }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    o3.map<-conc_o3 %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::mutate(units="ppbv",
+                    year=as.numeric(as.character(year)))
+
+    rmap::map(data = o3.map,
+              shape = fasstSubset,
+              folder = "output/maps/m2/maps_o3",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeI = 0.7,
+              legendTitleSizeI=0.8,
+              background  = T)
+
+  }
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
@@ -514,11 +563,12 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
 
-m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -693,7 +743,29 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     lapply(m6m.list,m6m.write)
 
   }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    m6m.map<-m6m %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::mutate(units="ppbv",
+                    year=as.numeric(as.character(year)))
+
+    rmap::map(data = m6m.map,
+              shape = fasstSubset,
+              folder = "output/maps/m2/maps_m6m",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeI = 0.7,
+              legendTitleSizeI=0.8,
+              background  = T)
+
+  }
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
   # Finally, the function returns the a M6M data frame  per region for all_years
@@ -719,11 +791,12 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
 
-m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -1035,7 +1108,6 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 
   aot_write<-function(df){
     df<-as.data.frame(df) %>% tidyr::spread(pollutant,value)
-    #colnames(df)<-c("region","year","units","value")
     write.csv(df,paste0("output/","m2/","AOT40_",scen_name,"_",unique(df$year),".csv"),row.names = F)
   }
 
@@ -1045,6 +1117,41 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    aot.map<-aot %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::mutate(units="ppm.h",
+                    year=as.numeric(as.character(year)))
+
+    aot.map.list<-split(aot.map,aot.map$pollutant)
+
+   make.map.aot40<-function(df){
+
+     df<-df %>%
+       dplyr::rename(crop=pollutant) %>%
+       dplyr::mutate(crop=gsub("AOT_","",crop))
+
+     rmap::map(data = df,
+              shape = fasstSubset,
+              folder =paste0("output/maps/m2/maps_aot40/maps_aot40_",unique(df$crop)),
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeI = 0.7,
+              legendTitleSizeI=0.8,
+              background  = T)
+
+   }
+
+   lapply(aot.map.list, make.map.aot40)
+
+  }
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
   # Finally, the function returns the a AOT40 data frame  per region for all_years
@@ -1070,11 +1177,12 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
 
-m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -1393,6 +1501,41 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    mi.map<-mi %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::mutate(units="ppbv",
+                    year=as.numeric(as.character(year)))
+
+    mi.map.list<-split(mi.map,mi.map$pollutant)
+
+    make.map.mi<-function(df){
+
+      df<-df %>%
+        dplyr::rename(crop=pollutant) %>%
+        dplyr::mutate(crop=gsub("M_","",crop))
+
+      rmap::map(data = df,
+                shape = fasstSubset,
+                folder =paste0("output/maps/m2/maps_Mi/maps_Mi_",unique(df$crop)),
+                mapTitleOn = F,
+                legendOutsideSingle = T,
+                legendPosition = c("RIGHT","bottom"),
+                legendTextSizeI = 0.7,
+                legendTitleSizeI=0.8,
+                background  = T)
+
+    }
+
+    lapply(mi.map.list, make.map.mi)
+
+  }
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
   # Finally, the function returns the a AOT40 data frame  per region for all_years

@@ -15,7 +15,8 @@ m3_get_mort_pm25_ecoloss(
   scen_name,
   ssp = "SSP2",
   queries,
-  saveOutput = T
+  saveOutput = T,
+  map = F
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ m3_get_mort_pm25_ecoloss(
 \item{queries}{Name of the GCAM query file. The file by default includes the queries required to run rfasst}
 
 \item{saveOutput}{Writes the emission files.By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Economic damages associated with mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years

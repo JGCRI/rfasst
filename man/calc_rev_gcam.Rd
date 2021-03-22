@@ -14,7 +14,8 @@ calc_rev_gcam(
   prj_name,
   scen_name,
   queries,
-  saveOutput = T
+  saveOutput = T,
+  map = F
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ calc_rev_gcam(
 \item{queries}{Name of the GCAM query file. The file by default includes the queries required to run rfasst}
 
 \item{saveOutput}{Writes the emission files.By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Future agricultural revenue levels from GCAM for each GCAM region for all years

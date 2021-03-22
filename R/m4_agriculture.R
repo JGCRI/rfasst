@@ -11,10 +11,11 @@
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Load the rgcam project:
   conn <- rgcam::localDBConn(db_path, db_name,migabble = FALSE)
@@ -48,6 +49,33 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
   write.csv(prod,"output/m4/production.csv",row.names = F)
 
             }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    prod.map<-prod %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::select(-unit) %>%
+      dplyr::rename(class=sector,
+                    value=prod) %>%
+      dplyr::mutate(units="Mt",
+                    year=as.numeric(as.character(year)))
+
+
+    rmap::map(data = prod.map,
+              folder ="output/maps/m4/gcam_agr_prod",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
+  }
 
   invisible(prod)
 
@@ -67,10 +95,11 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Load the rgcam project:
   conn <- rgcam::localDBConn(db_path, db_name,migabble = FALSE)
@@ -99,7 +128,34 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     write.csv(price,"output/m4/price.csv",row.names = F)
 
   }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    price.map<-price %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::rename(class=sector,
+                    value=price) %>%
+      dplyr::mutate(units="$2010/kg",
+                    year=as.numeric(as.character(year))) %>%
+      dplyr::mutate(value=value*gcamdata::gdp_deflator(2010,1975))
+
+
+
+    rmap::map(data = price.map,
+              folder ="output/maps/m4/gcam_agr_price",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
+  }
   invisible(price)
 
 }
@@ -118,10 +174,11 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Get prod
   prod<-calc_prod_gcam(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
@@ -146,6 +203,36 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    rev.map<-rev %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::select(-unit) %>%
+      dplyr::rename(class=sector,
+                    value=revenue_bil_2010usd) %>%
+      dplyr::mutate(units="bil_2010usd",
+                    year=as.numeric(as.character(year))) %>%
+      dplyr::mutate(value=value*gcamdata::gdp_deflator(2010,1975))
+
+
+
+    rmap::map(data = rev.map,
+              folder ="output/maps/m4/gcam_agr_rev",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
+  }
+
   invisible(rev)
 
 }
@@ -163,10 +250,11 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -212,6 +300,37 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    ryl.aot.40.fin.map<-ryl.aot.40.fin %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(-unit) %>%
+      dplyr::rename(class=pollutant) %>%
+      dplyr::mutate(units="%",
+                    year=as.numeric(as.character(year)),
+                    class=gsub("AOT_","",class),
+                    value=value*100)
+
+
+    rmap::map(data = ryl.aot.40.fin.map,
+              shape = fasstSubset,
+              folder ="output/maps/m4/maps_ryl_aot40",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
+  }
+
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
   invisible(ryl.aot.40.fin)
@@ -232,10 +351,11 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -284,6 +404,36 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    ryl.mi.fin.map<-ryl.mi.fin %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(-unit) %>%
+      dplyr::rename(class=pollutant) %>%
+      dplyr::mutate(units="%",
+                    year=as.numeric(as.character(year)),
+                    class=gsub("M_","",class),
+                    value=value*100)
+
+
+    rmap::map(data = ryl.mi.fin.map,
+              shape = fasstSubset,
+              folder ="output/maps/m4/maps_ryl_mi",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
+  }
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
@@ -303,10 +453,11 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -439,6 +590,33 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   lapply(prod.loss.list,prod.loss.write)
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    prod.loss.map<-prod.loss %>%
+      dplyr::mutate(value=(prod_loss_aot40+prod_loss_mi)/2) %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::select(-prod_loss_aot40,-prod_loss_mi,-unit) %>%
+      dplyr::rename(class=crop) %>%
+      dplyr::mutate(units="Mt",
+                    year=as.numeric(as.character(year)))
+
+
+    rmap::map(data = prod.loss.map,
+              folder ="output/maps/m4/maps_prodLoss",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
+  }
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
   prod.loss<-dplyr::bind_rows(prod.loss.list)
@@ -461,10 +639,11 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -580,6 +759,34 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
   if(saveOutput==T){
     lapply(rev.loss.list,rev.loss.write)
+  }
+
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    rev.loss.map<-rev.loss %>%
+      dplyr::mutate(value=(rev_loss_aot40+rev_loss_mi)/2) %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::select(-rev_loss_aot40,-rev_loss_mi,-unit) %>%
+      dplyr::rename(class=crop) %>%
+      dplyr::mutate(units="bil_2010usd",
+                    year=as.numeric(as.character(year)))
+
+
+    rmap::map(data = rev.loss.map,
+              folder ="output/maps/m4/maps_revLoss",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 2,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+
   }
 
   #------------------------------------------------------------------------------------

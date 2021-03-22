@@ -82,8 +82,17 @@ d.weight.gcam <- dplyr::select(d.ha, crop, iso, harvested.area) %>% # Need harve
   dplyr::select(-harvested.area) %>%
   dplyr::arrange(GCAM_region_name, GCAM_commod, crop)
 
+# ====================================================================================================
+# Shape subset for maps
 
+fasstSubset <- rmap::mapCountries
 
+fasstSubset@data<-fasstSubset@data %>%
+  dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+  dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+  dplyr::select(-subRegion) %>%
+  dplyr::rename(subRegion=fasst_region) %>%
+  dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
 
 

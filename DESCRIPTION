@@ -18,13 +18,15 @@ Imports:
     magrittr,
     tibble,
 	gcamdata,
-	rgcam
+	rgcam,
+	rmap
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0)
 Remotes: 
 	github::JGCRI/rgcam,
-	github::JGCRI/gcamdata
+	github::JGCRI/gcamdata,
+	github::JGCRI/rmap
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

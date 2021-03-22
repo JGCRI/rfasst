@@ -18,6 +18,10 @@ CROP_ANALYSIS <- c("Corn", "FiberCrop", "FodderGrass", "FodderHerb", "MiscCrop",
 perc_pop_rus<-0.767
 perc_pop_rue<-0.233
 
+# Indicate the pollutants whose emissions are mapped (if map=T in m1_emissions_rescale)
+map_pol<-c("BC","NH3","NMVOC","NOx","POM","SO2")
+
+
 # Set of values to monetize health damages
 gdp_eu_2005<-32700
 vsl_eu_2005_lb<-1.8*1E6

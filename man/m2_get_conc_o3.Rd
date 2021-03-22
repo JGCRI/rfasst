@@ -12,7 +12,8 @@ m2_get_conc_o3(
   scen_name,
   queries,
   saveOutput = T,
-  ch4_o3 = T
+  ch4_o3 = T,
+  map = F
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ m2_get_conc_o3(
 \item{saveOutput}{Writes the emission files.By default=T}
 
 \item{ch4_o3}{Includes the CH4 effect on O3 based on Fiore et al (2008).By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Produce ozone (O3) levels for each TM5-FASST regions for all years (ppb)
