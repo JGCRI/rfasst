@@ -15,7 +15,8 @@ m3_get_yll_o3_ecoloss(
   scen_name,
   queries,
   ssp = "SSP2",
-  saveOutput = T
+  saveOutput = T,
+  map = F
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ m3_get_yll_o3_ecoloss(
 \item{ssp}{Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2}
 
 \item{saveOutput}{Writes the emission files.By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Economic damages associated with YLLs attributable to O3 (M6M) exposure for each TM5-FASST regions for all years

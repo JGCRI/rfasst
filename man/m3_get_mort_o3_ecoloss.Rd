@@ -15,7 +15,8 @@ m3_get_mort_o3_ecoloss(
   scen_name,
   ssp = "SSP2",
   queries,
-  saveOutput = T
+  saveOutput = T,
+  map = F
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ m3_get_mort_o3_ecoloss(
 \item{queries}{Name of the GCAM query file. The file by default includes the queries required to run rfasst}
 
 \item{saveOutput}{Writes the emission files.By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Economic damages associated with mortality attributable to O3 (M6M) exposure for each TM5-FASST regions for all years

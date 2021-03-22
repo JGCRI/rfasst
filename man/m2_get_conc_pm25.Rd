@@ -11,7 +11,8 @@ m2_get_conc_pm25(
   prj_name,
   scen_name,
   queries,
-  saveOutput = T
+  saveOutput = T,
+  map = F
 )
 }
 \arguments{
@@ -27,7 +28,9 @@ m2_get_conc_pm25(
 
 \item{queries}{Name of the GCAM query file. The file by default includes the queries required to run rfasst}
 
-\item{saveOutput}{Writes the emission files.By default=T}
+\item{saveOutput}{Writes the files.By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Produce particulate matter (PM2.5) concentration levels for each TM5-FASST regions for all years (ug/m3)

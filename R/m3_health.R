@@ -181,10 +181,11 @@ calc_daly_pm25<-function(){
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -271,7 +272,35 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     lapply(pm.mort.list,pm.mort.write)
 
   }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    pm.mort.map<-pm.mort %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(-LB,-UB) %>%
+      dplyr::rename(value=med,
+                    class=disease) %>%
+      dplyr::mutate(units="Mortalities",
+                    year=as.numeric(as.character(year)))
+
+
+      rmap::map(data = pm.mort.map,
+                shape = fasstSubset,
+                folder ="output/maps/m3/maps_pm25_mort",
+                mapTitleOn = F,
+                legendOutsideSingle = T,
+                facetCols = 3,
+                legendPosition = c("RIGHT","bottom"),
+                legendTextSizeO = 0.5,
+                legendTitleSizeO=0.7,
+                background  = T)
+
+
+  }
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
@@ -297,10 +326,11 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T){
+m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -355,7 +385,35 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
     lapply(pm.mort.EcoLoss.list,pm.mort.EcoLoss.write)
 
   }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    pm.mort.EcoLoss.map<-pm.mort.EcoLoss %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,disease,Damage_med,unit) %>%
+      dplyr::rename(value=Damage_med,
+                    class=disease,
+                    units=unit) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    value=value*1E-6,
+                    units="Trillion$2015")
+
+    rmap::map(data = pm.mort.EcoLoss.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_pm25_mort_ecoloss",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 3,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
 
@@ -380,10 +438,11 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -435,6 +494,32 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    pm.yll.fin.map<-pm.yll.fin %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::rename(value=yll_med,
+                    class=disease) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    units="YLLs")
+
+    rmap::map(data = pm.yll.fin.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_pm25_yll",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 3,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
@@ -446,7 +531,7 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 }
 
 
-#' m3_get_yll_pm25_Ecoloss
+#' m3_get_yll_pm25_ecoloss
 #'
 #'
 #' Produce Economic damages associated with YLLs attributable to PM2.5.The economic valuation takes as a base value the Value of Statistical Life Year (VSLY) for EU from Schlander et al (2017) and expands the value to other regions based on the“unit value transfer approach” which adjusts the VSLY according to their GDP and GDP growth rates. . .YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are  based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study.
@@ -461,10 +546,11 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -511,6 +597,36 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    pm.yll.EcoLoss.map<-pm.yll.EcoLoss %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,disease,Damage_med,unit) %>%
+      dplyr::rename(value=Damage_med,
+                    class=disease,
+                    units=unit) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    value=value*1E-9,
+                    units="Trillion$2015")
+
+    rmap::map(data = pm.yll.EcoLoss.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_pm25_yll_ecoloss",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 3,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
+
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
@@ -537,10 +653,11 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -604,6 +721,33 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    pm.daly.tot.fin.map<-pm.daly.tot.fin %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,disease,daly_med) %>%
+      dplyr::rename(value=daly_med,
+                    class=disease) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    units="DALYs")
+
+    rmap::map(data = pm.daly.tot.fin.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_pm25_daly",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              facetCols = 3,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
@@ -631,10 +775,11 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -683,7 +828,31 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    o3.mort.map<-o3.mort %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,mort_o3) %>%
+      dplyr::rename(value=mort_o3) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    units="Mortalities")
+
+    rmap::map(data = o3.mort.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_o3_mort",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
 
@@ -709,10 +878,11 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T){
+m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -767,6 +937,32 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    o3.mort.EcoLoss.map<-o3.mort.EcoLoss %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,Damage_med) %>%
+      dplyr::rename(value=Damage_med) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    units="Trillion$2015",
+                    value=value*1E-6)
+
+    rmap::map(data = o3.mort.EcoLoss.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_o3_mort_ecoloss",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
   o3.mort.EcoLoss<-dplyr::bind_rows(o3.mort.EcoLoss.list)
 
   invisible(o3.mort.EcoLoss)
@@ -788,10 +984,11 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -830,6 +1027,31 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    o3.yll.map<-o3.yll %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,yll_o3) %>%
+      dplyr::rename(value=yll_o3) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    units="YLLs")
+
+    rmap::map(data = o3.yll.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_o3_yll",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
   o3.yll<-dplyr::bind_rows(o3.yll.list)
 
   invisible(o3.yll)
@@ -853,10 +1075,11 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -904,6 +1127,32 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    o3.yll.EcoLoss.map<-o3.yll.EcoLoss %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,year,Damage_med) %>%
+      dplyr::rename(value=Damage_med) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    value=value*1E-6,
+                    units="Trillion$2015")
+
+    rmap::map(data = o3.yll.EcoLoss.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_o3_yll_ecoloss",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------
@@ -930,10 +1179,11 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T){
+m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -994,6 +1244,32 @@ m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     lapply(o3.daly.tot.fin.list,o3.daly.tot.fin.write)
   }
 
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
+
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    o3.daly.tot.fin.map<-o3.daly.tot.fin %>%
+      dplyr::rename(subRegion=region)%>%
+      dplyr::filter(subRegion != "RUE",
+                    disease=="RESP") %>%
+      dplyr::select(subRegion,year,daly_med) %>%
+      dplyr::rename(value=daly_med) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    units="DALYs")
+
+    rmap::map(data = o3.daly.tot.fin.map,
+              shape = fasstSubset,
+              folder ="output/maps/m3/maps_o3_daly",
+              mapTitleOn = F,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------

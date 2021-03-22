@@ -2,7 +2,7 @@
 % Please edit documentation in R/m3_health.R
 \name{m3_get_yll_pm25_ecoloss}
 \alias{m3_get_yll_pm25_ecoloss}
-\title{m3_get_yll_pm25_Ecoloss}
+\title{m3_get_yll_pm25_ecoloss}
 \source{
 Schlander, M., Schaefer, R. and Schwarz, O., 2017. Empirical studies on the economic value of a Statistical Life Year (VSLY) in Europe: what do they tell us?. Value in Health, 20(9), p.A666.
 }
@@ -15,7 +15,8 @@ m3_get_yll_pm25_ecoloss(
   scen_name,
   queries,
   ssp = "SSP2",
-  saveOutput = T
+  saveOutput = T,
+  map = F
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ m3_get_yll_pm25_ecoloss(
 \item{ssp}{Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2}
 
 \item{saveOutput}{Writes the emission files.By default=T}
+
+\item{map}{Produce the maps. By default=F}
 }
 \value{
 Economic damages associated with YLLs attributable to PM2.5 exposure for each TM5-FASST regions for all years

@@ -11,10 +11,11 @@
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files. By default=T
+#' @param map Produce the maps. By default=F
 #' @importFrom magrittr %>%
 #' @export
 
-m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T){
+m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -212,9 +213,41 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
 
   }
 
+  # If map=T, it produces a map with the calculated outcomes
+
+  if(map==T){
+    final_df_wide.map<-final_df_wide %>%
+      tidyr::gather(pollutant,value,-Region,-Year) %>%
+      dplyr::filter(pollutant %in% map_pol) %>%
+      dplyr::rename(subRegion=Region)%>%
+      dplyr::filter(subRegion != "RUE") %>%
+      dplyr::select(subRegion,Year,pollutant,value) %>%
+      dplyr::rename(class=pollutant,
+                    year=Year) %>%
+      dplyr::mutate(year=as.numeric(as.character(year)),
+                    value=value*1E-6,
+                    units="Gg")
+
+    rmap::map(data = final_df_wide.map,
+              shape = fasstSubset,
+              folder ="output/maps/m1/maps_em",
+              mapTitleOn = F,
+              facetCols = 3,
+              legendOutsideSingle = T,
+              legendPosition = c("RIGHT","bottom"),
+              legendTextSizeO = 0.5,
+              legendTitleSizeO=0.7,
+              background  = T)
+
+  }
+
+
   # Apply the function to all of the years.
   # This can be modified and write the data just for the desired years
   invisible(lapply(all_years,write_data))
+
+  #----------------------------------------------------------------------
+  #----------------------------------------------------------------------
 
 }
 
