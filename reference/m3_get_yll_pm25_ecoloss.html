@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>m3_get_yll_pm25_Ecoloss — m3_get_yll_pm25_ecoloss • rfasst</title>
+<title>m3_get_yll_pm25_ecoloss — m3_get_yll_pm25_ecoloss • rfasst</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="m3_get_yll_pm25_Ecoloss — m3_get_yll_pm25_ecoloss" />
+<meta property="og:title" content="m3_get_yll_pm25_ecoloss — m3_get_yll_pm25_ecoloss" />
 <meta property="og:description" content="Produce Economic damages associated with YLLs attributable to PM2.5.The economic valuation takes as a base value the Value of Statistical Life Year (VSLY) for EU from Schlander et al (2017) and expands the value to other regions based on the“unit value transfer approach” which adjusts the VSLY according to their GDP and GDP growth rates. . .YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are  based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study." />
 
 
@@ -142,7 +142,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>m3_get_yll_pm25_Ecoloss</h1>
+    <h1>m3_get_yll_pm25_ecoloss</h1>
     <small class="dont-index">Source: <a href='https://github.com/JGCRI/rfasst/blob/master/R/m3_health.R'><code>R/m3_health.R</code></a></small>
     <div class="hidden name"><code>m3_get_yll_pm25_ecoloss.Rd</code></div>
     </div>
@@ -159,7 +159,8 @@
   <span class='va'>scen_name</span>,
   <span class='va'>queries</span>,
   ssp <span class='op'>=</span> <span class='st'>"SSP2"</span>,
-  saveOutput <span class='op'>=</span> <span class='cn'>T</span>
+  saveOutput <span class='op'>=</span> <span class='cn'>T</span>,
+  map <span class='op'>=</span> <span class='cn'>F</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -196,6 +197,10 @@
     <tr>
       <th>saveOutput</th>
       <td><p>Writes the emission files.By default=T</p></td>
+    </tr>
+    <tr>
+      <th>map</th>
+      <td><p>Produce the maps. By default=F</p></td>
     </tr>
     </table>
 
