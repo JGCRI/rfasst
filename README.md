@@ -57,14 +57,18 @@
 1. Download and install:
     - R (https://www.r-project.org/)
     - R studio (https://www.rstudio.com/)  
+    - (For cloning the repo) Git (https://git-scm.com/downloads) 
     
     
-2. Open R studio:
-
+2. Clone the repository to the local machine:
+    - Git bash in the working directory (right click-> "Git Bash Here")
+    - In the Git console type: 
 ```r
-install.packages(“devtools”)
-devtools::install_github(“JGCRI/rfasst”)
+git clone https://github.com/JGCRI/rfasst.git
 ```
+
+3. Open the Rproject (rfasst.Rproj):
+    - In the Rstudio menu, click "Build -> Install and restart" (Ctrl+Shift+B)
 
 
 <!-- ------------------------>
