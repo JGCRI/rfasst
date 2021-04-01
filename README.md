@@ -60,8 +60,8 @@
     - (For cloning the repo) Git (https://git-scm.com/downloads) 
     
     
-2. Clone the repositoryto your local machine:
-    - Git bash in your working directory (righ click-> "Git Bash Here")
+2. Clone the repository to the local machine:
+    - Git bash in the working directory (right click-> "Git Bash Here")
     - In the Git console type: 
 ```r
 git clone https://github.com/JGCRI/rfasst.git
