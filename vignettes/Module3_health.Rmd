@@ -104,7 +104,7 @@ As in Module 2, for all these function, the package allows to produce different 
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;"> *Premature Mortalities attributable to PM2.5 concentration by cause in 2050 (#)* </p>
-<p align="center"> <img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/PM2.5_mort_2050.png"></p>
+ <img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/PM2.5_mort_2050.png">
 <!-------------------------->
 <!-------------------------->
 
