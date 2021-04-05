@@ -6,7 +6,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-The functions that form this module build from the emission sets per TM5-FASST region and year generated in Module 1 (by `m1_emissions_rescale`), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports the following PM2.5 and O3 indicators:
+The functions that form this module take the emission sets per TM5-FASST region and year generated in Module 1 (by `m1_emissions_rescale`), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports a range of PM2.5 and O3 indicators, as shown below.
 
 Fine particulate matter (PM2.5) concentration levels (`m2_get_conc_pm25`)
 
@@ -25,13 +25,14 @@ library(magrittr)
 # query_path<-"path_to_your_gcam_queries_file"
 # db_name<-"name of the database"
 # prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
-# scen_name<-"name of the GCAM scenario",
+# scen_name<-"name of the GCAM scenario"
 # queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-
+# saveOutput: Writes the files.By default=T
+# map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+    # m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame pm2.5 concentration levels by TM5-FASST region in year 2050:
 
@@ -53,11 +54,12 @@ library(magrittr)
 # prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
 # scen_name<-"name of the GCAM scenario",
 # queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-
+# saveOutput: Writes the files.By default=T
+# map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+    # m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone (O3) concentration levels by TM5-FASST region in year 2050:
 
@@ -79,11 +81,12 @@ library(magrittr)
 # prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
 # scen_name<-"name of the GCAM scenario",
 # queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-
+# saveOutput: Writes the files.By default=T
+# map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+    # m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone-M6M (6mDMAI) concentration levels by TM5-FASST region in year 2050:
 
@@ -105,11 +108,12 @@ library(magrittr)
 # prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
 # scen_name<-"name of the GCAM scenario",
 # queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-
+# saveOutput: Writes the files.By default=T
+# map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+    # m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone-AOT40 concentration levels by TM5-FASST region in year 2050:
 
@@ -131,11 +135,12 @@ library(magrittr)
 # prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
 # scen_name<-"name of the GCAM scenario",
 # queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-
+# saveOutput: Writes the files.By default=T
+# map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+    # m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone-Mi concentration levels by TM5-FASST region in year 2050:
 
@@ -144,6 +149,11 @@ library(magrittr)
     # head(mi.conc.2050)
 
 ```
+
+In addition, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations for each region in 2050:
+
+<p align="center" style="font-size:18px;"> *PM2.5 concntration by region in 2050 (ug/m3)* </p>
+<p align="center"> <img src="vignetteFigs/PM2.5_concentration_2050.PNG"></p>
 
 
 As indicated in the documentation of TM5-FASST [Van Dingenen et al 2018](https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html),estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary as explained in [Sampedro et al 2020](https://www.sciencedirect.com/science/article/pii/S1352231020302739), concentrations of a pollutant $j$, in region $y$, from all the precursors ($i$) emitted in all regions ($x_k$), is calculated as: 
