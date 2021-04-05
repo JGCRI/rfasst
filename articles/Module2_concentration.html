@@ -111,7 +111,7 @@
 
     
     
-<p>The functions that form this module take the emission sets per TM5-FASST region and year generated in Module 1 (by <code>m1_emissions_rescale</code>), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports a range of PM2.5 and O3 indicators, as shown below.</p>
+<p>The functions that form this module take the emission sets per TM5-FASST region and year generated in Module 1 (by <code>m1_emissions_rescale</code>), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports the following range of PM2.5 and O3 indicators:</p>
 <p>Fine particulate matter (PM2.5) concentration levels (<code>m2_get_conc_pm25</code>)</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
@@ -235,15 +235,15 @@
     <span class="co"># mi.conc.2050&lt;-dplyr::bind_rows(m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
                          
     <span class="co"># head(mi.conc.2050)</span></code></pre></div>
-In addition, for all these function, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations for each region in 2050: <!--------------------------> <!-------------------------->
+In addition, for all these function, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations in 2050: <!--------------------------> <!-------------------------->
 <p align="center" style="font-size:18px;">
 <em>PM2.5 concntration by region in 2050 (ug/m3)</em>
 </p>
 <p align="center">
-<img src="vignetteFigs/PM2.5_concentration_2050.png"></p>
+<img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/PM2.5_concentration_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
-<p>As indicated in the documentation of TM5-FASST <a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html">Van Dingenen et al 2018</a>,estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary as explained in <a href="https://www.sciencedirect.com/science/article/pii/S1352231020302739">Sampedro et al 2020</a>, concentrations of a pollutant <span class="math inline">\(j\)</span>, in region <span class="math inline">\(y\)</span>, from all the precursors (<span class="math inline">\(i\)</span>) emitted in all regions (<span class="math inline">\(x_k\)</span>), is calculated as:</p>
+<p>As indicated in the documentation of TM5-FASST <a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html">Van Dingenen et al 2018</a>,estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary, as explained in <a href="https://www.sciencedirect.com/science/article/pii/S1352231020302739">Sampedro et al 2020</a>, concentrations of a pollutant <span class="math inline">\(j\)</span>, in region <span class="math inline">\(y\)</span>, from all the precursors (<span class="math inline">\(i\)</span>) emitted in all regions (<span class="math inline">\(x_k\)</span>), is calculated as:</p>
 <p><span class="math display">\[C_j (y)=C_{j,base} (y)+∑_{k=1}^{n_x}∑_{i=1}^{n_i}SRC_{i,j} [x_k,y]\cdot[E_i (x_k)-E_{i,base} (x_k )]\]</span></p>
 <ul>
 <li><p><span class="math inline">\(C_{j,base} (y)\)</span> is the base-run concentration level of pollutant j in region y, pre-computed with TM5.</p></li>
@@ -280,7 +280,7 @@ In addition, for all these function, the package allows to produce different fig
 </li>
 </ul>
 <p>The packages also includes the base emission and concentration levels for all these indicators.</p>
-<p>In addition, primary PM2.5 emissions (BC and POM) are assumed to have more direct influence in urban (more dense areas), so the emission-concentration relation for these two pollutants is modified using adjustment coefficients that are included in the package.</p>
+<p>In addition, primary PM2.5 emissions (BC and POM) are assumed to have a more direct influence in urban (more dense) areas, so the emission-concentration relation for these two pollutants is modified using adjustment coefficients that are included in the package.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

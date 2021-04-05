@@ -112,7 +112,7 @@
     
     
 <p>The first function of the package is <code>m1_emissions_rescale</code>. It re-scales emissions from GCAM regions to TM5-FASST regions which is the purpose of Module 1.</p>
-<p>The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the pollutant-specific country-level emissions in year 2000 reported in the <a href="https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&amp;page=welcome">RCP database</a>. This approach is planned to be revised in the future, for example with the implementation a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM.</p>
+<p>The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the pollutant-specific country-level emissions in year 2000 reported in the <a href="https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&amp;page=welcome">RCP database</a>. This approach is planned to be revised in the future, for example with the implementation of a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM.</p>
 <p>Apart from the regional adjustments, this function makes some additional pollutant-related changes such as the transformation of organic carbon into organic matter.</p>
 <p>Inputs:</p>
 <ul>
@@ -125,7 +125,7 @@
 </ul>
 <p>Outputs:</p>
 <p>The function produces re-scaled emissions of the main pollutants for each period and TM5-FASST region. If <code>saveOutput</code> is set to <code>TRUE</code>, the function writes the following csv files in the <code>output/m1</code> sub-directory: <code>[scenario]_[year].csv</code></p>
-<p>In addition, by setting <code>map</code>to <code>TRUE</code>, the function generates air pollutant emission maps by year and specie, using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a></p>
+<p>In addition, by setting <code>map</code> to <code>TRUE</code>, the function generates air pollutant emission maps by year and specie, using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>.</p>
 <p>The outputs from this module generated with the function <code>m1_emissions_rescale</code> are going to read by the set of functions in Module 2, which calculate PM2.5 and O3 average concentration levels based on these emission sets.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
@@ -149,10 +149,10 @@
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;">
-<em>Air pullutant emissions by specie in 2050 (Gg)</em>
+<em>Air pollutant emissions by specie in 2050 (Gg)</em>
 </p>
 <p align="center">
-<img src="vignetteFigs/emissions_2050.png"></p>
+<img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/emissions_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
   </div>
