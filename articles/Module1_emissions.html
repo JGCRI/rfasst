@@ -125,6 +125,7 @@
 </ul>
 <p>Outputs:</p>
 <p>The function produces re-scaled emissions of the main pollutants for each period and TM5-FASST region. If <code>saveOutput</code> is set to <code>TRUE</code>, the function writes the following csv files in the <code>output/m1</code> sub-directory: <code>[scenario]_[year].csv</code></p>
+<p>In addition, by setting <code>map</code>to <code>TRUE</code>, the function generates air pollutant emission maps by year and specie, using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a></p>
 <p>The outputs from this module generated with the function <code>m1_emissions_rescale</code> are going to read by the set of functions in Module 2, which calculate PM2.5 and O3 average concentration levels based on these emission sets.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
@@ -138,13 +139,18 @@
 <span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
 
   <span class="co"># To write the re-scaled emissions (csv files) for all years into the output folder:</span>
-    <span class="co"># m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T)</span>
+    <span class="co"># m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=T)</span>
 
   <span class="co"># To save as data frame emisions of main pollutants by TM5-FASST region in 2050:</span>
 
     <span class="co"># em.2050&lt;-dplyr::bind_rows(m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
                          
     <span class="co"># head(m1_emissions_rescale)</span></code></pre></div>
+<p align="center" style="font-size:18px;">
+<em>Air pullutant emissions by specie in 2050 (Gg)</em>
+</p>
+<p align="center">
+<img src="vignetteFigs/emissions_2050.png"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

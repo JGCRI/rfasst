@@ -149,14 +149,14 @@
   <span class="co"># To write the some outputs as csv files into the corresponding output folder:</span>
 
     <span class="co"># Relative yield losses.</span>
-      <span class="co"># Using AOT40 as O3 exposure indicator: m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) </span>
-      <span class="co"># Using Mi as O3 exposure indicator: m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) </span>
+      <span class="co"># Using AOT40 as O3 exposure indicator: m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) </span>
+      <span class="co"># Using Mi as O3 exposure indicator: m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) </span>
 
     <span class="co"># Production losses (includes losses using both AOT40 and Mi).</span>
-      <span class="co"># m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) </span>
+      <span class="co"># m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) </span>
 
     <span class="co"># Revenue losses (includes losses using both AOT40 and Mi).</span>
-      <span class="co"># m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) </span>
+      <span class="co"># m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) </span>
 
 <span class="co">#----------------------------------------------</span>
 
@@ -164,16 +164,22 @@
     
     <span class="co"># Relative yield losses.</span>
       <span class="co"># Using AOT40 as O3 exposure indicator:</span>
-        <span class="co"># ryl.aot40.2050&lt;-dplyr::bind_rows(m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050)</span>
+        <span class="co"># ryl.aot40.2050&lt;-dplyr::bind_rows(m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F, map=F)) %&gt;% dplyr::filter(year==2050)</span>
                                                               
       <span class="co"># Using Mi as O3 exposure indicator:</span>
-        <span class="co"># ryl.mi.2050&lt;-dplyr::bind_rows(m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050)</span>
+        <span class="co"># ryl.mi.2050&lt;-dplyr::bind_rows(m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F, map=F)) %&gt;% dplyr::filter(year==2050)</span>
 
     <span class="co"># Production losses (includes losses using both AOT40 and Mi).</span>
-      <span class="co"># prod.loss.2050&lt;-dplyr::bind_rows(m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T)) %&gt;% dplyr::filter(year==2050)</span>
+      <span class="co"># prod.loss.2050&lt;-dplyr::bind_rows(m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F)) %&gt;% dplyr::filter(year==2050)</span>
 
     <span class="co"># Revenue losses (includes losses using both AOT40 and Mi).</span>
-      <span class="co"># rev.loss.2050&lt;-dplyr::bind_rows(m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T)) %&gt;% dplyr::filter(year==2050)</span></code></pre></div>
+      <span class="co"># rev.loss.2050&lt;-dplyr::bind_rows(m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F)) %&gt;% dplyr::filter(year==2050)</span></code></pre></div>
+<p>As in Modules 2 and 3, for all these function, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the preature mortalities attributable to PM2.5 exposure by cause in 2050</p>
+<p align="center" style="font-size:18px;">
+<em>Agricultural production losses attributable to O3 exposure by commodity in 2050 (Mt)</em>
+</p>
+<p align="center">
+<img src="vignetteFigs/Prod_Loss_2050.png"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
