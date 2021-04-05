@@ -89,7 +89,7 @@ In addition, the package includes some default mapping files and default values,
 - Years to be analyzed: In the `all_years` vector, the user can select the years to be included in the analysis. All the avialble years are '2005','2010','2020','2030','2040','2050','2060','2070','2080','2090','2100'.It is no possible to add any other year, but they can be reduced if desired (for example to reduce computation time).
 - GCAM crop categories to be included in the analysis
 - Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS)
-- Coefficients and/or counterfactual values exposure-response functions applied to estimate adverse health and agricultural impacts.
+- Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts.
 - Median values for the health impact economic assessment (Value of Statistical Life)
 - Other
 

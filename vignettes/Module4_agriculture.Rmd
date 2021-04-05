@@ -59,14 +59,14 @@ library(magrittr)
   # To write the some outputs as csv files into the corresponding output folder:
 
     # Relative yield losses.
-      # Using AOT40 as O3 exposure indicator: m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
-      # Using Mi as O3 exposure indicator: m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+      # Using AOT40 as O3 exposure indicator: m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) 
+      # Using Mi as O3 exposure indicator: m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) 
 
     # Production losses (includes losses using both AOT40 and Mi).
-      # m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+      # m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) 
 
     # Revenue losses (includes losses using both AOT40 and Mi).
-      # m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T) 
+      # m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F) 
 
 #----------------------------------------------
 
@@ -74,20 +74,24 @@ library(magrittr)
     
     # Relative yield losses.
       # Using AOT40 as O3 exposure indicator:
-        # ryl.aot40.2050<-dplyr::bind_rows(m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050)
+        # ryl.aot40.2050<-dplyr::bind_rows(m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F, map=F)) %>% dplyr::filter(year==2050)
                                                               
       # Using Mi as O3 exposure indicator:
-        # ryl.mi.2050<-dplyr::bind_rows(m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050)
+        # ryl.mi.2050<-dplyr::bind_rows(m4_get_ryl_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F, map=F)) %>% dplyr::filter(year==2050)
 
     # Production losses (includes losses using both AOT40 and Mi).
-      # prod.loss.2050<-dplyr::bind_rows(m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T)) %>% dplyr::filter(year==2050)
+      # prod.loss.2050<-dplyr::bind_rows(m4_get_prod_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F)) %>% dplyr::filter(year==2050)
 
     # Revenue losses (includes losses using both AOT40 and Mi).
-      # rev.loss.2050<-dplyr::bind_rows(m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T)) %>% dplyr::filter(year==2050)
+      # rev.loss.2050<-dplyr::bind_rows(m4_get_rev_loss(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=F)) %>% dplyr::filter(year==2050)
 
 
 ```
 
+As in Modules 2 and 3, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the preature mortalities attributable to PM2.5 exposure by cause in 2050
+
+<p align="center" style="font-size:18px;"> *Agricultural production losses attributable to O3 exposure by commodity in 2050 (Mt)* </p>
+<p align="center"> <img src="vignetteFigs/Prod_Loss_2050.PNG"></p>
 
 
 
