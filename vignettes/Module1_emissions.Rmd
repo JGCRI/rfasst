@@ -61,6 +61,6 @@ library(magrittr)
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;"> *Air pollutant emissions by specie in 2050 (Gg)* </p>
-<p align="center"> <img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/emissions_2050.png"></p>
+<img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/emissions_2050.png">
 <!-------------------------->
 <!-------------------------->
