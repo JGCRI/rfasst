@@ -151,10 +151,12 @@ library(magrittr)
 ```
 
 In addition, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations for each region in 2050:
-
+<!-------------------------->
+<!-------------------------->
 <p align="center" style="font-size:18px;"> *PM2.5 concntration by region in 2050 (ug/m3)* </p>
 <p align="center"> <img src="vignetteFigs/PM2.5_concentration_2050.PNG"></p>
-
+<!-------------------------->
+<!-------------------------->
 
 As indicated in the documentation of TM5-FASST [Van Dingenen et al 2018](https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html),estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary as explained in [Sampedro et al 2020](https://www.sciencedirect.com/science/article/pii/S1352231020302739), concentrations of a pollutant $j$, in region $y$, from all the precursors ($i$) emitted in all regions ($x_k$), is calculated as: 
 
