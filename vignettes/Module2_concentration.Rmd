@@ -6,7 +6,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-The functions that form this module take the emission sets per TM5-FASST region and year generated in Module 1 (by `m1_emissions_rescale`), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports a range of PM2.5 and O3 indicators, as shown below.
+The functions that form this module take the emission sets per TM5-FASST region and year generated in Module 1 (by `m1_emissions_rescale`), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports the following range of PM2.5 and O3 indicators:
 
 Fine particulate matter (PM2.5) concentration levels (`m2_get_conc_pm25`)
 
@@ -150,15 +150,15 @@ library(magrittr)
 
 ```
 
-In addition, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations for each region in 2050:
+In addition, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations in 2050:
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;"> *PM2.5 concntration by region in 2050 (ug/m3)* </p>
-<p align="center"> <img src="vignetteFigs/PM2.5_concentration_2050.png"></p>
+<p align="center"> <img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/PM2.5_concentration_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
 
-As indicated in the documentation of TM5-FASST [Van Dingenen et al 2018](https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html),estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary as explained in [Sampedro et al 2020](https://www.sciencedirect.com/science/article/pii/S1352231020302739), concentrations of a pollutant $j$, in region $y$, from all the precursors ($i$) emitted in all regions ($x_k$), is calculated as: 
+As indicated in the documentation of TM5-FASST [Van Dingenen et al 2018](https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html),estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary, as explained in [Sampedro et al 2020](https://www.sciencedirect.com/science/article/pii/S1352231020302739), concentrations of a pollutant $j$, in region $y$, from all the precursors ($i$) emitted in all regions ($x_k$), is calculated as: 
 
 $$C_j (y)=C_{j,base} (y)+∑_{k=1}^{n_x}∑_{i=1}^{n_i}SRC_{i,j} [x_k,y]\cdot[E_i (x_k)-E_{i,base} (x_k )]$$	
 
@@ -189,7 +189,7 @@ Following this equation, base-run emissions and concentrations, and source-recep
 
 The packages also includes the base emission and concentration levels for all these indicators.
 
-In addition, primary PM2.5 emissions (BC and POM) are assumed to have more direct influence in urban (more dense areas), so the emission-concentration relation for these two pollutants is modified using adjustment coefficients that are included in the package.
+In addition, primary PM2.5 emissions (BC and POM) are assumed to have a more direct influence in urban (more dense) areas, so the emission-concentration relation for these two pollutants is modified using adjustment coefficients that are included in the package.
 
 
 

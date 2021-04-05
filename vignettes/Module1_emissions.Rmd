@@ -8,7 +8,7 @@ vignette: >
 ---
 The first function of the package is `m1_emissions_rescale`. It re-scales emissions from GCAM regions to TM5-FASST regions which is the purpose of Module 1.
 
-The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the pollutant-specific country-level emissions in year 2000 reported in the [RCP database](https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&page=welcome). This approach is planned to be revised in the future, for example with the implementation a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM. 
+The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the pollutant-specific country-level emissions in year 2000 reported in the [RCP database](https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&page=welcome). This approach is planned to be revised in the future, for example with the implementation of a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM. 
 
 Apart from the regional adjustments, this function makes some additional pollutant-related changes such as the transformation of organic carbon into organic matter.
 
@@ -25,7 +25,7 @@ Outputs:
 
 The function produces re-scaled emissions of the main pollutants for each period and TM5-FASST region. If `saveOutput` is set to `TRUE`, the function writes the following csv files in the `output/m1` sub-directory: `[scenario]_[year].csv`
 
-In addition, by setting `map`to `TRUE`, the function generates air pollutant emission maps by year and specie, using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/)
+In addition, by setting `map` to `TRUE`, the function generates air pollutant emission maps by year and specie, using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/).
 
 The outputs from this module generated with the function `m1_emissions_rescale` are going to read by the set of functions in Module 2, which calculate  PM2.5 and O3 average concentration levels based on these emission sets.
 
@@ -60,7 +60,7 @@ library(magrittr)
 ```
 <!-------------------------->
 <!-------------------------->
-<p align="center" style="font-size:18px;"> *Air pullutant emissions by specie in 2050 (Gg)* </p>
-<p align="center"> <img src="vignetteFigs/emissions_2050.png"></p>
+<p align="center" style="font-size:18px;"> *Air pollutant emissions by specie in 2050 (Gg)* </p>
+<p align="center"> <img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/emissions_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
