@@ -89,10 +89,12 @@ library(magrittr)
 ```
 
 As in Modules 2 and 3, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the preature mortalities attributable to PM2.5 exposure by cause in 2050
-
+<!-------------------------->
+<!-------------------------->
 <p align="center" style="font-size:18px;"> *Agricultural production losses attributable to O3 exposure by commodity in 2050 (Mt)* </p>
 <p align="center"> <img src="vignetteFigs/Prod_Loss_2050.PNG"></p>
-
+<!-------------------------->
+<!-------------------------->
 
 
 

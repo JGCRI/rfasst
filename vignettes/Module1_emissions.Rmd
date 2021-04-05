@@ -58,6 +58,9 @@ library(magrittr)
     # head(m1_emissions_rescale)
 
 ```
-
+<!-------------------------->
+<!-------------------------->
 <p align="center" style="font-size:18px;"> *Air pullutant emissions by specie in 2050 (Gg)* </p>
 <p align="center"> <img src="vignetteFigs/emissions_2050.PNG"></p>
+<!-------------------------->
+<!-------------------------->
