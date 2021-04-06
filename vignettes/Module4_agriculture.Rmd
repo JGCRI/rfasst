@@ -92,7 +92,7 @@ As in Modules 2 and 3, for all these function, the package allows to produce dif
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;"> *Agricultural production losses attributable to O3 exposure by commodity in 2050 (Mt)* </p>
-<img src="https://github.com/JGCRI/rfasst/tree/main/vignettes/vignetteFigs/Prod_Loss_2050.png">
+<p align="center"> <img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/vignettes/vignetteFigs/Prod_Loss_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
 
