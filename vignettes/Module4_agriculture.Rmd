@@ -25,13 +25,13 @@ $$RYL_{t,r,j}=1-\frac{exp~[-(\frac{M_{t,r,j}}{a_j})^{b_j}]}{exp~[-(\frac{c_j}{a_
 
 More information on the methodology used for the estimation of agricultural damages can be found in the TM5-FASST documentation paper ([Van Dingenen et al (2018)](https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html)) and in [Van Dingenen et al (2009)](https://www.sciencedirect.com/science/article/pii/S1352231008009424?via%3Dihub). The combined use of the models for estimating agricultural damages is explained in more detail in [Sampedro et al (2020)](https://www.sciencedirect.com/science/article/pii/S1352231020302739).
 
-Production losses are calculated combining the RYLs with projected agricultural production levels of the analyzed GCAM scenario. In addition, multiplying the projected price by the production losses (quantities), we estimate revenue losses for period t, region i, and crop j as:
+Production losses are calculated combining the RYLs with projected agricultural production levels of the analyzed GCAM scenario. In addition, multiplying the projected price by the production losses (quantities), we estimate revenue losses for period $t$, region $i$, and crop $j$ as:
 
    $$Damage_{t,r,j}=Prod_{t,r,j} \cdot Price_{t,r,j} \cdot Pulse.RYL_{t,r,j}$$ 
 As explained above, the module combines O3 concentration data with agricultural production and price projections. However, in order to complete all the calculations, the package includes some additional information:
 
 * 2010 data on harvested area for downscalling the damages to country level in order to re-scale them to the corresponding regional disaggregation  (`d.ha`;`area_harvest.csv`)
-* RYLs based on the different exposure-response functions are calculated for four main crops (maize, rice, soybeans, and wheat), so the damages need to be expanded to the rest of the commodities. The package includes a commodity mapping that expands the damages to all the crops based on their carbon fixation pathway (C3 or C4 categorization) (`d.gcam.commod.o3`; `GCAM_commod_map_o3_JS.csv`)
+* RYLs based on the different exposure-response functions are calculated for four main crops (maize, rice, soybeans, and wheat), so the damages need to be expanded to the rest of the commodities. The package includes a commodity mapping that expands the damages to all the crops based on their carbon fixation pathway (C3 or C4 categorization) (`d.gcam.commod.o3`; `GCAM_commod_map_o3.csv`)
 
 We note that these two files could be easily modified by the user if any other mapping/downscalling technique is preferred. The files are stored in the `/inst/extada/mapping` folder.
 
@@ -88,7 +88,8 @@ library(magrittr)
 
 ```
 
-As in Modules 2 and 3, for all these function, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the preature mortalities attributable to PM2.5 exposure by cause in 2050
+As in Modules 2 and 3, for all these functions, the package allows to produce different figures and/or animations, generated using the [rmap](https://github.com/JGCRI/rmap) package documented in the following [page](jgcri.github.io/rmap/). To generate these maps, the user needs to include the `map=T` parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the  production losses attributable to O3 exposure in 2050.
+
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;"> *Agricultural production losses attributable to O3 exposure by commodity in 2050 (Mt)* </p>
