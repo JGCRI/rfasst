@@ -74,7 +74,7 @@ the crop categories to be included in the analysis (see @kyle2011gcam for a deta
 the Values of Statistical Life (VSL) or Values of Statistical Life Year (VSL), or additional ancillary information such as, for example, the shares to allocate emissions between Eastern and Western Russia. 
 
 The outputs of the package include both `.csv` files and maps that are controled by the user. If the parameter `saveOutput`is set to `TRUE`, the function would save a `csv` table with the output in the corresponding sub-directory. 
-In addition if `map`is set to `TRUE`, the function generates a set of maps and animations with the corresponding output. We note that these maps are generated using the [rmap](https://github.com/JGCRI/rmap) package, documented in the following [webiste](jgcri.github.io/rmap/).
+In addition if `map`is set to `TRUE`, the function generates a set of maps and animations with the corresponding output. We note that these maps are generated using the [rmap](https://github.com/JGCRI/rmap) package, documented in the following [website](jgcri.github.io/rmap/).
 
 Finally, the package is expected to be in continous development and some additional features are planned to be implemented. In the near-term, we will apply a dynamic GDP-based downscalling technique in Module 1. 
 In addition, we are planning to add additional age-specific health functions. For the longer-term, one of the potential developments would be to make structure more flexible, so the tool can be used by other Integrated Assessment Models.
