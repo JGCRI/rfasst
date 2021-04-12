@@ -61,21 +61,24 @@ The packages conects to the outputs of GCAM and replicates the calculations of T
 It is designed for GCAM but the structure could be adapted to further IAMs.
 
 # Functionality
-The package consists of a set of functions divided in four different modules:
+The package consists of a set of functions that have been classified in four different modules. Note that all the functions are listed and described in the [Tutorial](https://jgcri.github.io/rfasst/reference/index.html).
 
-Module 1. Emissions re-scaling: Process emissions by GCAM-region and re-scale them to TM5-FASST regions, and make some additional pollutant-related adjustments. More details in the Module1 emissions page.
-Module 2. Concentration: Estimate fine particulate matter (PM2.5) and ozone (O3) concentration levels (measured by different indicators) for each region. More details in the Module2 concentration page.
-Module 3. Health: Report adverse health effects attributable to exposure to fine particulate matter (PM2.5) and ozone (O3; M6M). More details in the Module3 health page.
-Module 4. Agriculture: Estimate adverse agricultural impacts associated to ozone exposure, including relative yield losses (RYLs) and production and revenue losses. More details in the Module4 agriculture page.
-In addition, the package includes some default mapping files and default values, that are read by the different functions. These can be easily changed by the user in the /R/constants.R file. Some of these constants include:
++ Module 1. Emissions re-scaling: Process emissions by GCAM-region and re-scale them to TM5-FASST regions, and make some additional pollutant-related adjustments. More details in the Module1 emissions page.
++ Module 2. Concentration: Estimate fine particulate matter (PM2.5) and ozone (O3) concentration levels (measured by different indicators) for each region. More details in the Module2 concentration page.
++ Module 3. Health: Report adverse health effects attributable to exposure to fine particulate matter (PM2.5) and ozone (O3; M6M). More details in the Module3 health page.
++ Module 4. Agriculture: Estimate adverse agricultural impacts associated to ozone exposure, including relative yield losses (RYLs) and production and revenue losses. More details in the Module4 agriculture page.
 
-Years to be analyzed: In the all_years vector, the user can select the years to be included in the analysis. All the avialble years are '2005','2010','2020','2030','2040','2050','2060','2070','2080','2090','2100'.
-It is no possible to add any other year, but they can be reduced if desired (for example to reduce computation time).
-GCAM crop categories to be included in the analysis
-Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS)
-Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts.
-Median values for the health impact economic assessment (Value of Statistical Life)
-Other
+The package also includes default constant values and mapping files mapping files that need to be loaded for the use of the different functions. The `constants.R` file is designed for the user to be able to modify any value for convenience.
+The [Tutorial](https://jgcri.github.io/rfasst/) explains which are the values that can be changed within each module. These include the years to include in the analysis (from 2010 to 2100 in 10-year periods +2005), 
+the crop categories to be included in the analysis (see @kyle2011gcam for a detailed mapping of GCAM crop categories), the coefficients or counterfactual values for the exposure-response functions (both for health and agricultural damages),
+the Values of Statistical Life (VSL) or Values of Statistical Life Year (VSL), or additional ancillary information such as, for example, the shares to allocate emissions between Eastern and Western Russia. 
+
+The outputs of the package include both `.csv` files and maps that are controled by the user. If the parameter `saveOutput`is set to `TRUE`, the function would save a `csv` table with the output in the corresponding sub-directory. 
+In addition if `map`is set to `TRUE`, the function generates a set of maps and animations with the corresponding output. We note that these maps are generated using the [rmap](https://github.com/JGCRI/rmap) package, documented in the following [webiste](jgcri.github.io/rmap/).
+
+Finally, the package is expected to be in continous development and some additional features are planned to be implemented. In the near-term, we will apply a dynamic GDP-based downscalling technique in Module 1. 
+In addition, we are planning to add additional age-specific health functions. For the longer-term, one of the potential developments would be to make structure more flexible, so the tool can be used by other Integrated Assessment Models.
+
 
 # Acknowledgements
 This research was supported by ... The views and opinions expressed in this paper are those of the authors alone.
