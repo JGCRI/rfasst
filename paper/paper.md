@@ -40,7 +40,7 @@ they are normally not included in integrated assessment modeling outputs.
 The package reads in outputs of a GCAM scenario, namely emission pathways and agricultural production and prices, and replicates the calculations of the TM5-FASST air quality model 
 in order to estimate the associated adverse health and agricultural impacts. The structure of the `rfasst` package is summarized in the following Figure 1.
 
-![Structure of the rfasst package](figure_rfasst.png)
+![Structure of the `rfasst` package](figure_rfasst.png)
 
 `rfasst` can be accessed via the web at the public domain https://github.com/JGCRI/rfasst. We provide an R vignette step-by-step tutorial for users to get started with `rfasst` which is accessible here: [Tutorial](https://jgcri.github.io/rfasst/).
 
@@ -49,8 +49,8 @@ in order to estimate the associated adverse health and agricultural impacts. The
 
 According to the World Health Organization (WHO), more than 90% of people breathe unhealthy air at a global level. Therefore, premature mortality associated to air pollution is one of the biggest threats for human health, 
 accounting for more than 8 million deaths annually over the world [@burnett2018global], but heavily concentrated in developing Asia.  Likewise, air pollution leads to a significant decrease of crop yields. 
-Ozone ($O_{3}$), which is formed by the reaction of air pollutants with solar radiation, is considered the most hazardous pollutant for crop yields [@emberson2018ozone]. 
-Current high $O_{3}$ concentration levels entail substantial economic damages and would increase pressures on several measures associated with food security. 
+Ozone, which is formed by the reaction of air pollutants with solar radiation, is considered the most hazardous pollutant for crop yields [@emberson2018ozone]. 
+Current high ozone concentration levels entail substantial economic damages and would increase pressures on several measures associated with food security. 
 The integration of these effects into integrated assessment models, such as GCAM, would provide valuable insights for scenario analysis.
 
 The GCAM model [@calvin2019gcam], developed at the Joint Global Change Research Institute (JGCRI), is an integrated assessment multi-sector model designed to explore human and Earth-system dynamics. 
@@ -58,7 +58,7 @@ For each scenario, GCAM reports a full suite of emissions of greenhouse gases an
 GCAM outputs also include regional agricultural production projections for a range of crops, detailed in online [documentation](https://github.com/JGCRI/gcam-doc/blob/gh-pages/aglu.md). However, GCAM does not include the atmospheric 
 and meteorological information required to translate the GHG and air pollutant emissions into particulate matter ($PM_{2.5}$) and ozone ($O_{3}$) concentration levels. 
 This transformation from emissions to concentration is addressed by full chemistry models or by simplified air quality emulators, such as TM5-FASST [@van2018tm5].
-These concentration levels are the inputs for the exposure-response functions that are normally used to calculate adverse human-health and agricultural effects associated with exposure to $PM_{2.5}$ and ($O_{3}$).  
+These concentration levels are the inputs for the exposure-response functions that are normally used to calculate adverse human-health and agricultural effects associated with exposure to $PM_{2.5}$ and $O_{3}$.  
 
 Therefore, the combined use of these models, which is the essence of `rfasst`, is a powerful methodology to estimate a consistent range of health and agricultural damages and the co-benefits associated with different strategies or climate policies.
 Prior to the development of this package, we have used GCAM and TM5-FASST to analyze these co-benefits in different studies. @sampedro2020health shows that health co-benefits attributable to air pollution are larger than mitigation costs 
@@ -75,15 +75,15 @@ The package includes several functions that have been classified in four differe
 Note that all the functions are listed in the [Tutorial](https://jgcri.github.io/rfasst/), which includes individual documentation pages for each of these modules.
 
 + Module 1: Static downscaling of GCAM emissions to country-level and re-aggregation into a new regional distribution (consistent with TM5-FASST), and some additional pollutant-related adjustments (e.g. organic carbon to organic matter).
-+ Module 2: Calculation of fine particulate matter ($PM_{2.5}$) and ozone ($O_{3}$) concentration levels for each region using different indicators, described in the corresponding documentation [vignette](https://jgcri.github.io/rfasst/articles/Module2_concentration.html).
++ Module 2: Calculation of regional fine particulate matter ($PM_{2.5}$) and ozone ($O_{3}$) concentration levels using different indicators, described in the corresponding documentation [vignette](https://jgcri.github.io/rfasst/articles/Module2_concentration.html).
 + Module 3: Estimation of health impacts attributable to $PM_{2.5}$ and $O_{3}$ exposure. The package reports both physical damages, such as premature mortality, years of life lost (YLLs), and disability adjusted life years (DALYs),
 and the associated monetized damages based on the Value of Statistical Life (VSL).
-+ Module 4: Estimation of agricultural damages attributable to $O_{3}$ exposure, including relative yield losses (RYLs), and losses in agricultural production and revenue ($Revenue_{t,r,j}=Prod_{t,r,j} \cdot Price_{t,r,j}$).
++ Module 4: Estimation of agricultural damages attributable to $O_{3}$ exposure, including relative yield losses (RYLs), and losses in agricultural production and revenue ($Revenue=Prod \cdot Price$).
 
 The package also includes additional input information, namely constant values and mapping files, that need to be read in for running the different functions. The `constants.R` file is flexible and easy to be modified by the user.
 The [Tutorial](https://jgcri.github.io/rfasst/) explains which are the values that can be changed within each module. These include the time horizon (from 2010 to 2100 in 10-year periods, +2005), 
 the crop categories to be included in the analysis (see @kyle2011gcam for a detailed mapping of GCAM crop categories), the coefficients or counterfactual values for the exposure-response functions (both for health and agricultural damages),
-the base Value of Statistical Life (VSL) or Value of Statistical Life Year (VSLY), and additional ancillary information such as, for example, the shares to allocate emissions between Eastern and Western Russia. 
+the base Value of Statistical Life (VSL) or Value of Statistical Life Year (VSLY), and additional ancillary information.
 
 The outputs generated by the package consist of both `.csv` files and maps that can be controlled by the user. If the parameter `saveOutput` is set to `TRUE`, the function writes a `csv` table with the selected outcome in the corresponding sub-directory. 
 In addition, if `map` is set to `TRUE`, the function generates a suite of maps and animations for the corresponding output. We note that these maps are generated using the [rmap](https://github.com/JGCRI/rmap) package, documented in the following [website](jgcri.github.io/rmap/).
