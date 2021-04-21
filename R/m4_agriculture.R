@@ -17,6 +17,16 @@
 
 calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Load the rgcam project:
   conn <- rgcam::localDBConn(db_path, db_name,migabble = FALSE)
   prj <- rgcam::addScenario(conn,prj_name,scen_name,paste0(query_path,"/",queries),clobber=F)
@@ -101,6 +111,16 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
 calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Load the rgcam project:
   conn <- rgcam::localDBConn(db_path, db_name,migabble = FALSE)
   prj <- rgcam::addScenario(conn,prj_name,scen_name,paste0(query_path,"/",queries),clobber=F)
@@ -180,6 +200,18 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
 calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
+
   # Get prod
   prod<-calc_prod_gcam(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
@@ -258,6 +290,16 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   aot40<-m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
@@ -360,6 +402,16 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   mi<-m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
   mi.list<-split(mi, mi$year)
@@ -461,6 +513,16 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get AOT40 RYLs
   ryl.aot.40.fin<-m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
@@ -647,6 +709,16 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get AOT40 RYLs
   ryl.aot.40.fin<-m4_get_ryl_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
