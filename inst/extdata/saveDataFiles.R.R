@@ -1,5 +1,232 @@
 # Converting raw data into package data
 library(usethis)
+library(magrittr)
+
+#=========================================================
+# Constants
+#=========================================================
+# Years to be analyzed: c('2005','2010','2020','2030','2040','2050','2060','2070','2080','2090','2100')
+all_years<-c('2005','2010','2020','2030','2040','2050','2060','2070','2080','2090','2100')
+use_data(all_years, overwrite=T)
+
+# Normalized CH4-O3 relation from Fiore et al (2008)
+ch4_htap_pert<-77000000000
+use_data(ch4_htap_pert, overwrite=T)
+
+# Crops that are included in the analysis
+CROP_ANALYSIS <- c("Corn", "FiberCrop", "FodderGrass", "FodderHerb", "MiscCrop",
+                   "OilCrop", "OtherGrain", "PalmFruit", "Rice", "RootTuber", "SugarCrop", "Wheat")
+use_data(CROP_ANALYSIS, overwrite=T)
+
+
+# Percentages to divide population between Russia and Russia Eastern
+perc_pop_rus<-0.767
+use_data(perc_pop_rus, overwrite=T)
+
+perc_pop_rue<-0.233
+use_data(perc_pop_rue, overwrite=T)
+
+
+# Indicate the pollutants whose emissions are mapped (if map=T in m1_emissions_rescale)
+map_pol<-c("BC","NH3","NMVOC","NOx","POM","SO2")
+use_data(map_pol, overwrite=T)
+
+
+# Set of values to monetize health damages
+gdp_eu_2005<-32700
+use_data(gdp_eu_2005, overwrite=T)
+
+vsl_eu_2005_lb<-1.8*1E6
+use_data(vsl_eu_2005_lb, overwrite=T)
+
+vsl_eu_2005_ub<-5.4*1E6
+use_data(vsl_eu_2005_ub, overwrite=T)
+
+vsl_eu_2005<-(vsl_eu_2005_lb+vsl_eu_2005_ub)/2
+use_data(vsl_eu_2005, overwrite=T)
+
+inc_elas_vsl<-0.8
+use_data(inc_elas_vsl, overwrite=T)
+
+vsly_eu_2014<-158448
+use_data(vsly_eu_2014, overwrite=T)
+
+vsly_eu_2005<-vsly_eu_2014*gcamdata::gdp_deflator(2005,base_year = 2014)
+use_data(vsly_eu_2005, overwrite=T)
+
+
+# Counterfactual threshold for ozone (Jerret et al 2009)
+cf_o3<-33.3
+use_data(cf_o3, overwrite=T)
+
+# Relative risk for respiratory disease associated to ozone exposure
+rr_resp_o3<-3.92E-03
+use_data(rr_resp_o3, overwrite=T)
+
+# List of diseases for readng relative risk
+dis=c("alri","copd","ihd","stroke","lc")
+use_data(dis, overwrite=T)
+
+# List of coefficients for AOT40 based on Mills et al (2007)
+coef.AOT_MAIZE<-0.00356
+use_data(coef.AOT_MAIZE, overwrite=T)
+
+coef.AOT_RICE<-0.00415
+use_data(coef.AOT_RICE, overwrite=T)
+
+coef.AOT_SOY<-0.0113
+use_data(coef.AOT_SOY, overwrite=T)
+
+coef.AOT_WHEAT<-0.0163
+use_data(coef.AOT_WHEAT, overwrite=T)
+
+
+
+# List of coefficients for Mi based on Wang and Mauzerall (2004)
+coef.Mi_MAIZE<-20
+use_data(coef.Mi_MAIZE, overwrite=T)
+
+coef.Mi_RICE<-25
+use_data(coef.Mi_RICE, overwrite=T)
+
+coef.Mi_SOY<-20
+use_data(coef.Mi_SOY, overwrite=T)
+
+coef.Mi_WHEAT<-25
+use_data(coef.Mi_WHEAT, overwrite=T)
+
+a.Mi_MAIZE<-124
+use_data(a.Mi_MAIZE, overwrite=T)
+
+a.Mi_RICE<-202
+use_data(a.Mi_RICE, overwrite=T)
+
+a.Mi_SOY<-107
+use_data(a.Mi_SOY, overwrite=T)
+
+a.Mi_WHEAT<-137
+use_data(a.Mi_WHEAT, overwrite=T)
+
+b.Mi_MAIZE<-2.83
+use_data(b.Mi_MAIZE, overwrite=T)
+
+b.Mi_RICE<-2.47
+use_data(b.Mi_RICE, overwrite=T)
+
+b.Mi_SOY<-1.58
+use_data(b.Mi_SOY, overwrite=T)
+
+b.Mi_WHEAT<-2.34
+use_data(b.Mi_WHEAT, overwrite=T)
+
+# Unit conversion
+CONV_TG_T <- 1e6
+use_data(CONV_TG_T, overwrite=T)
+
+CONV_1975_2010 <- 3.248
+use_data(CONV_1975_2010, overwrite=T)
+
+CONV_OCawb_POM<-1.8
+use_data(CONV_OCawb_POM, overwrite=T)
+
+CONV_OC_POM<-1.3
+use_data(CONV_OC_POM, overwrite=T)
+
+MTC_MTCO2<-3.67
+use_data(MTC_MTCO2, overwrite=T)
+
+TG_KG<-1E9
+use_data(TG_KG, overwrite=T)
+
+CONV_BIL<-1E9
+use_data(CONV_BIL, overwrite=T)
+
+CONV_MIL<-1E6
+use_data(CONV_MIL, overwrite=T)
+
+
+#=========================================================
+# Mapping files
+#=========================================================
+# Regions in TM5-FASST - iso3
+fasst_reg<-read.csv("inst/extdata/mapping/fasst_reg.csv") %>%
+  dplyr::rename(subRegionAlt=iso3)
+use_data(fasst_reg, overwrite=T)
+
+# Regions in GCAM - iso3
+GCAM_reg<-read.csv("inst/extdata/mapping/GCAM_Reg_Adj.csv") %>%
+  dplyr::rename(`ISO 3`=ISO.3,
+                `GCAM Region`=GCAM.Region)
+use_data(GCAM_reg, overwrite=T)
+
+# Countries - iso3
+country_iso<-read.csv("inst/extdata/mapping/country_iso.csv") %>%
+  dplyr::select(name,alpha.3)%>%
+  dplyr::rename(country=name,
+                iso3=alpha.3)
+use_data(country_iso, overwrite=T)
+
+# Shares to distribute emissions of different species between Russia Eastern (RUE) and Western (RUS)
+adj_rus<-read.csv("inst/extdata/mapping/Adj_Russia.csv") %>%
+  tidyr::gather(Pollutant,perc,-COUNTRY) %>%
+  dplyr::mutate(Pollutant=as.factor(Pollutant))
+use_data(adj_rus, overwrite=T)
+
+# Percentages to downscale GCAM emissions to country-level
+Percen<-read.csv("inst/extdata/mapping/Percentages.csv") %>%
+  dplyr::select("Region","Country","ISO.3","Pollutant","X2005","X2010","X2020","X2030","X2040","X2050",
+                "X2060","X2070","X2080","X2090","X2100") %>%
+  tidyr::gather(year,value,-Region,-Country,-ISO.3,-Pollutant) %>%
+  dplyr::mutate(year=gsub("X","",year)) %>%
+  dplyr::rename(`GCAM Region`=Region,
+                `ISO 3`=ISO.3) %>%
+  dplyr::mutate(Pollutant=dplyr::if_else(Pollutant=="OC","POM",as.character(Pollutant)),
+                Pollutant=as.factor(Pollutant),
+                year=as.factor(year)) %>%
+  dplyr::rename(Percentage=value)
+use_data(Percen, overwrite=T)
+
+
+my_pol<- read.csv("inst/extdata/mapping/Pol_Adj.csv")
+use_data(my_pol, overwrite=T)
+
+
+# Countries to GCAM regions
+d.iso <- read.csv("inst/extdata/mapping/iso_GCAM_regID_name.csv")
+use_data(d.iso, overwrite=T)
+
+
+# O3 to GCAM commodities (based on their carbon fixation pathways; C3 and C4 categories)
+d.gcam.commod.o3 <- read.csv("inst/extdata/mapping/GCAM_commod_map_o3.csv")
+use_data(d.gcam.commod.o3, overwrite=T)
+
+# Harvested area by crop for weights to map O3 crops to GCAM commodities
+d.ha <- read.csv("inst/extdata/mapping/area_harvest.csv")
+use_data(d.ha, overwrite=T)
+
+# Combined regions:
+Regions<-dplyr::left_join(fasst_reg %>% dplyr::rename(`ISO 3`=subRegionAlt, `FASST region`=fasst_region)
+                          , GCAM_reg, by="ISO 3") %>%
+  dplyr::mutate(ISO3=as.factor(`ISO 3`)) %>%
+  dplyr::select(-`ISO 3`) %>%
+  dplyr::rename(COUNTRY=Country)
+use_data(Regions, overwrite=T)
+
+
+# Weights for O3 crops
+d.weight.gcam <- dplyr::select(d.ha, crop, iso, harvested.area) %>% # Need harvested areas for each crop in each region
+  dplyr::full_join(d.gcam.commod.o3, by = "crop") %>%
+  dplyr::full_join(d.iso, by = "iso") %>%
+  dplyr::filter(!is.na(GCAM_commod), !is.na(harvested.area)) %>%
+  dplyr::group_by(GCAM_region_name, GCAM_commod, crop) %>%
+  dplyr::select(GCAM_region_name, GCAM_commod, crop, harvested.area) %>%
+  dplyr::summarise(harvested.area = sum(harvested.area, na.rm = T)) %>%
+  dplyr::mutate(weight = harvested.area / (sum(harvested.area, na.rm = T))) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(-harvested.area) %>%
+  dplyr::arrange(GCAM_region_name, GCAM_commod, crop)
+use_data(d.weight.gcam, overwrite=T)
+
 
 #=========================================================
 # Ancillary data
@@ -311,6 +538,34 @@ use_data(raw.yll.pm25, overwrite=T)
 
 raw.yll.o3 = read.csv(paste0(rawDataFolder_m3,"yll_o3.csv"))
 use_data(raw.yll.o3, overwrite=T)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

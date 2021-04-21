@@ -84,7 +84,6 @@ d.weight.gcam <- dplyr::select(d.ha, crop, iso, harvested.area) %>% # Need harve
 
 # ====================================================================================================
 # Shape subset for maps
-
 fasstSubset <- rmap::mapCountries
 
 fasstSubset@data<-fasstSubset@data %>%

@@ -190,6 +190,16 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Get PM2.5
   pm<-m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
@@ -335,6 +345,16 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Get Mortalities
   pm.mort<-m3_get_mort_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,ssp=ssp,saveOutput=F)
 
@@ -447,6 +467,16 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Get pm.mort
   pm.mort<-m3_get_mort_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,ssp=ssp,saveOutput=F)
 
@@ -555,6 +585,16 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Get Mortalities
   pm.yll.fin<-m3_get_yll_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,ssp=ssp,saveOutput=F)
 
@@ -661,6 +701,16 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get DALYs
   daly_calc_pm<-calc_daly_pm25()
@@ -784,6 +834,16 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Get PM2.5
   m6m<-m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
@@ -886,6 +946,16 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get Mortalities
   o3.mort<-m3_get_mort_o3(db_path,query_path,db_name,prj_name,scen_name,queries,ssp=ssp,saveOutput=F)
@@ -993,6 +1063,16 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   # Get pm.mort
   o3.mort<-m3_get_mort_o3(db_path,query_path,db_name,prj_name,scen_name,queries,ssp=ssp,saveOutput=F)
 
@@ -1083,6 +1163,16 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get Mortalities
   o3.yll<-m3_get_yll_o3(db_path,query_path,db_name,prj_name,scen_name,queries,ssp=ssp,saveOutput=F)
@@ -1187,6 +1277,16 @@ m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get DALYs
   daly_calc_o3<-calc_daly_o3()
