@@ -66,8 +66,7 @@
 
 ```r
 install.packages(“devtools”)
-devtools::install_github(“JGCRI/rgcam”)
-devtools::install_github(“JGCRI/rmap”)
+devtools::install_github(“JGCRI/rfasst”)
 ```
 
 (Optional) 
