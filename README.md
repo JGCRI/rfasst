@@ -62,14 +62,24 @@
     - (For cloning the repo) Git (https://git-scm.com/downloads) 
     
     
-2. Clone the repository to the local machine:
+2. Open R studio:
+
+```r
+install.packages(“devtools”)
+devtools::install_github(“JGCRI/rgcam”)
+devtools::install_github(“JGCRI/rmap”)
+```
+
+(Optional) 
+
+To clone the repository to the local machine:
     - Git bash in the working directory (right click-> "Git Bash Here")
     - In the Git console type: 
 ```r
 git clone https://github.com/JGCRI/rfasst.git
 ```
 
-3. Open the Rproject (rfasst.Rproj):
+Then, open the Rproject (rfasst.Rproj):
     - In the Rstudio menu, click "Build -> Install and restart" (Ctrl+Shift+B)
 
 
