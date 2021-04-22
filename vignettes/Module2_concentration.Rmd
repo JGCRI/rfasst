@@ -21,24 +21,24 @@ knitr::opts_chunk$set(
 library(rfasst)
 library(magrittr)
 
-# db_path<-"path_to_your_gcam_database"
-# query_path<-"path_to_your_gcam_queries_file"
-# db_name<-"name of the database"
-# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
-# scen_name<-"name of the GCAM scenario"
-# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-# saveOutput: Writes the files.By default=T
-# map: Produce the maps. By default=F
+ db_path<-"path_to_your_gcam_database"
+ query_path<-"path_to_your_gcam_queries_file"
+ db_name<-"name of the database"
+ prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+ scen_name<-"name of the GCAM scenario"
+ queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+ saveOutput: Writes the files.By default=T
+ map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
+     m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame pm2.5 concentration levels by TM5-FASST region in year 2050:
 
-    # pm25.conc.2050<-dplyr::bind_rows(m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
+     pm25.conc.2050<-dplyr::bind_rows(m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
                          
-    # head(pm25.conc.2050)
+     head(pm25.conc.2050)
 
 ```
 
@@ -48,24 +48,24 @@ library(magrittr)
 library(rfasst)
 library(magrittr)
 
-# db_path<-"path_to_your_gcam_database"
-# query_path<-"path_to_your_gcam_queries_file"
-# db_name<-"name of the database"
-# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
-# scen_name<-"name of the GCAM scenario",
-# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-# saveOutput: Writes the files.By default=T
-# map: Produce the maps. By default=F
+ db_path<-"path_to_your_gcam_database"
+ query_path<-"path_to_your_gcam_queries_file"
+ db_name<-"name of the database"
+ prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+ scen_name<-"name of the GCAM scenario",
+ queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+ saveOutput: Writes the files.By default=T
+ map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
+     m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone (O3) concentration levels by TM5-FASST region in year 2050:
 
-    # o3.conc.2050<-dplyr::bind_rows(m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
+     o3.conc.2050<-dplyr::bind_rows(m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
                          
-    # head(o3.conc.2050)
+     head(o3.conc.2050)
 
 ```
 
@@ -75,24 +75,24 @@ library(magrittr)
 library(rfasst)
 library(magrittr)
 
-# db_path<-"path_to_your_gcam_database"
-# query_path<-"path_to_your_gcam_queries_file"
-# db_name<-"name of the database"
-# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
-# scen_name<-"name of the GCAM scenario",
-# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-# saveOutput: Writes the files.By default=T
-# map: Produce the maps. By default=F
+ db_path<-"path_to_your_gcam_database"
+ query_path<-"path_to_your_gcam_queries_file"
+ db_name<-"name of the database"
+ prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+ scen_name<-"name of the GCAM scenario",
+ queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+ saveOutput: Writes the files.By default=T
+ map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
+     m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone-M6M (6mDMAI) concentration levels by TM5-FASST region in year 2050:
 
-    # m6m.conc.2050<-dplyr::bind_rows(m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
+     m6m.conc.2050<-dplyr::bind_rows(m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
                          
-    # head(m6m.conc.2050)
+     head(m6m.conc.2050)
 
 ```
 
@@ -102,24 +102,24 @@ library(magrittr)
 library(rfasst)
 library(magrittr)
 
-# db_path<-"path_to_your_gcam_database"
-# query_path<-"path_to_your_gcam_queries_file"
-# db_name<-"name of the database"
-# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
-# scen_name<-"name of the GCAM scenario",
-# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-# saveOutput: Writes the files.By default=T
-# map: Produce the maps. By default=F
+ db_path<-"path_to_your_gcam_database"
+ query_path<-"path_to_your_gcam_queries_file"
+ db_name<-"name of the database"
+ prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+ scen_name<-"name of the GCAM scenario"
+ queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+ saveOutput: Writes the files.By default=T
+ map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
+     m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone-AOT40 concentration levels by TM5-FASST region in year 2050:
 
-    # aot40.conc.2050<-dplyr::bind_rows(m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
+     aot40.conc.2050<-dplyr::bind_rows(m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
                          
-    # head(aot40.conc.2050)
+     head(aot40.conc.2050)
 
 ```
 
@@ -129,24 +129,24 @@ library(magrittr)
 library(rfasst)
 library(magrittr)
 
-# db_path<-"path_to_your_gcam_database"
-# query_path<-"path_to_your_gcam_queries_file"
-# db_name<-"name of the database"
-# prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
-# scen_name<-"name of the GCAM scenario",
-# queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
-# saveOutput: Writes the files.By default=T
-# map: Produce the maps. By default=F
+ db_path<-"path_to_your_gcam_database"
+ query_path<-"path_to_your_gcam_queries_file"
+ db_name<-"name of the database"
+ prj_name<-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) 
+ scen_name<-"name of the GCAM scenario",
+ queries<-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")
+ saveOutput: Writes the files.By default=T
+ map: Produce the maps. By default=F
 
   # To write the csv files into the output folder:
 
-    # m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
+     m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) 
 
   # To save as data frame ozone-Mi concentration levels by TM5-FASST region in year 2050:
 
-    # mi.conc.2050<-dplyr::bind_rows(m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
+     mi.conc.2050<-dplyr::bind_rows(m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %>% dplyr::filter(year==2050) 
                          
-    # head(mi.conc.2050)
+     head(mi.conc.2050)
 
 ```
 
