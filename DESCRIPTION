@@ -19,7 +19,8 @@ Imports:
     tibble,
 	gcamdata,
 	rgcam,
-	rmap
+	rmap,
+	markdown
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0)
