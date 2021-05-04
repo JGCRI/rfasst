@@ -71,15 +71,16 @@ devtools::install_github(“JGCRI/rfasst”)
 (Optional) 
 
 To clone the repository to the local machine:
-    - Git bash in the working directory (right click-> "Git Bash Here")
-    - In the Git console type: 
+	- Git bash in the working directory (right click-> "Git Bash Here")
+	- In the Git console type:  
+
 ```r
 git clone https://github.com/JGCRI/rfasst.git
 ```
 
 Then, open the Rproject (rfasst.Rproj):
-    - In the Rstudio menu, click "Build -> Install and restart" (Ctrl+Shift+B)
-
+	- In the Rstudio menu, click "Build -> Install and restart" (Ctrl+Shift+B)
+  
 
 <!-- ------------------------>
 <!-- ------------------------>
