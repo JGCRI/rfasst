@@ -131,21 +131,21 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
 
-<span class="co"># db_path&lt;-"path_to_your_gcam_database"</span>
-<span class="co"># query_path&lt;-"path_to_your_gcam_queries_file"</span>
-<span class="co"># db_name&lt;-"name of the database"</span>
-<span class="co"># prj_name&lt;-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) </span>
-<span class="co"># scen_name&lt;-"name of the GCAM scenario",</span>
-<span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
+ <span class="va">db_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_database"</span>
+ <span class="va">query_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_queries_file"</span>
+ <span class="va">db_name</span><span class="op">&lt;-</span><span class="st">"name of the database"</span>
+ <span class="va">prj_name</span><span class="op">&lt;-</span><span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span>
+ <span class="va">scen_name</span><span class="op">&lt;-</span><span class="st">"name of the GCAM scenario"</span>
+ <span class="va">queries</span><span class="op">&lt;-</span><span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the package, "queries_rfasst.xml")</span>
 
-  <span class="co"># To write the re-scaled emissions (csv files) for all years into the output folder:</span>
-    <span class="co"># m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T, map=T)</span>
+   <span class="co">#To write the re-scaled emissions (csv files) for all years into the output folder:</span>
+     <span class="fu"><a href="../reference/m1_emissions_rescale.html">m1_emissions_rescale</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">T</span>, map<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
 
-  <span class="co"># To save as data frame emisions of main pollutants by TM5-FASST region in 2050:</span>
+   <span class="co">#To save as data frame emisions of main pollutants by TM5-FASST region in 2050:</span>
 
-    <span class="co"># em.2050&lt;-dplyr::bind_rows(m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
+     <span class="va">em.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/m1_emissions_rescale.html">m1_emissions_rescale</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span> 
                          
-    <span class="co"># head(m1_emissions_rescale)</span></code></pre></div>
+     <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">m1_emissions_rescale</span><span class="op">)</span></code></pre></div>
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;">

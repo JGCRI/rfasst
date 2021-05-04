@@ -113,128 +113,123 @@
     
 <p>The functions that form this module take the emission sets per TM5-FASST region and year generated in Module 1 (by <code>m1_emissions_rescale</code>), and estimate the fine particulate matter (PM2.5) and ozone (O3) concentration levels for each period and TM5-FASST region. In particular the package reports the following range of PM2.5 and O3 indicators:</p>
 <p>Fine particulate matter (PM2.5) concentration levels (<code>m2_get_conc_pm25</code>)</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-
-<span class="co"># db_path&lt;-"path_to_your_gcam_database"</span>
-<span class="co"># query_path&lt;-"path_to_your_gcam_queries_file"</span>
-<span class="co"># db_name&lt;-"name of the database"</span>
-<span class="co"># prj_name&lt;-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) </span>
-<span class="co"># scen_name&lt;-"name of the GCAM scenario"</span>
-<span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
-<span class="co"># saveOutput: Writes the files.By default=T</span>
-<span class="co"># map: Produce the maps. By default=F</span>
-
-  <span class="co"># To write the csv files into the output folder:</span>
-
-    <span class="co"># m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) </span>
-
-  <span class="co"># To save as data frame pm2.5 concentration levels by TM5-FASST region in year 2050:</span>
-
-    <span class="co"># pm25.conc.2050&lt;-dplyr::bind_rows(m2_get_conc_pm25(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
-                         
-    <span class="co"># head(pm25.conc.2050)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(rfasst)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a> db_path&lt;-<span class="st">"path_to_your_gcam_database"</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a> query_path&lt;-<span class="st">"path_to_your_gcam_queries_file"</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a> db_name&lt;-<span class="st">"name of the database"</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a> prj_name&lt;-<span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span></span>
+<span id="cb1-8"><a href="#cb1-8"></a> scen_name&lt;-<span class="st">"name of the GCAM scenario"</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a> queries&lt;-<span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a> saveOutput<span class="op">:</span><span class="st"> </span>Writes the files.By default=T</span>
+<span id="cb1-11"><a href="#cb1-11"></a> map<span class="op">:</span><span class="st"> </span>Produce the maps. By default=F</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="co"># To write the csv files into the output folder:</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a>     <span class="kw">m2_get_conc_pm25</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>T,<span class="dt">map=</span>F) </span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="co"># To save as data frame pm2.5 concentration levels by TM5-FASST region in year 2050:</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>     pm25.conc<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m2_get_conc_pm25</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>) </span>
+<span id="cb1-20"><a href="#cb1-20"></a>                         </span>
+<span id="cb1-21"><a href="#cb1-21"></a>     <span class="kw">head</span>(pm25.conc<span class="fl">.2050</span>)</span></code></pre></div>
 <ul>
 <li>Ozone concentration levels (<code>m2_get_conc_o3</code>)</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-
-<span class="co"># db_path&lt;-"path_to_your_gcam_database"</span>
-<span class="co"># query_path&lt;-"path_to_your_gcam_queries_file"</span>
-<span class="co"># db_name&lt;-"name of the database"</span>
-<span class="co"># prj_name&lt;-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) </span>
-<span class="co"># scen_name&lt;-"name of the GCAM scenario",</span>
-<span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
-<span class="co"># saveOutput: Writes the files.By default=T</span>
-<span class="co"># map: Produce the maps. By default=F</span>
-
-  <span class="co"># To write the csv files into the output folder:</span>
-
-    <span class="co"># m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) </span>
-
-  <span class="co"># To save as data frame ozone (O3) concentration levels by TM5-FASST region in year 2050:</span>
-
-    <span class="co"># o3.conc.2050&lt;-dplyr::bind_rows(m2_get_conc_o3(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
-                         
-    <span class="co"># head(o3.conc.2050)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(rfasst)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a> db_path&lt;-<span class="st">"path_to_your_gcam_database"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a> query_path&lt;-<span class="st">"path_to_your_gcam_queries_file"</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a> db_name&lt;-<span class="st">"name of the database"</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a> prj_name&lt;-<span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a> scen_name&lt;-<span class="st">"name of the GCAM scenario"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9"></a> queries&lt;-<span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a> saveOutput<span class="op">:</span><span class="st"> </span>Writes the files.By default=T</span>
+<span id="cb2-11"><a href="#cb2-11"></a> map<span class="op">:</span><span class="st"> </span>Produce the maps. By default=F</span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13"></a>  <span class="co"># To write the csv files into the output folder:</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a></span>
+<span id="cb2-15"><a href="#cb2-15"></a>     <span class="kw">m2_get_conc_o3</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>T,<span class="dt">map=</span>F) </span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a>  <span class="co"># To save as data frame ozone (O3) concentration levels by TM5-FASST region in year 2050:</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19"></a>     o3.conc<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m2_get_conc_o3</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>) </span>
+<span id="cb2-20"><a href="#cb2-20"></a>                         </span>
+<span id="cb2-21"><a href="#cb2-21"></a>     <span class="kw">head</span>(o3.conc<span class="fl">.2050</span>)</span></code></pre></div>
 <ul>
 <li>Maximum 6-monthly running average of daily maximum hourly O3 (M6M, also known as 6mDMA1) (<code>m2_get_conc_m6m</code>)</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-
-<span class="co"># db_path&lt;-"path_to_your_gcam_database"</span>
-<span class="co"># query_path&lt;-"path_to_your_gcam_queries_file"</span>
-<span class="co"># db_name&lt;-"name of the database"</span>
-<span class="co"># prj_name&lt;-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) </span>
-<span class="co"># scen_name&lt;-"name of the GCAM scenario",</span>
-<span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
-<span class="co"># saveOutput: Writes the files.By default=T</span>
-<span class="co"># map: Produce the maps. By default=F</span>
-
-  <span class="co"># To write the csv files into the output folder:</span>
-
-    <span class="co"># m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) </span>
-
-  <span class="co"># To save as data frame ozone-M6M (6mDMAI) concentration levels by TM5-FASST region in year 2050:</span>
-
-    <span class="co"># m6m.conc.2050&lt;-dplyr::bind_rows(m2_get_conc_m6m(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
-                         
-    <span class="co"># head(m6m.conc.2050)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(rfasst)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a> db_path&lt;-<span class="st">"path_to_your_gcam_database"</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a> query_path&lt;-<span class="st">"path_to_your_gcam_queries_file"</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a> db_name&lt;-<span class="st">"name of the database"</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a> prj_name&lt;-<span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span></span>
+<span id="cb3-8"><a href="#cb3-8"></a> scen_name&lt;-<span class="st">"name of the GCAM scenario"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9"></a> queries&lt;-<span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a> saveOutput<span class="op">:</span><span class="st"> </span>Writes the files.By default=T</span>
+<span id="cb3-11"><a href="#cb3-11"></a> map<span class="op">:</span><span class="st"> </span>Produce the maps. By default=F</span>
+<span id="cb3-12"><a href="#cb3-12"></a></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="co"># To write the csv files into the output folder:</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a></span>
+<span id="cb3-15"><a href="#cb3-15"></a>     <span class="kw">m2_get_conc_m6m</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>T,<span class="dt">map=</span>F) </span>
+<span id="cb3-16"><a href="#cb3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17"></a>  <span class="co"># To save as data frame ozone-M6M (6mDMAI) concentration levels by TM5-FASST region in year 2050:</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a></span>
+<span id="cb3-19"><a href="#cb3-19"></a>     m6m.conc<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m2_get_conc_m6m</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>) </span>
+<span id="cb3-20"><a href="#cb3-20"></a>                         </span>
+<span id="cb3-21"><a href="#cb3-21"></a>     <span class="kw">head</span>(m6m.conc<span class="fl">.2050</span>)</span></code></pre></div>
 <ul>
 <li>Accumulated daytime hourly O3 concentration above a threshold of 40 ppbV (AOT40) (<code>m2_get_conc_aot40</code>)</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-
-<span class="co"># db_path&lt;-"path_to_your_gcam_database"</span>
-<span class="co"># query_path&lt;-"path_to_your_gcam_queries_file"</span>
-<span class="co"># db_name&lt;-"name of the database"</span>
-<span class="co"># prj_name&lt;-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) </span>
-<span class="co"># scen_name&lt;-"name of the GCAM scenario",</span>
-<span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
-<span class="co"># saveOutput: Writes the files.By default=T</span>
-<span class="co"># map: Produce the maps. By default=F</span>
-
-  <span class="co"># To write the csv files into the output folder:</span>
-
-    <span class="co"># m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) </span>
-
-  <span class="co"># To save as data frame ozone-AOT40 concentration levels by TM5-FASST region in year 2050:</span>
-
-    <span class="co"># aot40.conc.2050&lt;-dplyr::bind_rows(m2_get_conc_aot40(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
-                         
-    <span class="co"># head(aot40.conc.2050)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(rfasst)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a> db_path&lt;-<span class="st">"path_to_your_gcam_database"</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a> query_path&lt;-<span class="st">"path_to_your_gcam_queries_file"</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a> db_name&lt;-<span class="st">"name of the database"</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a> prj_name&lt;-<span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span></span>
+<span id="cb4-8"><a href="#cb4-8"></a> scen_name&lt;-<span class="st">"name of the GCAM scenario"</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a> queries&lt;-<span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a> saveOutput<span class="op">:</span><span class="st"> </span>Writes the files.By default=T</span>
+<span id="cb4-11"><a href="#cb4-11"></a> map<span class="op">:</span><span class="st"> </span>Produce the maps. By default=F</span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a>  <span class="co"># To write the csv files into the output folder:</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a></span>
+<span id="cb4-15"><a href="#cb4-15"></a>     <span class="kw">m2_get_conc_aot40</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>T,<span class="dt">map=</span>F) </span>
+<span id="cb4-16"><a href="#cb4-16"></a></span>
+<span id="cb4-17"><a href="#cb4-17"></a>  <span class="co"># To save as data frame ozone-AOT40 concentration levels by TM5-FASST region in year 2050:</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a>     aot40.conc<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m2_get_conc_aot40</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>) </span>
+<span id="cb4-20"><a href="#cb4-20"></a>                         </span>
+<span id="cb4-21"><a href="#cb4-21"></a>     <span class="kw">head</span>(aot40.conc<span class="fl">.2050</span>)</span></code></pre></div>
 <ul>
 <li>Seasonal mean daytime O3 concentration (<code>m2_get_conc_mi</code>)</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-
-<span class="co"># db_path&lt;-"path_to_your_gcam_database"</span>
-<span class="co"># query_path&lt;-"path_to_your_gcam_queries_file"</span>
-<span class="co"># db_name&lt;-"name of the database"</span>
-<span class="co"># prj_name&lt;-"name for a Project to add extracted results to" (any name should work, avoid spaces just in case) </span>
-<span class="co"># scen_name&lt;-"name of the GCAM scenario",</span>
-<span class="co"># queries&lt;-"Name of the query file" (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span>
-<span class="co"># saveOutput: Writes the files.By default=T</span>
-<span class="co"># map: Produce the maps. By default=F</span>
-
-  <span class="co"># To write the csv files into the output folder:</span>
-
-    <span class="co"># m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F) </span>
-
-  <span class="co"># To save as data frame ozone-Mi concentration levels by TM5-FASST region in year 2050:</span>
-
-    <span class="co"># mi.conc.2050&lt;-dplyr::bind_rows(m2_get_conc_mi(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)) %&gt;% dplyr::filter(year==2050) </span>
-                         
-    <span class="co"># head(mi.conc.2050)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(rfasst)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a> db_path&lt;-<span class="st">"path_to_your_gcam_database"</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a> query_path&lt;-<span class="st">"path_to_your_gcam_queries_file"</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a> db_name&lt;-<span class="st">"name of the database"</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a> prj_name&lt;-<span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span></span>
+<span id="cb5-8"><a href="#cb5-8"></a> scen_name&lt;-<span class="st">"name of the GCAM scenario"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9"></a> queries&lt;-<span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the packae, "queries_rfasst.xml")</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a> saveOutput<span class="op">:</span><span class="st"> </span>Writes the files.By default=T</span>
+<span id="cb5-11"><a href="#cb5-11"></a> map<span class="op">:</span><span class="st"> </span>Produce the maps. By default=F</span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a>  <span class="co"># To write the csv files into the output folder:</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a></span>
+<span id="cb5-15"><a href="#cb5-15"></a>     <span class="kw">m2_get_conc_mi</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>T,<span class="dt">map=</span>F) </span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a>  <span class="co"># To save as data frame ozone-Mi concentration levels by TM5-FASST region in year 2050:</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a></span>
+<span id="cb5-19"><a href="#cb5-19"></a>     mi.conc<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m2_get_conc_mi</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>) </span>
+<span id="cb5-20"><a href="#cb5-20"></a>                         </span>
+<span id="cb5-21"><a href="#cb5-21"></a>     <span class="kw">head</span>(mi.conc<span class="fl">.2050</span>)</span></code></pre></div>
 In addition, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations in 2050: <!--------------------------> <!-------------------------->
 <p align="center" style="font-size:18px;">
 <em>PM2.5 concntration by region in 2050 (ug/m3)</em>
