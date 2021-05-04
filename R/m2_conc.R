@@ -20,6 +20,16 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   em.list<-m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
   #----------------------------------------------------------------------
@@ -372,6 +382,16 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
+
   em.list<-m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
   # First we load the base concentration and emissions, which are required for the calculations
@@ -572,6 +592,16 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   em.list<-m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
@@ -800,6 +830,16 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   em.list<-m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 
@@ -1186,6 +1226,16 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
+
+  # Shape subset for maps
+  fasstSubset <- rmap::mapCountries
+
+  fasstSubset@data<-fasstSubset@data %>%
+    dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
+    dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
+    dplyr::select(-subRegion) %>%
+    dplyr::rename(subRegion=fasst_region) %>%
+    dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   em.list<-m1_emissions_rescale(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=F)
 

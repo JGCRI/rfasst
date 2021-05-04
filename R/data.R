@@ -828,6 +828,647 @@
 #' }
 "raw.yll.o3"
 
+#=========================================================
+# Mapping
+#=========================================================
+#' fasst_reg
+#'
+#' @description  Mapping of countries to TM5-FASST regions
+#' @source TM5-FASST
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::fasst_reg
+#' }
+"fasst_reg"
+
+#' GCAM_reg
+#'
+#' @description  Mapping of countries to GCAM regions
+#' @source GCAM
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::GCAM_reg
+#' }
+"GCAM_reg"
+
+#' country_iso
+#'
+#' @description  Mapping of countries to iso3 codes
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::country_iso
+#' }
+"country_iso"
+
+#' adj_rus
+#'
+#' @description  Shares to distribute emissions of different species between Russia Eastern (RUE) and Western (RUS)
+#' @source TM5-FASST
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::adj_rus
+#' }
+"adj_rus"
+#'
+#'
+#' #' Percen
+#'
+#' @description  Percentages to downscale GCAM emissions to country-level
+#' @source RCP database: https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&page=welcome
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::Percen
+#' }
+#'
+#'
+"Percen"
+
+#' #' my_pol
+#'
+#' @description  Information about GCAM and TM5-FASST regions and pollutants and their equivalences.
+#' @source GCAM
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::my_pol
+#' }
+#'
+#'
+"my_pol"
+
+#' d.iso
+#'
+#' @description  Countries to GCAM regions
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::d.iso
+#' }
+#'
+#'
+"d.iso"
+
+#' d.gcam.commod.o3
+#'
+#' @description  O3 to GCAM commodities (based on their carbon fixation pathways; C3 and C4 categories)
+#' @source Own assumptions
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::d.gcam.commod.o3
+#' }
+#'
+#'
+"d.gcam.commod.o3"
+
+#' d.ha
+#'
+#' @description  Harvested area by crop for weights to map O3 crops to GCAM commodities
+#' @source GFDL-NOAA
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::d.ha
+#' }
+#'
+#'
+"d.ha"
+
+#' Regions
+#'
+#' @description  Combined regions
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::Regions
+#' }
+#'
+#'
+"Regions"
+
+#' d.weight.gcam
+#'
+#' @description  O3 to GCAM commodities (based on their carbon fixation pathways; C3 and C4 categories)
+#' @source Own assumptions
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::d.weight.gcam
+#' }
+#'
+#'
+"d.weight.gcam"
+
+#=========================================================
+# Constants
+#=========================================================
+#' all_years
+#'
+#' @description  Years to be analyzed: c('2005','2010','2020','2030','2040','2050','2060','2070','2080','2090','2100')
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::all_years
+#' }
+#'
+#'
+"all_years"
+
+#' ch4_htap_pert
+#'
+#' @description  Normalized CH4-O3 relation from Fiore et al (2008)
+#' @source Fiore, A.M., West, J.J., Horowitz, L.W., Naik, V. and Schwarzkopf, M.D., 2008. Characterizing the tropospheric ozone response to methane emission controls and the benefits to climate and air quality. Journal of Geophysical Research: Atmospheres, 113(D8).
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::ch4_htap_pert
+#' }
+#'
+#'
+"ch4_htap_pert"
+
+#' CROP_ANALYSIS
+#'
+#' @description  Crops that are included in the analysis
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CROP_ANALYSIS
+#' }
+#'
+#'
+"CROP_ANALYSIS"
+
+#' perc_pop_rus
+#'
+#' @description  Percentages to divide population between Russia and Russia Eastern
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::perc_pop_rus
+#' }
+#'
+#'
+"perc_pop_rus"
+
+#' perc_pop_rue
+#'
+#' @description  Percentages to divide population between Russia and Russia Eastern
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::perc_pop_rue
+#' }
+#'
+#'
+"perc_pop_rue"
+
+#' map_pol
+#'
+#' @description  Indicate the pollutants whose emissions are mapped (if map=T in m1_emissions_rescale)
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::map_pol
+#' }
+#'
+#'
+"map_pol"
+
+#' gdp_eu_2005
+#'
+#' @description  Base GDP for EU in 2005
+#' @source OECD
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::gdp_eu_2005
+#' }
+#'
+#'
+"gdp_eu_2005"
+
+#' vsl_eu_2005_lb
+#'
+#' @description  Lower bound for the Value of Statistical Life (VSL)
+#' @source OECD
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::vsl_eu_2005_lb
+#' }
+#'
+#'
+"vsl_eu_2005_lb"
+
+
+#' vsl_eu_2005_ub
+#'
+#' @description  Upper bound for the Value of Statistical Life (VSL)
+#' @source OECD
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::vsl_eu_2005_lb
+#' }
+#'
+#'
+"vsl_eu_2005_ub"
+
+#' vsl_eu_2005
+#'
+#' @description  Median bound for the Value of Statistical Life (VSL)
+#' @source OECD
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::vsl_eu_2005
+#' }
+#'
+#'
+"vsl_eu_2005"
+
+#' inc_elas_vsl
+#'
+#' @description  Income elasticity for the Value of Statistical Life (VSL)
+#' @source Own assumptions
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::inc_elas_vsl
+#' }
+#'
+#'
+"inc_elas_vsl"
+
+#' vsly_eu_2014
+#'
+#' @description  Base Value of Statistical Life Year (VSLY) in $2014
+#' @source Schlander, M., Schaefer, R. and Schwarz, O., 2017. Empirical studies on the economic value of a Statistical Life Year (VSLY) in Europe: what do they tell us?. Value in Health, 20(9), p.A666.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::vsly_eu_2014
+#' }
+#'
+#'
+"vsly_eu_2014"
+
+#' vsly_eu_2005
+#'
+#' @description  Base Value of Statistical Life Year (VSLY) in $2005
+#' @source Schlander, M., Schaefer, R. and Schwarz, O., 2017. Empirical studies on the economic value of a Statistical Life Year (VSLY) in Europe: what do they tell us?. Value in Health, 20(9), p.A666.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::vsly_eu_2005
+#' }
+#'
+#'
+"vsly_eu_2005"
+
+#' cf_o3
+#'
+#' @description  Counterfactual threshold for ozone (Jerret et al 2009)
+#' @source Jerrett, M., Burnett, R.T., Pope III, C.A., Ito, K., Thurston, G., Krewski, D., Shi, Y., Calle, E. and Thun, M., 2009. Long-term ozone exposure and mortality. New England Journal of Medicine, 360(11), pp.1085-1095.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::cf_o3
+#' }
+#'
+#'
+"cf_o3"
+
+#' rr_resp_o3
+#'
+#' @description Relative risk for respiratory disease associated to ozone exposure
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::rr_resp_o3
+#' }
+#'
+#'
+"rr_resp_o3"
+
+#' dis
+#'
+#' @description List of diseases for reading relative risk
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::dis
+#' }
+#'
+#'
+"dis"
+
+#' coef.AOT_MAIZE
+#'
+#' @description Coefficient for AOT40-Maize
+#' @source Mills, G., Buse, A., Gimeno, B., Bermejo, V., Holland, M., Emberson, L. and Pleijel, H., 2007. A synthesis of AOT40-based response functions and critical levels of ozone for agricultural and horticultural crops. Atmospheric Environment, 41(12), pp.2630-2643.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.AOT_MAIZE
+#' }
+#'
+#'
+"coef.AOT_MAIZE"
+
+#' coef.AOT_RICE
+#'
+#' @description Coefficient for AOT40-Rice
+#' @source Mills, G., Buse, A., Gimeno, B., Bermejo, V., Holland, M., Emberson, L. and Pleijel, H., 2007. A synthesis of AOT40-based response functions and critical levels of ozone for agricultural and horticultural crops. Atmospheric Environment, 41(12), pp.2630-2643.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.AOT_RICE
+#' }
+#'
+#'
+"coef.AOT_RICE"
+
+#' coef.AOT_SOY
+#'
+#' @description Coefficient for AOT40-Soy
+#' @source Mills, G., Buse, A., Gimeno, B., Bermejo, V., Holland, M., Emberson, L. and Pleijel, H., 2007. A synthesis of AOT40-based response functions and critical levels of ozone for agricultural and horticultural crops. Atmospheric Environment, 41(12), pp.2630-2643.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.AOT_SOY
+#' }
+#'
+#'
+"coef.AOT_SOY"
+
+#' coef.AOT_WHEAT
+#'
+#' @description Coefficient for AOT40-Wheat
+#' @source Mills, G., Buse, A., Gimeno, B., Bermejo, V., Holland, M., Emberson, L. and Pleijel, H., 2007. A synthesis of AOT40-based response functions and critical levels of ozone for agricultural and horticultural crops. Atmospheric Environment, 41(12), pp.2630-2643.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.AOT_WHEAT
+#' }
+#'
+#'
+"coef.AOT_WHEAT"
+
+#' coef.Mi_MAIZE
+#'
+#' @description Coefficient for Mi-Maize
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.Mi_MAIZE
+#' }
+#'
+#'
+"coef.Mi_MAIZE"
+
+#' coef.Mi_RICE
+#'
+#' @description Coefficient for Mi-Rice
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.Mi_RICE
+#' }
+#'
+#'
+"coef.Mi_RICE"
+
+#' coef.Mi_SOY
+#'
+#' @description Coefficient for Mi-Soy
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.Mi_SOY
+#' }
+#'
+#'
+"coef.Mi_SOY"
+
+#' coef.Mi_WHEAT
+#'
+#' @description Coefficient for Mi-Wheat
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::coef.Mi_WHEAT
+#' }
+#'
+#'
+"coef.Mi_WHEAT"
+
+#' a.Mi_MAIZE
+#'
+#' @description "a" coefficient for Mi-Maize
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::a.Mi_MAIZE
+#' }
+#'
+#'
+"a.Mi_MAIZE"
+
+#' a.Mi_RICE
+#'
+#' @description "a" coefficient for Mi-Rice
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::a.Mi_RICE
+#' }
+#'
+#'
+"a.Mi_RICE"
+
+#' a.Mi_SOY
+#'
+#' @description "a" coefficient for Mi-Soy
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::a.Mi_SOY
+#' }
+#'
+#'
+"a.Mi_SOY"
+
+#' a.Mi_WHEAT
+#'
+#' @description "a" coefficient for Mi-Wheat
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::a.Mi_WHEAT
+#' }
+#'
+#'
+"a.Mi_WHEAT"
+
+#' b.Mi_MAIZE
+#'
+#' @description "b" coefficient for Mi-Maize
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::b.Mi_MAIZE
+#' }
+#'
+#'
+"b.Mi_MAIZE"
+
+#' b.Mi_RICE
+#'
+#' @description "b" coefficient for Mi-Rice
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::b.Mi_RICE
+#' }
+#'
+#'
+"b.Mi_RICE"
+
+#' b.Mi_SOY
+#'
+#' @description "b" coefficient for Mi-Soy
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::b.Mi_SOY
+#' }
+#'
+#'
+"b.Mi_SOY"
+
+#' b.Mi_WHEAT
+#'
+#' @description "b" coefficient for Mi-Maize
+#' @source Wang, X. and Mauzerall, D.L., 2004. Characterizing distributions of surface ozone and its impact on grain production in China, Japan and South Korea: 1990 and 2020. Atmospheric Environment, 38(26), pp.4383-4402.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::b.Mi_WHEAT
+#' }
+#'
+#'
+"b.Mi_WHEAT"
+
+#' CONV_TG_T
+#'
+#' @description Unit converter: Teragram to tonne
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CONV_TG_T
+#' }
+#'
+#'
+"CONV_TG_T"
+
+#' CONV_1975_2010
+#'
+#' @description 1975-2010 deflator
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CONV_1975_2010
+#' }
+#'
+#'
+"CONV_1975_2010"
+
+#' CONV_OCawb_POM
+#'
+#' @description Transform OC from biogenic sources to POM
+#' @source Kanakidou, M., Seinfeld, J.H., Pandis, S.N., Barnes, I., Dentener, F.J., Facchini, M.C., Dingenen, R.V., Ervens, B., Nenes, A.N.C.J.S.E., Nielsen, C.J. and Swietlicki, E., 2005. Organic aerosol and global climate modelling: a review. Atmospheric Chemistry and Physics, 5(4), pp.1053-1123.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CONV_OCawb_POM
+#' }
+#'
+#'
+"CONV_OCawb_POM"
+
+#' CONV_OC_POM
+#'
+#' @description Transform OC to POM
+#' @source Kanakidou, M., Seinfeld, J.H., Pandis, S.N., Barnes, I., Dentener, F.J., Facchini, M.C., Dingenen, R.V., Ervens, B., Nenes, A.N.C.J.S.E., Nielsen, C.J. and Swietlicki, E., 2005. Organic aerosol and global climate modelling: a review. Atmospheric Chemistry and Physics, 5(4), pp.1053-1123.
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CONV_OC_POM
+#' }
+#'
+#'
+"CONV_OC_POM"
+
+#' MTC_MTCO2
+#'
+#' @description Transform MTC to MTCO2
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::MTC_MTCO2
+#' }
+#'
+#'
+"MTC_MTCO2"
+
+#' TG_KG
+#'
+#' @description Transform Tg to Kg
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::TG_KG
+#' }
+#'
+#'
+"TG_KG"
+
+#' CONV_MIL
+#'
+#' @description Transform $Million to $
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CONV_MIL
+#' }
+#'
+#'
+"CONV_MIL"
+
+#' CONV_BIL
+#'
+#' @description Transform $Billion to $
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::CONV_BIL
+#' }
+#'
+#'
+"CONV_BIL"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

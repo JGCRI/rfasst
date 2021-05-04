@@ -1,6 +1,5 @@
-[![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
-[![build](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml)
-[![codecov](https://codecov.io/gh/JGCRI/rfasst/branch/main/graph/badge.svg?token=2IBODRZKVF)](https://codecov.io/gh/JGCRI/rfasst)
+[![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg?branch=dev)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
+[![build](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml/badge.svg?branch=dev)](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml)
 [![DOI](https://zenodo.org/badge/344924589.svg)](https://zenodo.org/badge/latestdoi/344924589)
 
 
@@ -62,14 +61,23 @@
     - (For cloning the repo) Git (https://git-scm.com/downloads) 
     
     
-2. Clone the repository to the local machine:
+2. Open R studio:
+
+```r
+install.packages(“devtools”)
+devtools::install_github(“JGCRI/rfasst”)
+```
+
+(Optional) 
+
+To clone the repository to the local machine:
     - Git bash in the working directory (right click-> "Git Bash Here")
     - In the Git console type: 
 ```r
 git clone https://github.com/JGCRI/rfasst.git
 ```
 
-3. Open the Rproject (rfasst.Rproj):
+Then, open the Rproject (rfasst.Rproj):
     - In the Rstudio menu, click "Build -> Install and restart" (Ctrl+Shift+B)
 
 

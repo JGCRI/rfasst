@@ -1,8 +1,12 @@
 Package: rfasst
 Title: rfasst
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(person("Jon", "Sampedro", email = "jon.sampedro@pnnl.gov", role = c("aut", "cre"),
-		   comment = c(ORCID ="0000-0002-2277-1530")))
+		   comment = c(ORCID ="0000-0002-2277-1530")),
+		   person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("aut"),
+		   comment = c(ORCID ="0000-0002-8147-8553")),
+		   person("Chris", "Vernon", email = "chris.vernon@pnnl.gov", role = c("aut"),
+		   comment = c(ORCID ="0000-0002-3406-6214")))
 Description: A screening Rtool to estimate adverse health and agricultural impacts within an integrated multi-sector model.
 URL: https://github.com/JGCRI/rfasst
 BugReports: https://github.com/JGCRI/rfasst/issues
@@ -19,7 +23,8 @@ Imports:
     tibble,
 	gcamdata,
 	rgcam,
-	rmap
+	rmap,
+	markdown
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0)
