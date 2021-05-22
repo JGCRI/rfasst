@@ -627,7 +627,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 
   pm.yll.EcoLoss.write<-function(df){
     df<-as.data.frame(df)
-    write.csv(df,paste0("output/","m3/","PM25_YLL_ECOLOSS",scen_name,"_",unique(df$year),".csv"),row.names = F)
+    write.csv(df,paste0("output/","m3/","PM25_YLL_ECOLOSS_",scen_name,"_",unique(df$year),".csv"),row.names = F)
   }
 
 
