@@ -24,14 +24,16 @@ Imports:
 	gcamdata,
 	rgcam,
 	rmap,
-	markdown
+	markdown,
+	rpackageutils
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0)
 Remotes: 
 	github::JGCRI/rgcam,
 	github::JGCRI/gcamdata,
-	github::JGCRI/rmap
+	github::JGCRI/rmap,
+	github::JGCRI/rpackageutils
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

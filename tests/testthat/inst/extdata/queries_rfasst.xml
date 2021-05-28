@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+
+
+ <aQuery>
+		<all-regions/>
+ <supplyDemandQuery title="ag production by crop type">
+               <axis1 name="sector">sector[@name]</axis1>
+               <axis2 name="Year">physical-output[@vintage]</axis2>
+               <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='sector' and (local-name()='AgSupplySector')]//
+            output-primary/physical-output/node()</xPath>
+               <comments>primary output only (no residue biomass)</comments>
+            </supplyDemandQuery>
+ </aQuery>
+
+ <aQuery>
+		<all-regions/>
+         <marketQuery title="prices of all markets">
+            <axis1 name="market">market</axis1>
+            <axis2 name="Year">market</axis2>
+            <xPath buildList="true" dataName="price" group="false" sumAll="false">Marketplace/market[true()]/price/node()</xPath>
+            <comments/>
+         </marketQuery>
+ </aQuery>
+
+<aQuery>
+		<all-regions/>
+      <supplyDemandQuery title="Ag Commodity Prices">
+         <axis1 name="sector">sector</axis1>
+         <axis2 name="Year">cost</axis2>
+         <xPath buildList="true" dataName="yield" group="false" sumAll="false">*[@type='sector' and
+            (exists(child::keyword/@supplysector) or local-name() =
+            'AgSupplySector')]/cost/text()</xPath>
+         <comments/>
+      </supplyDemandQuery>
+   </aQuery>
+
+
+ <aQuery>
+		<all-regions/>
+         <emissionsQueryBuilder title="nonCO2 emissions by region">
+            <axis1 name="GHG">GHG</axis1>
+            <axis2 name="Year">emissions</axis2>
+            <xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' (:collapse:) or @type = 'resource' (:collapse:)](: / *[@type = 'subresource' (: collapse :)] :)//
+            *[@type = 'GHG']/emissions/node()</xPath>
+            <comments/>
+         </emissionsQueryBuilder>
+ </aQuery>
+
+ <aQuery>
+		<all-regions/>
+<emissionsQueryBuilder title="nonCO2 emissions by sector (incl resources)">
+			<axis1 name="sector">sector</axis1>
+			<axis2 name="Year">emissions</axis2>
+			<xPath buildList="true" dataName="emissions" group="false" sumAll="false">
+			<![CDATA[
+              declare function local:deep-copy($nodes as node()*) as node()* {
+              for $node in $nodes
+              return typeswitch($node)
+              case $e as element()
+              return element { local-name($e) } {
+              $e/@*,
+              for $c in $e/(* | text())
+              return local:deep-copy($c)
+              }
+              default return $node
+              };
+              declare function local:rename-resource-emiss($resources as node()*) as node()* {
+              for $resource in $resources
+              let $scn := $resource/ancestor::scenario,
+              $rgn := $resource/ancestor::region,
+              $retDoc := document { element scenario {
+              $scn/@*,
+              element region {
+              $rgn/@*,
+              element sector {
+              attribute type { 'sector' },
+              $resource/@name,
+              element subsector {
+              attribute type { 'subsector' },
+              $resource/@name,
+              element technology {
+              attribute type { 'technology' },
+              $resource/@name,
+              local:deep-copy($resource/*[@type='GHG'])
+              }
+              }
+              }
+              }
+              }
+              }
+              return
+              $retDoc//text()
+              };
+declare function local:rename-subresource-emiss($resources as node()*) as node()* {
+              for $resource in $resources
+              let $scn := $resource/ancestor::scenario,
+              $rgn := $resource/ancestor::region,
+$rsrc := $resource/ancestor::*[@type='resource'],
+$subrsrc := $resource/ancestor::*[@type='subresource'],
+$tech := $resource/ancestor::*[@type='technology'],
+              $retDoc := document { element scenario {
+              $scn/@*,
+              element region {
+              $rgn/@*,
+              element sector {
+              attribute type { 'sector' },
+              $rsrc/@name,
+              element subsector {
+              attribute type { 'subsector' },
+              $subrsrc/@name,
+              element technology {
+              attribute type { 'technology' },
+              $tech/@name,
+              local:deep-copy($resource)
+              }
+              }
+              }
+              }
+              }
+              }
+              return
+              $retDoc//text()
+              };
+              declare function local:run-combine-sector-resource-emiss($scenarios as xs:string*, $regions as xs:string*, $collection as xs:string) as node()* {
+              let $regionsG := if(not($regions[1] = 'Global'))
+              then $regions
+              else distinct-values(collection($collection)/scenario/world/*[@type='region']/@name)
+              return
+              for $scenario in $scenarios,
+              $region in $regionsG
+              let $scenario_split := tokenize($scenario, ' '),
+              $scenario_name := string-join($scenario_split[position() < last()], ' '),
+              $scenario_date := $scenario_split[last()],
+              $currTree := collection($collection)/scenario[@name = $scenario_name and @date = $scenario_date]/world/*[@type = 'region' and @name=$region]
+              return (: rename resources as a sector/subsector/tech :)
+              local:rename-resource-emiss($currTree/*[@type='resource' and exists(child::*[@type='GHG'])])
+| (: get resource emiss in tech :)
+              local:rename-subresource-emiss($currTree/*[@type='resource']/*[@type='subresource']/*[@type='technology' (: collapse :)]/*[@type='GHG'])
+              | (: get the sector emissions :)
+              $currTree/*[@type = 'sector']//*[@type = 'GHG']/emissions/node()
+              };
+              local:run-combine-sector-resource-emiss((:scenarios:), (:regions:), (:collection:))
+          ]]>
+          </xPath>
+          <comments/>
+          <labelRewriteList append-values="true">
+              <level name="GHG">
+                  <rewrite from="BC_AWB" to="BC"/>
+                  <rewrite from="C2F6" to="C2F6"/>
+                  <rewrite from="CF4" to="CF4"/>
+                  <rewrite from="HFC125" to="HFC125"/>
+                  <rewrite from="HFC134a" to="HFC134a"/>
+                  <rewrite from="HFC245fa" to="HFC245fa"/>
+                  <rewrite from="SF6" to="SF6"/>
+                  <rewrite from="CH4_AGR" to="CH4"/>
+                  <rewrite from="CH4_AWB" to="CH4"/>
+                  <rewrite from="CO_AWB" to="CO"/>
+                  <rewrite from="N2O_AGR" to="N2O"/>
+                  <rewrite from="N2O_AWB" to="N2O"/>
+                  <rewrite from="NH3_AGR" to="NH3"/>
+                  <rewrite from="NH3_AWB" to="NH3"/>
+                  <rewrite from="NMVOC" to="VOC"/>
+                  <rewrite from="NMVOC_AGR" to="VOC"/>
+                  <rewrite from="NMVOC_AWB" to="VOC"/>
+                  <rewrite from="NOx_AGR" to="NOx"/>
+                  <rewrite from="NOx_AWB" to="NOx"/>
+                  <rewrite from="SO2_1" to="SO2"/>
+                  <rewrite from="SO2_1_AWB" to="SO2"/>
+                  <rewrite from="SO2_2" to="SO2"/>
+                  <rewrite from="SO2_2_AWB" to="SO2"/>
+                  <rewrite from="SO2_3" to="SO2"/>
+                  <rewrite from="SO2_3_AWB" to="SO2"/>
+                  <rewrite from="SO2_4" to="SO2"/>
+                  <rewrite from="SO2_4_AWB" to="SO2"/>
+              </level>
+          </labelRewriteList>
+      </emissionsQueryBuilder>
+ </aQuery>
+
+ <aQuery>
+		<all-regions/>
+<emissionsQueryBuilder title="International Aviation emissions">
+<axis1 name="subsector">subsector</axis1><axis2 name="Year">emissions</axis2>
+<xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type = 'subsector' and (@name='International Aviation')]//*[@type = 'GHG']/emissions/node()</xPath>
+<comments>This query will not include resource emissions</comments>
+</emissionsQueryBuilder>
+ </aQuery>
+
+ <aQuery>
+		<all-regions/>
+<emissionsQueryBuilder title="International Shipping emissions">
+<axis1 name="subsector">subsector</axis1><axis2 name="Year">emissions</axis2>
+<xPath buildList="true" dataName="emissions" group="false" sumAll="false">*[@type = 'sector' ]/*[@type = 'subsector' and (@name='International Ship')]//*[@type = 'GHG']/emissions/node()</xPath>
+<comments>This query will not include resource emissions</comments>
+</emissionsQueryBuilder>
+ </aQuery>
+
+
+</queries>
