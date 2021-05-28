@@ -1,16 +1,25 @@
 library(rfasst); library(testthat); library(magrittr)
 
 #-----------------------------
+# Load the GCAM db form the Zenodo repository
+
+db_path =  paste0(getwd(),"/tests/testthat/testOutputs")
+db_path = gsub("tests/testthat/tests/testthat", "tests/testthat", db_path)
+rpackageutils::download_unpack_zip(data_directory = db_path,
+                                   url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
+
+
+#-----------------------------
 # Tests for module 1 function
 
 test_that("module 1 fucntion works", {
 
   `%!in%` = Negate(`%in%`)
 
-  em_reg<-dplyr::bind_rows(m1_emissions_rescale(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  em_reg<-dplyr::bind_rows(m1_emissions_rescale(db_path = db_path,
                             query_path="./inst/extdata",
                             db_name = "database_basexdb_5p3_release",
-                            prj_name = "scenaaa.dat",
+                            prj_name = "scentest.dat",
                             scen_name = "Reference_gcam5p3_release",
                             queries ="queries_rfasst.xml",
                             saveOutput = F))%>%
@@ -33,10 +42,10 @@ test_that("m2 calculates PM2.5 concentration", {
 
   `%!in%` = Negate(`%in%`)
 
-  pm25_reg<-dplyr::bind_rows(m2_get_conc_pm25(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  pm25_reg<-dplyr::bind_rows(m2_get_conc_pm25(db_path = db_path,
                                                 query_path="./inst/extdata",
                                                 db_name = "database_basexdb_5p3_release",
-                                                prj_name = "scenaaa.dat",
+                                                prj_name = "scentest.dat",
                                                 scen_name = "Reference_gcam5p3_release",
                                                 queries ="queries_rfasst.xml",
                                                 saveOutput = F)) %>%
@@ -55,10 +64,10 @@ test_that("m2 calculates O3 concentration", {
 
   `%!in%` = Negate(`%in%`)
 
-  o3_reg<-dplyr::bind_rows(m2_get_conc_o3(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  o3_reg<-dplyr::bind_rows(m2_get_conc_o3(db_path = db_path,
                                               query_path="./inst/extdata",
                                               db_name = "database_basexdb_5p3_release",
-                                              prj_name = "scenaaa.dat",
+                                              prj_name = "scentest.dat",
                                               scen_name = "Reference_gcam5p3_release",
                                               queries ="queries_rfasst.xml",
                                               saveOutput = F)) %>%
@@ -76,10 +85,10 @@ test_that("m2 calculates O3-M6M concentration", {
 
   `%!in%` = Negate(`%in%`)
 
-  m6m_reg<-dplyr::bind_rows(m2_get_conc_m6m(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  m6m_reg<-dplyr::bind_rows(m2_get_conc_m6m(db_path = db_path,
                                           query_path="./inst/extdata",
                                           db_name = "database_basexdb_5p3_release",
-                                          prj_name = "scenaaa.dat",
+                                          prj_name = "scentest.dat",
                                           scen_name = "Reference_gcam5p3_release",
                                           queries ="queries_rfasst.xml",
                                           saveOutput = F)) %>%
@@ -97,10 +106,10 @@ test_that("m2 calculates O3-AOT40 concentration", {
 
   `%!in%` = Negate(`%in%`)
 
-  aot40_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  aot40_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
                                             query_path="./inst/extdata",
                                             db_name = "database_basexdb_5p3_release",
-                                            prj_name = "scenaaa.dat",
+                                            prj_name = "scentest.dat",
                                             scen_name = "Reference_gcam5p3_release",
                                             queries ="queries_rfasst.xml",
                                             saveOutput = F)) %>%
@@ -118,10 +127,10 @@ test_that("m2 calculates O3-Mi concentration", {
 
   `%!in%` = Negate(`%in%`)
 
-  mi_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  mi_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
                                                 query_path="./inst/extdata",
                                                 db_name = "database_basexdb_5p3_release",
-                                                prj_name = "scenaaa.dat",
+                                                prj_name = "scentest.dat",
                                                 scen_name = "Reference_gcam5p3_release",
                                                 queries ="queries_rfasst.xml",
                                                 saveOutput = F)) %>%
@@ -145,10 +154,10 @@ test_that("m3 calculates PM2.5-premature mortality", {
 
   `%!in%` = Negate(`%in%`)
 
-  pm25_mort_reg<-dplyr::bind_rows(m3_get_mort_pm25(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  pm25_mort_reg<-dplyr::bind_rows(m3_get_mort_pm25(db_path = db_path,
                                               query_path="./inst/extdata",
                                               db_name = "database_basexdb_5p3_release",
-                                              prj_name = "scenaaa.dat",
+                                              prj_name = "scentest.dat",
                                               scen_name = "Reference_gcam5p3_release",
                                               queries ="queries_rfasst.xml",
                                               saveOutput = F)) %>%
@@ -167,10 +176,10 @@ test_that("m3 calculates O3-premature mortality", {
 
   `%!in%` = Negate(`%in%`)
 
-  o3_mort_reg<-dplyr::bind_rows(m3_get_mort_o3(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  o3_mort_reg<-dplyr::bind_rows(m3_get_mort_o3(db_path = db_path,
                                                    query_path="./inst/extdata",
                                                    db_name = "database_basexdb_5p3_release",
-                                                   prj_name = "scenaaa.dat",
+                                                   prj_name = "scentest.dat",
                                                    scen_name = "Reference_gcam5p3_release",
                                                    queries ="queries_rfasst.xml",
                                                    saveOutput = F)) %>%
@@ -189,10 +198,10 @@ test_that("m3 calculates PM2.5-YLL", {
 
   `%!in%` = Negate(`%in%`)
 
-  pm25_yll_reg<-dplyr::bind_rows(m3_get_yll_pm25(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  pm25_yll_reg<-dplyr::bind_rows(m3_get_yll_pm25(db_path = db_path,
                                                query_path="./inst/extdata",
                                                db_name = "database_basexdb_5p3_release",
-                                               prj_name = "scenaaa.dat",
+                                               prj_name = "scentest.dat",
                                                scen_name = "Reference_gcam5p3_release",
                                                queries ="queries_rfasst.xml",
                                                saveOutput = F)) %>%
@@ -203,7 +212,7 @@ test_that("m3 calculates PM2.5-YLL", {
 
   expectedResult = as.numeric(length(unique(as.factor(rfasst::fasst_reg$fasst_region))))
 
-  testthat::expect_equal(regions_o3_mort,expectedResult)
+  testthat::expect_equal(regions_pm25_yll,expectedResult)
 
 })
 
@@ -211,10 +220,10 @@ test_that("m3 calculates PM2.5-DALYs", {
 
   `%!in%` = Negate(`%in%`)
 
-  pm25_daly_reg<-dplyr::bind_rows(m3_get_daly_pm25(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  pm25_daly_reg<-dplyr::bind_rows(m3_get_daly_pm25(db_path = db_path,
                                                  query_path="./inst/extdata",
                                                  db_name = "database_basexdb_5p3_release",
-                                                 prj_name = "scenaaa.dat",
+                                                 prj_name = "scentest.dat",
                                                  scen_name = "Reference_gcam5p3_release",
                                                  queries ="queries_rfasst.xml",
                                                  saveOutput = F)) %>%
@@ -233,10 +242,10 @@ test_that("m3 calculates O3-YLL", {
 
   `%!in%` = Negate(`%in%`)
 
-  o3_yll_reg<-dplyr::bind_rows(m3_get_yll_o3(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  o3_yll_reg<-dplyr::bind_rows(m3_get_yll_o3(db_path = db_path,
                                                  query_path="./inst/extdata",
                                                  db_name = "database_basexdb_5p3_release",
-                                                 prj_name = "scenaaa.dat",
+                                                 prj_name = "scentest.dat",
                                                  scen_name = "Reference_gcam5p3_release",
                                                  queries ="queries_rfasst.xml",
                                                  saveOutput = F)) %>%
@@ -255,10 +264,10 @@ test_that("m3 calculates O3-DALYs", {
 
   `%!in%` = Negate(`%in%`)
 
-  o3_daly_reg<-dplyr::bind_rows(m3_get_daly_pm25(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  o3_daly_reg<-dplyr::bind_rows(m3_get_daly_pm25(db_path = db_path,
                                                    query_path="./inst/extdata",
                                                    db_name = "database_basexdb_5p3_release",
-                                                   prj_name = "scenaaa.dat",
+                                                   prj_name = "scentest.dat",
                                                    scen_name = "Reference_gcam5p3_release",
                                                    queries ="queries_rfasst.xml",
                                                    saveOutput = F)) %>%
@@ -277,10 +286,10 @@ test_that("m3 calculates PM2.5-Mort-EcoLoss", {
 
   `%!in%` = Negate(`%in%`)
 
-  pm25_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_pm25_ecoloss(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  pm25_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_pm25_ecoloss(db_path = db_path,
                                                  query_path="./inst/extdata",
                                                  db_name = "database_basexdb_5p3_release",
-                                                 prj_name = "scenaaa.dat",
+                                                 prj_name = "scentest.dat",
                                                  scen_name = "Reference_gcam5p3_release",
                                                  queries ="queries_rfasst.xml",
                                                  saveOutput = F)) %>%
@@ -299,10 +308,10 @@ test_that("m3 calculates O3-Mort-EcoLoss", {
 
   `%!in%` = Negate(`%in%`)
 
-  o3_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_o3_ecoloss(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  o3_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_o3_ecoloss(db_path = db_path,
                                                                    query_path="./inst/extdata",
                                                                    db_name = "database_basexdb_5p3_release",
-                                                                   prj_name = "scenaaa.dat",
+                                                                   prj_name = "scentest.dat",
                                                                    scen_name = "Reference_gcam5p3_release",
                                                                    queries ="queries_rfasst.xml",
                                                                    saveOutput = F)) %>%
@@ -321,10 +330,10 @@ test_that("m3 calculates PM2.5-YLL-EcoLoss", {
 
   `%!in%` = Negate(`%in%`)
 
-  pm25_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_pm25_ecoloss(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  pm25_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_pm25_ecoloss(db_path = db_path,
                                                                    query_path="./inst/extdata",
                                                                    db_name = "database_basexdb_5p3_release",
-                                                                   prj_name = "scenaaa.dat",
+                                                                   prj_name = "scentest.dat",
                                                                    scen_name = "Reference_gcam5p3_release",
                                                                    queries ="queries_rfasst.xml",
                                                                    saveOutput = F)) %>%
@@ -343,10 +352,10 @@ test_that("m3 calculates O3-YLL-EcoLoss", {
 
   `%!in%` = Negate(`%in%`)
 
-  o3_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_o3_ecoloss(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  o3_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_o3_ecoloss(db_path = db_path,
                                                                  query_path="./inst/extdata",
                                                                  db_name = "database_basexdb_5p3_release",
-                                                                 prj_name = "scenaaa.dat",
+                                                                 prj_name = "scentest.dat",
                                                                  scen_name = "Reference_gcam5p3_release",
                                                                  queries ="queries_rfasst.xml",
                                                                  saveOutput = F)) %>%
@@ -368,10 +377,10 @@ test_that("m4 calculates RYL-AOT40", {
 
   `%!in%` = Negate(`%in%`)
 
-  ryl_aot40_reg<-dplyr::bind_rows(m4_get_ryl_aot40(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  ryl_aot40_reg<-dplyr::bind_rows(m4_get_ryl_aot40(db_path = db_path,
                                                              query_path="./inst/extdata",
                                                              db_name = "database_basexdb_5p3_release",
-                                                             prj_name = "scenaaa.dat",
+                                                             prj_name = "scentest.dat",
                                                              scen_name = "Reference_gcam5p3_release",
                                                              queries ="queries_rfasst.xml",
                                                              saveOutput = F)) %>%
@@ -390,10 +399,10 @@ test_that("m4 calculates RYL-Mi", {
 
   `%!in%` = Negate(`%in%`)
 
-  ryl_mi_reg<-dplyr::bind_rows(m4_get_ryl_mi(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  ryl_mi_reg<-dplyr::bind_rows(m4_get_ryl_mi(db_path = db_path,
                                                    query_path="./inst/extdata",
                                                    db_name = "database_basexdb_5p3_release",
-                                                   prj_name = "scenaaa.dat",
+                                                   prj_name = "scentest.dat",
                                                    scen_name = "Reference_gcam5p3_release",
                                                    queries ="queries_rfasst.xml",
                                                    saveOutput = F)) %>%
@@ -412,10 +421,10 @@ test_that("m4 calculates ProdLoss", {
 
   `%!in%` = Negate(`%in%`)
 
-  prod_loss_reg<-dplyr::bind_rows(m4_get_prod_loss(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  prod_loss_reg<-dplyr::bind_rows(m4_get_prod_loss(db_path = db_path,
                                              query_path="./inst/extdata",
                                              db_name = "database_basexdb_5p3_release",
-                                             prj_name = "scenaaa.dat",
+                                             prj_name = "scentest.dat",
                                              scen_name = "Reference_gcam5p3_release",
                                              queries ="queries_rfasst.xml",
                                              saveOutput = F)) %>%
@@ -434,10 +443,10 @@ test_that("m4 calculates RevLoss", {
 
   `%!in%` = Negate(`%in%`)
 
-  rev_loss_reg<-dplyr::bind_rows(m4_get_rev_loss(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+  rev_loss_reg<-dplyr::bind_rows(m4_get_rev_loss(db_path = db_path,
                                                    query_path="./inst/extdata",
                                                    db_name = "database_basexdb_5p3_release",
-                                                   prj_name = "scenaaa.dat",
+                                                   prj_name = "scentest.dat",
                                                    scen_name = "Reference_gcam5p3_release",
                                                    queries ="queries_rfasst.xml",
                                                    saveOutput = F)) %>%
