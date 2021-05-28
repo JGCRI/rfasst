@@ -1,7 +1,14 @@
 library(rfasst); library(testthat); library(magrittr)
 
 #-----------------------------
-# Tests for module 1 function
+# Load the GCAM db form the Zenodo repository
+
+db_path =  paste0(getwd(),"/tests/testthat/testOutputs")
+db_path = gsub("tests/testthat/tests/testthat", "tests/testthat", db_path)
+rpackageutils::download_unpack_zip(data_directory = db_path,
+                                   url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
+
+#-----------------------------
 
 test_that("calc_pop function works", {
 
@@ -55,11 +62,6 @@ test_that("DALY O3 function works", {
 
 test_that("GCAM production function works", {
 
-  db_path =  paste0(getwd(),"/tests/testthat/testOutputs")
-  db_path = gsub("tests/testthat/tests/testthat", "tests/testthat", db_path)
-  rpackageutils::download_unpack_zip(data_directory = db_path,
-                                     url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
-
   gcam_prod<-calc_prod_gcam(db_path = db_path,
                             query_path="./inst/extdata",
                             db_name = "database_basexdb_5p3_release",
@@ -78,7 +80,8 @@ test_that("GCAM production function works", {
 
 test_that("GCAM price function works", {
 
-  gcam_price<-calc_price_gcam(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+
+  gcam_price<-calc_price_gcam(db_path = db_path,
                             query_path="./inst/extdata",
                             db_name = "database_basexdb_5p3_release",
                             prj_name = "scenaaa.dat",
@@ -96,7 +99,8 @@ test_that("GCAM price function works", {
 
 test_that("GCAM revenue function works", {
 
-  gcam_rev<-calc_rev_gcam(db_path = "C:/Users/samp699/Desktop/other/quickstarter/R_GCAM_FASST_default/rawdata",
+
+  gcam_rev<-calc_rev_gcam(db_path = db_path,
                               query_path="./inst/extdata",
                               db_name = "database_basexdb_5p3_release",
                               prj_name = "scenaaa.dat",
