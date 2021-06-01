@@ -25,7 +25,7 @@ authors:
 affiliations:
  - name: Joint Global Change Research Institute, Pacific Northwest National Laboratory, College Park, MD, USA
    index: 1
- - name: Joint Research Centre (JRC), European Commission, Ispra, Italy
+ - name: European Commission, Joint Research Centre (JRC), Ispra, Italy
    index: 2
 date: 17 April 2021
 bibliography: paper.bib
