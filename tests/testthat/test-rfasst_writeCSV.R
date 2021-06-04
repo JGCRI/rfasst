@@ -4,7 +4,7 @@ library(rfasst); library(testthat); library(magrittr); library(rprojroot)
 db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 rpackageutils::download_unpack_zip(data_directory = db_path,
                                    url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
-
+outdir = paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
 #-----------------------------
 # Tests for module 1 function
