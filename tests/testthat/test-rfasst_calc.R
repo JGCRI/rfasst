@@ -1,10 +1,7 @@
-library(rfasst); library(testthat); library(magrittr)
-
+library(rfasst); library(testthat); library(magrittr); library(rprojroot)
 #-----------------------------
 # Load the GCAM db form the Zenodo repository
-
-db_path =  paste0(getwd(),"/tests/testthat/testOutputs")
-db_path = gsub("tests/testthat/tests/testthat", "tests/testthat", db_path)
+db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 rpackageutils::download_unpack_zip(data_directory = db_path,
                                    url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
 
