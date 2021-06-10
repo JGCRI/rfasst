@@ -117,7 +117,7 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
     dplyr::mutate(CH4=rep(0), N2O=rep(0), NH3=rep(0)) %>%
     dplyr::select(Year,BC,CH4,CO2,CO,N2O,NH3,NOx,POM,SO2,NMVOC)
 
-  final_df_wide<-dplyr::left_join(Percen %>% dplyr::mutate(`GCAM Region`=as.factor(`GCAM Region`)), scen, by=c('GCAM Region','Pollutant','year')) %>%
+  final_df_wide<-dplyr::left_join(Percen %>% dplyr::filter(year %in% all_years) %>% dplyr::mutate(`GCAM Region`=as.factor(`GCAM Region`)), scen, by=c('GCAM Region','Pollutant','year')) %>%
     dplyr::mutate(NewValue=Percentage*value) %>%
     dplyr::left_join(FASST_reg, by= 'ISO 3') %>%
     dplyr::group_by(`FASST Region`,year,Pollutant) %>%
