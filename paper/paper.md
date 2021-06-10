@@ -63,10 +63,10 @@ This transformation from emissions to concentration is addressed by full chemist
 These concentration levels are the inputs for the exposure-response functions that are normally used to calculate adverse human-health and agricultural effects associated with exposure to $PM_{2.5}$ and $O_{3}$.  
 
 Therefore, the combined use of these models, which is the essence of `rfasst`, is a powerful methodology to estimate a consistent range of health and agricultural damages and the co-benefits associated with different strategies or climate policies.
-Prior to the development of this package, we have used GCAM and TM5-FASST to analyze these co-benefits in different studies. @sampedro2020health shows that health co-benefits attributable to air pollution are larger than mitigation costs 
+Prior to the development of this package, we have used GCAM and TM5-FASST to analyze these co-benefits in different studies. `@sampedro2020health` shows that health co-benefits attributable to air pollution are larger than mitigation costs 
 for different technological scenarios consistent with the 2°C target of the Paris Agreement. 
-Previously, in [@markandya2018health], we demonstrated that these health co-benefits outweigh mitigation costs in multiple decarbonization scenarios based on different emissions abatement efforts across regions. 
-In addition, we have applied this methodology to show how high $O_{3}$ levels generate substantial crop losses and, subsequently, negative economic impacts in the agricultural sector [@sampedro2020future].
+Previously, in `@markandya2018health`, we demonstrated that these health co-benefits outweigh mitigation costs in multiple decarbonization scenarios based on different emissions abatement efforts across regions. 
+In addition, we have applied this methodology to show how high $O_{3}$ levels generate substantial crop losses and, subsequently, negative economic impacts in the agricultural sector @sampedro2020future.
 Taking all these results into consideration, we understand that a tool that systematically addresses air pollution driven human-health and agricultural damages within an integrated assessment modeling framework, 
 is a significant contribution to this community, and of interest for a range of stakeholders, particularly for the designers of alternative transition strategies. 
 
