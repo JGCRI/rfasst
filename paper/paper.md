@@ -29,7 +29,6 @@ affiliations:
    index: 2
 date: 17 April 2021
 bibliography: paper.bib
-csl: apa.csl
 ---
 # Summary
 Existing scientific literature shows that health and agricultural impacts attributable to air pollution are significant and should be considered in the integrated analysis of human and Earth-system interactions.
