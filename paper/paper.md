@@ -64,9 +64,9 @@ These concentration levels are the inputs for the exposure-response functions th
 
 Therefore, the combined use of these models, which is the essence of `rfasst`, is a powerful methodology to estimate a consistent range of health and agricultural damages and the co-benefits associated with different strategies or climate policies.
 Prior to the development of this package, we have used GCAM and TM5-FASST to analyze these co-benefits in different studies. We showed that health co-benefits attributable to air pollution are larger than mitigation costs 
-for different technological scenarios consistent with the 2°C target of the Paris Agreement [@sampedro2020health]. 
+for different technological scenarios consistent with the 2°C target of the Paris Agreement @sampedro2020health. 
 Previously, we demonstrated that these health co-benefits outweigh mitigation costs in multiple decarbonization scenarios based on different emissions abatement efforts across regions [@markandya2018health]. 
-In addition, we have applied this methodology to show how high $O_{3}$ levels generate substantial crop losses and, subsequently, negative economic impacts in the agricultural sector [@sampedro2020future].
+In addition, we have applied this methodology to show how high $O_{3}$ levels generate substantial crop losses and, subsequently, negative economic impacts in the agricultural sector @sampedro2020future.
 Taking all these results into consideration, we understand that a tool that systematically addresses air pollution driven human-health and agricultural damages within an integrated assessment modeling framework, 
 is a significant contribution to this community, and of interest for a range of stakeholders, particularly for the designers of alternative transition strategies. 
 
