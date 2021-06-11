@@ -607,7 +607,7 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     dplyr::summarise(ryl_aot40 = sum(ryl_aot40, na.rm = T),
               ryl_mi = sum(ryl_mi, na.rm = T),) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(GCAM_commod=dplyr::if_else(GCAM_commod=="Root_Tuber","RootTuber",GCAM_commod)) %>%
+    dplyr::mutate(GCAM_commod=dplyr::if_else(GCAM_commod=="Root_Tuber","RootTuber",as.character(GCAM_commod))) %>%
     dplyr::filter(GCAM_commod %in% CROP_ANALYSIS)
 
 
@@ -803,7 +803,7 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     dplyr::summarise(ryl_aot40 = sum(ryl_aot40, na.rm = T),
                      ryl_mi = sum(ryl_mi, na.rm = T),) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(GCAM_commod=dplyr::if_else(GCAM_commod=="Root_Tuber","RootTuber",GCAM_commod)) %>%
+    dplyr::mutate(GCAM_commod=dplyr::if_else(GCAM_commod=="Root_Tuber","RootTuber",as.character(GCAM_commod))) %>%
     dplyr::filter(GCAM_commod %in% CROP_ANALYSIS)
 
   #------------------------------------------------------------------------------------

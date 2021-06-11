@@ -7,17 +7,17 @@ authors:
   - name: Jon Sampedro
     orcid: 0000-0002-2277-1530
     affiliation: 1
-  - name: Steven J. Smith
-    orcid: 0000-0003-3248-5607
-    affiliation: 1
-  - name: Stephanie Waldhoff
-    orcid: 0000-0002-8073-0868
-    affiliation: 1
   - name: Zarrar Khan
     orcid: 0000-0002-8147-8553
     affiliation: 1
   - name: Chris R. Vernon
     orcid: 0000-0002-3406-6214
+    affiliation: 1  
+  - name: Steven J. Smith
+    orcid: 0000-0003-3248-5607
+    affiliation: 1
+  - name: Stephanie Waldhoff
+    orcid: 0000-0002-8073-0868
     affiliation: 1
   - name: Rita Van Dingenen
     orcid: 0000-0003-2521-4972
@@ -29,7 +29,7 @@ affiliations:
    index: 2
 date: 17 April 2021
 bibliography: paper.bib
-csl: apa_6.csl
+csl: apa.csl
 ---
 # Summary
 Existing scientific literature shows that health and agricultural impacts attributable to air pollution are significant and should be considered in the integrated analysis of human and Earth-system interactions.
