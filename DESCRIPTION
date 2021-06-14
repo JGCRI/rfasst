@@ -25,7 +25,9 @@ Imports:
 	rgcam,
 	rmap,
 	markdown,
-	rpackageutils
+	rpackageutils,
+	rprojroot,
+	testthat
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0)
