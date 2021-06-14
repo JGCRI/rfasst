@@ -1,4 +1,4 @@
-library(rfasst); library(testthat); library(magrittr); library(rprojroot)
+library(rfasst); library(testthat); library(magrittr); library(rprojroot);library(rpackageutils)
 #-----------------------------
 # Load the GCAM db form the Zenodo repository
 db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
