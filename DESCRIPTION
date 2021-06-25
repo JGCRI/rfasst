@@ -1,6 +1,6 @@
 Package: rfasst
 Title: rfasst
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(person("Jon", "Sampedro", email = "jon.sampedro@pnnl.gov", role = c("aut", "cre"),
 		   comment = c(ORCID ="0000-0002-2277-1530")),
 		   person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("aut"),
