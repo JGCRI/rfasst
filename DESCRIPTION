@@ -23,12 +23,12 @@ Imports:
 	gcamdata,
 	rgcam,
 	rmap,
-	markdown,
 	rpackageutils,
 	rprojroot,
 	testthat
 Suggests: 
     rmarkdown,
+	markdown,
     testthat (>= 3.0.0),
 	knitr
 Remotes: 
