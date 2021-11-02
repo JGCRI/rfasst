@@ -66,8 +66,8 @@
 2. Open R studio:
 
 ```r
-install.packages(“devtools”)
-devtools::install_github(“JGCRI/rfasst”)
+install.packages("devtools")
+devtools::install_github("JGCRI/rfasst")
 ```
 
 (Optional) 
