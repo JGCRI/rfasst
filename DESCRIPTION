@@ -17,8 +17,8 @@ LazyData: true
 RoxygenNote: 7.1.1
 Imports: 
     knitr,
+    dplyr (>= 1.0.0),
     tidyr,
-	dplyr (>= 1.0.0),
     magrittr,
     tibble,
 	gcamdata,
