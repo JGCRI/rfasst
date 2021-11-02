@@ -301,12 +301,8 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
       rmap::map(data = pm.mort.map,
                 shape = fasstSubset,
                 folder ="output/maps/m3/maps_pm25_mort",
-                mapTitleOn = F,
-                legendOutsideSingle = T,
-                facetCols = 3,
-                legendPosition = c("RIGHT","bottom"),
-                legendTextSizeO = 0.5,
-                legendTitleSizeO=0.7,
+                ncol = 3,
+                legendType = "pretty",
                 background  = T)
 
 
@@ -425,12 +421,8 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
     rmap::map(data = pm.mort.EcoLoss.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_pm25_mort_ecoloss",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 3,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -541,12 +533,8 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     rmap::map(data = pm.yll.fin.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_pm25_yll",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 3,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -657,12 +645,8 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
     rmap::map(data = pm.yll.EcoLoss.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_pm25_yll_ecoloss",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 3,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -789,12 +773,8 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     rmap::map(data = pm.daly.tot.fin.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_pm25_daly",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 3,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -905,11 +885,8 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     rmap::map(data = o3.mort.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_o3_mort",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -1022,11 +999,8 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
     rmap::map(data = o3.mort.EcoLoss.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_o3_mort_ecoloss",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -1121,11 +1095,8 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
     rmap::map(data = o3.yll.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_o3_yll",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -1230,16 +1201,13 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
       dplyr::rename(value=Damage_med) %>%
       dplyr::mutate(year=as.numeric(as.character(year)),
                     value=value*1E-6,
-                    units="Trillion$2015")
+                    units="Billion$2015")
 
     rmap::map(data = o3.yll.EcoLoss.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_o3_yll_ecoloss",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -1362,11 +1330,8 @@ m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     rmap::map(data = o3.daly.tot.fin.map,
               shape = fasstSubset,
               folder ="output/maps/m3/maps_o3_daly",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }

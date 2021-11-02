@@ -340,11 +340,7 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     rmap::map(data = pm25.map,
               shape = fasstSubset,
               folder = "output/maps/m2/maps_pm2.5",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeI = 0.7,
-              legendTitleSizeI=0.8,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -550,11 +546,7 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     rmap::map(data = o3.map,
               shape = fasstSubset,
               folder = "output/maps/m2/maps_o3",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeI = 0.7,
-              legendTitleSizeI=0.8,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -788,11 +780,7 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     rmap::map(data = m6m.map,
               shape = fasstSubset,
               folder = "output/maps/m2/maps_m6m",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeI = 0.7,
-              legendTitleSizeI=0.8,
+              legendType = "pretty",
               background  = T)
 
   }
@@ -1180,11 +1168,7 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
      rmap::map(data = df,
               shape = fasstSubset,
               folder =paste0("output/maps/m2/maps_aot40/maps_aot40_",unique(df$crop)),
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeI = 0.7,
-              legendTitleSizeI=0.8,
+              legendType = "pretty",
               background  = T)
 
    }
@@ -1574,11 +1558,7 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
       rmap::map(data = df,
                 shape = fasstSubset,
                 folder =paste0("output/maps/m2/maps_Mi/maps_Mi_",unique(df$crop)),
-                mapTitleOn = F,
-                legendOutsideSingle = T,
-                legendPosition = c("RIGHT","bottom"),
-                legendTextSizeI = 0.7,
-                legendTitleSizeI=0.8,
+                legendType = "pretty",
                 background  = T)
 
     }

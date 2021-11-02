@@ -241,12 +241,8 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
     rmap::map(data = final_df_wide.map,
               shape = fasstSubset,
               folder ="output/maps/m1/maps_em",
-              mapTitleOn = F,
-              facetCols = 3,
-              legendOutsideSingle = T,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 3,
+              legendType = "pretty",
               background  = T)
 
   }

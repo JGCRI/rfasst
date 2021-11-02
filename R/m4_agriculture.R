@@ -76,12 +76,9 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
     rmap::map(data = prod.map,
               folder ="output/maps/m4/gcam_agr_prod",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 2,
+              shape = rmap::mapGCAMReg32,
+              legendType = "pretty",
               background  = T)
 
 
@@ -166,12 +163,9 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
     rmap::map(data = price.map,
               folder ="output/maps/m4/gcam_agr_price",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              shape = rmap::mapGCAMReg32,
+              ncol = 2,
+              legendType = "pretty",
               background  = T)
 
 
@@ -254,12 +248,9 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 
     rmap::map(data = rev.map,
               folder ="output/maps/m4/gcam_agr_rev",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              shape = rmap::mapGCAMReg32,
+              ncol = 2,
+              legendType = "pretty",
               background  = T)
 
 
@@ -362,12 +353,8 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     rmap::map(data = ryl.aot.40.fin.map,
               shape = fasstSubset,
               folder ="output/maps/m4/maps_ryl_aot40",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 2,
+              legendType = "pretty",
               background  = T)
 
 
@@ -476,12 +463,8 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
     rmap::map(data = ryl.mi.fin.map,
               shape = fasstSubset,
               folder ="output/maps/m4/maps_ryl_mi",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              ncol = 2,
+              legendType = "pretty",
               background  = T)
 
 
@@ -669,12 +652,9 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
     rmap::map(data = prod.loss.map,
               folder ="output/maps/m4/maps_prodLoss",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              shape = rmap::mapGCAMReg32,
+              ncol = 4,
+              legendType = "pretty",
               background  = T)
 
 
@@ -850,12 +830,9 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
     rmap::map(data = rev.loss.map,
               folder ="output/maps/m4/maps_revLoss",
-              mapTitleOn = F,
-              legendOutsideSingle = T,
-              facetCols = 2,
-              legendPosition = c("RIGHT","bottom"),
-              legendTextSizeO = 0.5,
-              legendTitleSizeO=0.7,
+              shape = rmap::mapGCAMReg32,
+              ncol = 4,
+              legendType = "pretty",
               background  = T)
 
 
