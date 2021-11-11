@@ -17,6 +17,13 @@
 
 m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m2")) dir.create("output/m2")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m2")) dir.create("output/maps/m2")
+  if (!dir.exists("output/maps/m2/maps_pm2.5")) dir.create("output/maps/m2/maps_pm2.5")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -375,6 +382,13 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
 m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,ch4_o3=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m2")) dir.create("output/m2")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m2")) dir.create("output/maps/m2")
+  if (!dir.exists("output/maps/m2/maps_o3")) dir.create("output/maps/m2/maps_o3")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -581,6 +595,13 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
 
 m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m2")) dir.create("output/m2")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m2")) dir.create("output/maps/m2")
+  if (!dir.exists("output/maps/m2/maps_m6m")) dir.create("output/maps/m2/maps_m6m")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -815,6 +836,13 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
 
 m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m2")) dir.create("output/m2")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m2")) dir.create("output/maps/m2")
+  if (!dir.exists("output/maps/m2/maps_aot40")) dir.create("output/maps/m2/maps_aot40")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -1207,6 +1235,13 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 
 
 m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m2")) dir.create("output/m2")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m2")) dir.create("output/maps/m2")
+  if (!dir.exists("output/maps/m2/maps_Mi")) dir.create("output/maps/m2/maps_Mi")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)

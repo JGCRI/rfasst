@@ -17,6 +17,13 @@
 
 calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/gcam_agr_prod")) dir.create("output/maps/m4/gcam_agr_prod")
+
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
@@ -108,6 +115,13 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
 calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/gcam_agr_price")) dir.create("output/maps/m4/gcam_agr_price")
+
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
@@ -194,6 +208,13 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
 calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/gcam_agr_rev")) dir.create("output/maps/m4/gcam_agr_rev")
+
 
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
@@ -278,6 +299,13 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #' @export
 
 m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/maps_ryl_aot40")) dir.create("output/maps/m4/maps_ryl_aot40")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -386,6 +414,13 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
 m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/maps_ryl_mi")) dir.create("output/maps/m4/maps_ryl_mi")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -493,6 +528,13 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #' @export
 
 m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/maps_prodLoss")) dir.create("output/maps/m4/maps_prodLoss")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -686,6 +728,13 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @export
 
 m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m4")) dir.create("output/m4")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m4")) dir.create("output/maps/m4")
+  if (!dir.exists("output/maps/m4/maps_revLoss")) dir.create("output/maps/m4/maps_revLoss")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)

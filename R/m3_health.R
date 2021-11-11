@@ -187,6 +187,13 @@ calc_daly_pm25<-function(){
 
 m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_pm25_mort")) dir.create("output/maps/m3/maps_pm25_mort")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -338,6 +345,13 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
 m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_pm25_mort_ecoloss")) dir.create("output/maps/m3/maps_pm25_mort_ecoloss")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -456,6 +470,13 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
 
 m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_pm25_yll")) dir.create("output/maps/m3/maps_pm25_yll")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -570,6 +591,13 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
 m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_pm25_yll_ecoloss")) dir.create("output/maps/m3/maps_pm25_yll_ecoloss")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -682,6 +710,13 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 #' @export
 
 m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_pm25_daly")) dir.create("output/maps/m3/maps_pm25_daly")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -811,6 +846,13 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
 m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_o3_mort")) dir.create("output/maps/m3/maps_o3_mort")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -920,6 +962,13 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @export
 
 m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_o3_mort_ecoloss")) dir.create("output/maps/m3/maps_o3_mort_ecoloss")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -1034,6 +1083,13 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
 
 m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
 
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_o3_yll")) dir.create("output/maps/m3/maps_o3_yll")
+
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
 
@@ -1131,6 +1187,13 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
 #' @export
 
 m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_o3_yll_ecoloss")) dir.create("output/maps/m3/maps_o3_yll_ecoloss")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
@@ -1242,6 +1305,13 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 #' @export
 
 m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+
+  # Create the directories if they do not exist:
+  if (!dir.exists("output")) dir.create("output")
+  if (!dir.exists("output/m3")) dir.create("output/m3")
+  if (!dir.exists("output/maps")) dir.create("output/maps")
+  if (!dir.exists("output/maps/m3")) dir.create("output/maps/m3")
+  if (!dir.exists("output/maps/m3/maps_o3_daly")) dir.create("output/maps/m3/maps_o3_daly")
 
   # Ancillary Functions
   `%!in%` = Negate(`%in%`)
