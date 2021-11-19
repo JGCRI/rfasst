@@ -3,7 +3,7 @@
 #' Get cause-specific baseline mortalities from stroke, ischemic heart disease (IHD), chronic obstructive pulmonary disease (COPD), acute lower respiratory illness diseases (ALRI) and lung cancer (LC).
 #' @source https://www.who.int/healthinfo/global_burden_disease/cod_2008_sources_methods.pdf
 #' @keywords Baseline mortality rates
-#' @return Baseline mortality rates for TM5-FASST regions for all years and causes (ALRI, COPD, LC, IHD, STROKE)
+#' @return Baseline mortality rates for TM5-FASST regions for all years and causes (ALRI, COPD, LC, IHD, STROKE). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -19,10 +19,10 @@ calc_mort_rates<-function(){
 
 #' calc_daly_tot
 #'
-#' Get the DALY-to-Mortality ratios used to estimate the Disability Adjusted Life Years.
+#' Get the DALY-to-Mortality ratios used to estimate the Disability Adjusted Life Years (DALYs).
 #' @source Institute for Health Metrics and Evaluation (http://www.healthdata.org/)
 #' @keywords DALYs
-#' @return DALYs for TM5-FASST regions for all years and causes (ALRI, COPD, LC, IHD, STROKE)
+#' @return  DALY-to-Mortality ratios for TM5-FASST regions for all years and causes (ALRI, COPD, LC, IHD, STROKE).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -86,10 +86,10 @@ calc_daly_tot<-function(){
 
 #' calc_daly_o3
 #'
-#' Get the DALY-to-Mortality ratios used to estimate the Disability Adjusted Life Years attributable to ozone (O3) exposure
+#' Get the DALY-to-Mortality ratios used to estimate the Disability Adjusted Life Years (DALYs) attributable to ozone (O3) exposure.
 #' @source Institute for Health Metrics and Evaluation (http://www.healthdata.org/)
 #' @keywords DALYs, O3
-#' @return DALYs for TM5-FASST regions for all years and causes (ALRI, COPD, LC, IHD, STROKE)
+#' @return DALY-to-Mortality ratios for TM5-FASST regions for all years and O3-related causes (respiratory disease).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -127,7 +127,7 @@ calc_daly_o3<-function(){
 #' Get the DALY-to-Mortality ratios used to estimate the Disability Adjusted Life Years attributable to fine particulate matter (PM2.5) exposure
 #' @source Institute for Health Metrics and Evaluation (http://www.healthdata.org/)
 #' @keywords DALYs, PM2.5
-#' @return DALYs for TM5-FASST regions for all years and causes (ALRI, COPD, LC, IHD, STROKE)
+#' @return DALY-to-Mortality ratios for TM5-FASST regions for all years and PM2.5-related causes (ALRI, COPD, LC, IHD, STROKE).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -172,7 +172,7 @@ calc_daly_pm25<-function(){
 #' Produce premature mortality attributable to PM2.5 exposure based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study.
 #' @keywords module_3, premature mortality, PM2.5
 #' @source Burnett, R.T., Pope III, C.A., Ezzati, M., Olives, C., Lim, S.S., Mehta, S., Shin, H.H., Singh, G., Hubbell, B., Brauer, M. and Anderson, H.R., 2014. An integrated risk function for estimating the global burden of disease attributable to ambient fine particulate matter exposure. Environmental health perspectives, 122(4), pp.397-403.
-#' @return Premature mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years
+#' @return Premature mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years (# mortalities).
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -330,7 +330,7 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' Produce economic damages associated with premature mortality attributable to PM2.5 exposure based on the IER functions from Burnett et al (2014), consistent with the GBD 2016 study. The economic valuation takes as a base value the widely accepted Value of Statistical Life (VSL) of the OECD for 2005. This value, according to the literature ranges between US$1.8 and $4.5 million. The calculations for all regions are based on the  “unit value transfer approach” which adjusts the VSL according to their GDP and GDP growth rates. (Markandya et al 2018)
 #' @source Narain, U. and Sall, C., 2016. Methodology for Valuing the Health Impacts of Air Pollution//// Markandya, A., Sampedro, J., Smith, S.J., Van Dingenen, R., Pizarro-Irizar, C., Arto, I. and González-Eguino, M., 2018. Health co-benefits from air pollution and mitigation costs of the Paris Agreement: a modelling study. The Lancet Planetary Health, 2(3), pp.e126-e133.
 #' @keywords module_3, VSL ,premature mortality, PM2.5
-#' @return Economic damages associated with mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years
+#' @return Economic damages associated with mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years (Million$2015). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -455,7 +455,7 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
 #'
 #' Produce YLLs attributable to PM2.5 exposure. YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are  based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study.
 #' @keywords module_3, YLL, PM2.5
-#' @return YLLs attributable to PM2.5 exposure for each TM5-FASST regions for all years
+#' @return YLLs attributable to PM2.5 exposure for each TM5-FASST regions for all years (# YLLs). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -576,7 +576,7 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' Produce Economic damages associated with YLLs attributable to PM2.5.The economic valuation takes as a base value the Value of Statistical Life Year (VSLY) for EU from Schlander et al (2017) and expands the value to other regions based on the“unit value transfer approach” which adjusts the VSLY according to their GDP and GDP growth rates. . .YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are  based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study.
 #' @keywords module_3, YLL, PM2.5, VSLY
 #' @source Schlander, M., Schaefer, R. and Schwarz, O., 2017. Empirical studies on the economic value of a Statistical Life Year (VSLY) in Europe: what do they tell us?. Value in Health, 20(9), p.A666.
-#' @return Economic damages associated with YLLs attributable to PM2.5 exposure for each TM5-FASST regions for all years
+#' @return Economic damages associated with YLLs attributable to PM2.5 exposure for each TM5-FASST regions for all years (Thous$2015).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -696,7 +696,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 #' Produce Disability Adjusted Life Years (DALYs) attributable to PM2.5 exposure. See calc_daly_pm for detials on DALY-to-Mortality ratios.
 #' @source Institute for Health Metrics and Evaluation (http://www.healthdata.org/)
 #' @keywords module_3, DALY, PM2.5,
-#' @return Economic damages associated with YLLs attributable to PM2.5 exposure for each TM5-FASST regions for all years
+#' @return Disability Adjusted Life Years (DALYs) attributable to PM2.5 exposure for each TM5-FASST regions for all years (# DALYs). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -831,7 +831,7 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' Produce premature mortality attributable to O3 exposure (measured by the M6M indicator) based on the integrated exposure-response functions (IER) from Jerret et al (2009), consistent with the GBD 2016 study.
 #' @keywords module_3, premature mortality, O3
 #' @source Jerrett, M., Burnett, R.T., Pope III, C.A., Ito, K., Thurston, G., Krewski, D., Shi, Y., Calle, E. and Thun, M., 2009. Long-term ozone exposure and mortality. New England Journal of Medicine, 360(11), pp.1085-1095.
-#' @return Premature mortality attributable to O3 exposure for  TM5-FASST regions for all years
+#' @return Premature mortality attributable to O3 exposure for  TM5-FASST regions for all years (# mortalties). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -948,7 +948,7 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' Produce economic damages associated with premature mortality attributable to O3 (M6M) exposure based on the IER functions from Jerret et al (2009), consistent with the GBD 2016 study. The economic valuation takes as a base value the widely accepted Value of Statistical Life (VSL) of the OECD for 2005. This value, according to the literature ranges between US$1.8 and $4.5 million. The calculations for all regions are based on the  “unit value transfer approach” which adjusts the VSL according to their GDP and GDP growth rates. (Markandya et al 2018)
 #' @source Jerrett, M., Burnett, R.T., Pope III, C.A., Ito, K., Thurston, G., Krewski, D., Shi, Y., Calle, E. and Thun, M., 2009. Long-term ozone exposure and mortality. New England Journal of Medicine, 360(11), pp.1085-1095.//// Markandya, A., Sampedro, J., Smith, S.J., Van Dingenen, R., Pizarro-Irizar, C., Arto, I. and González-Eguino, M., 2018. Health co-benefits from air pollution and mitigation costs of the Paris Agreement: a modelling study. The Lancet Planetary Health, 2(3), pp.e126-e133.
 #' @keywords module_3, VSL ,premature mortality, O3
-#' @return Economic damages associated with mortality attributable to O3 (M6M) exposure for each TM5-FASST regions for all years
+#' @return Economic damages associated with mortality attributable to O3 (M6M) exposure for each TM5-FASST regions for all years (Million$2015). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -1068,7 +1068,7 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
 #'
 #' Produce YLLs attributable to O3 (M6M) exposure. YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are based on the IER functions from Jerret et al (2009), consistent with the GBD 2016 study.
 #' @keywords module_3, YLL, O3
-#' @return YLLs attributable to O3 exposure for each TM5-FASST regions for all years
+#' @return YLLs attributable to O3 exposure for each TM5-FASST regions for all years (# YLLs). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -1173,7 +1173,7 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
 #' Produce Economic damages associated with YLLs attributable to O3 (M6M).The economic valuation takes as a base value the Value of Statistical Life Year (VSLY) for EU from Schlander et al (2017) and expands the value to other regions based on the“unit value transfer approach” which adjusts the VSLY according to their GDP and GDP growth rates. YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are  based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study.
 #' @keywords module_3, YLL, O3, VSLY
 #' @source Schlander, M., Schaefer, R. and Schwarz, O., 2017. Empirical studies on the economic value of a Statistical Life Year (VSLY) in Europe: what do they tell us?. Value in Health, 20(9), p.A666.
-#' @return Economic damages associated with YLLs attributable to O3 (M6M) exposure for each TM5-FASST regions for all years
+#' @return Economic damages associated with YLLs attributable to O3 (M6M) exposure for each TM5-FASST regions for all years (Thous$2015). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -1288,10 +1288,10 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 #' m3_get_daly_o3
 #'
 #'
-#' Produce Disability Adjusted Life Years (DALYs) attributable to O3 (M6M) exposure. See calc_daly_pm for detials on DALY-to-Mortality ratios.
+#' Produce Disability Adjusted Life Years (DALYs) attributable to O3 (M6M) exposure. See calc_daly_o3 for detials on DALY-to-Mortality ratios.
 #' @source Institute for Health Metrics and Evaluation (http://www.healthdata.org/)
 #' @keywords module_3, DALY, O3,
-#' @return Economic damages associated with YLLs attributable to O3 exposure for each TM5-FASST regions for all years
+#' @return Disability Adjusted Life Years (DALYs) attributable to O3 exposure for each TM5-FASST regions for all years (# DALYs). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
