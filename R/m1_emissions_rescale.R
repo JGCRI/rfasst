@@ -1,9 +1,9 @@
 #' m1_emissions_rescale
 #'
 #'
-#' Re-scales emissions from GCAM regions to TM5-FASST regions. The function also completes some additional transformation required such as pollutant transformation (e.g. OC to POM) or unit changes (Tg to Kg).
+#' Re-scale emissions from GCAM regions to TM5-FASST regions. The function also completes some additional transformation required such as pollutant transformation (e.g. OC to POM) or unit changes (Tg to Kg).
 #' @keywords module_1, re-scale emissions
-#' @return Emissions per TM5-FASST region for all the selected years (all_years)
+#' @return Emissions per TM5-FASST region (Kg) for all the selected years (all_years). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database

@@ -3,7 +3,7 @@
 #' Extract future agricultural production levels from GCAM
 #' @keywords module_4, agriculture, production
 #' @source GCAM
-#' @return Future agricultural production levels from GCAM for each GCAM region for all years
+#' @return Future agricultural production levels from GCAM for each GCAM region for all years (Mt). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -101,7 +101,7 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' Extract future agricultural price levels from GCAM
 #' @keywords module_4, agriculture, price
 #' @source GCAM
-#' @return Future agricultural price levels from GCAM for each GCAM region for all years
+#' @return Future agricultural price levels from GCAM for each GCAM region for all years ($1975/kg). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -193,7 +193,7 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #'
 #' Extract future agricultural revenues from GCAM
 #' @keywords module_4, agriculture, revenues
-#' @return Future agricultural revenue levels from GCAM for each GCAM region for all years
+#' @return Future agricultural revenue levels from GCAM for each GCAM region for all years (Billion$2010). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 #' @source GCAM
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
@@ -262,8 +262,7 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
       dplyr::rename(class=sector,
                     value=revenue_bil_2010usd) %>%
       dplyr::mutate(units="bil_2010usd",
-                    year=as.numeric(as.character(year))) %>%
-      dplyr::mutate(value=value*gcamdata::gdp_deflator(2010,1975))
+                    year=as.numeric(as.character(year)))
 
 
 
@@ -286,7 +285,7 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #'
 #' Produce Relative Yield Losses (RYLs) based on the AOT40 indicator for O3 exposure
 #' @keywords module_4, agriculture, RYLS, AOT40
-#' @return RYLs for each TM5-FASST regions for all years
+#' @return RYLs for each TM5-FASST regions for all years (%). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -400,7 +399,7 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #'
 #' Produce Relative Yield Losses (RYLs) based on the Mi indicator for O3 exposure
 #' @keywords module_4, agriculture, RYLS, Mi
-#' @return RYLs for each TM5-FASST regions for all years
+#' @return RYLs for each TM5-FASST regions for all years (%).  The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -515,7 +514,7 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #'
 #' Produce agricultural production losses attributable to ozone exposure for all GCAM crops. Losses have been calculated using two ozone exposure indicators: AOT40 and Mi.
 #' @keywords module_4, agriculture, O3,production losses
-#' @return Ag losses attributable to O3 for each GCAM region for all years
+#' @return Ag losses attributable to O3 for each GCAM region for all years (Mt).The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -715,7 +714,7 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #'
 #' Produce agricultural revenue losses attributable to ozone exposure for all GCAM crops. Losses have been calculated using two ozone exposure indicators: AOT40 and Mi.
 #' @keywords module_4, agriculture, O3, revenue losses
-#' @return Revenue losses attributable to O3 for each GCAM region for all years
+#' @return Revenue losses attributable to O3 for each GCAM region for all years (Billion$2010). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database

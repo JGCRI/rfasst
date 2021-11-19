@@ -3,7 +3,7 @@
 #'
 #' Produce fine particulate matter (PM2.5) concentration levels for TM5-FASST regions based on re-scaled emission pathways.
 #' @keywords module_2, concentration, PM2.5
-#' @return Produce particulate matter (PM2.5) concentration levels for each TM5-FASST regions for all years (ug/m3)
+#' @return Particulate matter (PM2.5) concentration levels for each TM5-FASST regions for all years (ug/m3).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -365,9 +365,9 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' m2_get_conc_o3
 #'
 #'
-#' Produce ozone (O3) concentration levels based on re-scaled emission pathways
+#' Produce ozone (O3) concentration levels based on re-scaled emission pathways.
 #' @keywords module_2, concentration, O3
-#' @return Produce ozone (O3) levels for each TM5-FASST regions for all years (ppb)
+#' @return Produce ozone (O3) levels for each TM5-FASST regions for all years (ppb). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -579,9 +579,9 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' m2_get_conc_m6m
 #'
 #'
-#' Produce M6M concentration levels based on re-scaled emission pathways. M6M is maximum 6-monthly running average of daily maximum hourly O3 (6mDMA1)
+#' Produce M6M concentration levels based on re-scaled emission pathways. M6M is maximum 6-monthly running average of daily maximum hourly O3 (ppb) (6mDMA1).
 #' @keywords module_2, concentration, M6M
-#' @return Produce M6M levels for each TM5-FASST regions for all years
+#' @return M6M levels for each TM5-FASST regions for all years. The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -822,7 +822,7 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #'
 #' Produce AOT40 concentration levels based on re-scaled emission pathways. AOT40 is the accumulated daytime hourly O3 concentration above a threshold of 40 ppbV (AOT40)
 #' @keywords module_2, concentration, AOT40
-#' @return Produce AOT40 levels for each TM5-FASST regions for all years
+#' @return Produce AOT40 levels for each TM5-FASST regions for all years (ppm.h). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
@@ -1221,7 +1221,7 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 #'
 #' Produce Mi concentration levels based on re-scaled emission pathways from module 1. Mi is the the seasonal mean daytime O3 concentration (M7 for the 7-hour mean and M12 for the 12-hour mean)
 #' @keywords module_2, concentration, Mi (M7 and M12)
-#' @return Produce Mi levels for each TM5-FASST regions for all years
+#' @return Produce Mi levels for each TM5-FASST regions for all years (ppb).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 #' @param db_path Path to the GCAM database
 #' @param query_path Path to the query file
 #' @param db_name Name of the GCAM database
