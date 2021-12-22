@@ -41,7 +41,8 @@ calc_daly_tot<-function(){
     tidyr::spread(measure_name,val) %>%
     dplyr::rename(country=location_name) %>%
     gcamdata::left_join_error_no_match(country_iso, by="country") %>%
-    gcamdata::left_join_error_no_match(fasst_reg %>% dplyr::rename(iso3=subRegionAlt),
+    gcamdata::left_join_error_no_match(fasst_reg %>%
+                                         dplyr::rename(iso3=subRegionAlt),
                                        by="iso3") %>%
     dplyr::group_by(fasst_region,year,cause_name) %>%
     dplyr::summarise(`DALYs (Disability-Adjusted Life Years)`=sum(`DALYs (Disability-Adjusted Life Years)`),
@@ -62,7 +63,8 @@ calc_daly_tot<-function(){
     tidyr::spread(measure_name,val) %>%
     dplyr::rename(country=location_name) %>%
     gcamdata::left_join_error_no_match(country_iso, by="country") %>%
-    gcamdata::left_join_error_no_match(fasst_reg %>% dplyr::rename(iso3=subRegionAlt),
+    gcamdata::left_join_error_no_match(fasst_reg %>%
+                                         dplyr::rename(iso3=subRegionAlt),
                                        by="iso3") %>%
     dplyr::group_by(fasst_region,year,cause_name) %>%
     dplyr::summarise(`DALYs (Disability-Adjusted Life Years)`=sum(`DALYs (Disability-Adjusted Life Years)`),
@@ -103,7 +105,8 @@ calc_daly_o3<-function(){
     tidyr::spread(measure_name,val) %>%
     dplyr::rename(country=location_name) %>%
     gcamdata::left_join_error_no_match(country_iso, by="country") %>%
-    gcamdata::left_join_error_no_match(fasst_reg %>% dplyr::rename(iso3=subRegionAlt),
+    gcamdata::left_join_error_no_match(fasst_reg %>%
+                                         dplyr::rename(iso3=subRegionAlt),
                                        by="iso3") %>%
     dplyr::group_by(fasst_region,year,cause_name) %>%
     dplyr::summarise(`DALYs (Disability-Adjusted Life Years)`=sum(`DALYs (Disability-Adjusted Life Years)`),
@@ -147,7 +150,8 @@ calc_daly_pm25<-function(){
     tidyr::spread(measure_name,val) %>%
     dplyr::rename(country=location_name) %>%
     gcamdata::left_join_error_no_match(country_iso, by="country") %>%
-    gcamdata::left_join_error_no_match(fasst_reg %>% dplyr::rename(iso3=subRegionAlt),
+    gcamdata::left_join_error_no_match(fasst_reg %>%
+                                         dplyr::rename(iso3=subRegionAlt),
                                        by="iso3") %>%
     dplyr::group_by(fasst_region,year,cause_name) %>%
     dplyr::summarise(`DALYs (Disability-Adjusted Life Years)`=sum(`DALYs (Disability-Adjusted Life Years)`),
@@ -182,10 +186,12 @@ calc_daly_pm25<-function(){
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                           ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -224,17 +230,21 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     dplyr::mutate(value_down=floor(value),
            value_up=ceiling(value)) %>%
     gcamdata::repeat_add_columns(tibble::tibble(disease=dis)) %>%
-    gcamdata::left_join_error_no_match(rr %>% dplyr::rename(value_down=pm_index), by=c("disease","value_down")) %>%
+    gcamdata::left_join_error_no_match(rr %>%
+                                         dplyr::rename(value_down=pm_index),
+                                       by=c("disease","value_down")) %>%
     dplyr::rename(med_down=med,
-           low_down=low,
-           high_down=high)  %>%
-    gcamdata::left_join_error_no_match(rr %>% dplyr::rename(value_up=pm_index), by=c("disease","value_up")) %>%
+                  low_down=low,
+                  high_down=high)  %>%
+    gcamdata::left_join_error_no_match(rr %>%
+                                         dplyr::rename(value_up=pm_index),
+                                       by=c("disease","value_up")) %>%
     dplyr::rename(med_up=med,
-           low_up=low,
-           high_up=high) %>%
+                  low_up=low,
+                  high_up=high) %>%
     dplyr::mutate(rr_med=((med_up-med_down)*(value-value_down))+med_down,
-           rr_low=((low_up-low_down)*(value-value_down))+low_down,
-           rr_high=((high_up-high_down)*(value-value_down))+high_down) %>%
+                  rr_low=((low_up-low_down)*(value-value_down))+low_down,
+                  rr_high=((high_up-high_down)*(value-value_down))+high_down) %>%
     dplyr::rename(pm_conc=value) %>%
     dplyr::select(region,year,pm_conc,disease,rr_med,rr_low,rr_high) %>%
     dplyr::mutate(year=as.character(year))
@@ -257,7 +267,8 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
                                      disease=paste0("mr_",disease)) %>%
                        tidyr::spread(disease,value) %>%
                        dplyr::filter(year %in% all_years) %>%
-                       dplyr::select(-mr_cp,-mr_resp), by=c("region","year")) %>%
+                       dplyr::select(-mr_cp,-mr_resp),
+                     by=c("region","year")) %>%
     dplyr::rename(rr_range=rr) %>%
     dplyr::mutate(mort_alri=pop_tot*perc_pop_5*mr_alri*(1-1/alri),
                   mort_copd=pop_tot*perc_pop_30*mr_copd*(1-1/copd),
@@ -272,7 +283,7 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     dplyr::select(region,year,disease,med,LB=low,UB=high) %>%
     dplyr::mutate(med=round(med,0),
                   LB=round(LB,0),
-                  UB=round(UB,0),)
+                  UB=round(UB,0))
   #------------------------------------------------------------------------------------
 
   # Write the output
@@ -310,7 +321,8 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
                 folder ="output/maps/m3/maps_pm25_mort",
                 ncol = 3,
                 legendType = "pretty",
-                background  = T)
+                background  = T,
+                animate = anim)
 
 
   }
@@ -320,7 +332,7 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   pm.mort<-dplyr::bind_rows(pm.mort.list)
 
-  invisible(pm.mort)
+  return(invisible(pm.mort))
 
 }
 
@@ -340,10 +352,12 @@ m3_get_mort_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T,map=F){
+m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",
+                                   queries,saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -379,12 +393,12 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
     dplyr::mutate(adj=(gdp_pc/gdp_eu_2005)^inc_elas_vsl) %>%
     # multiply the LB and the UB of the European VSL (in 2005$), and take the median value
     dplyr::mutate(vsl_lb=adj*vsl_eu_2005_lb,
-           vsl_ub=adj*vsl_eu_2005_ub,
-           vsl_med=(vsl_lb+vsl_ub)/2) %>%
+                  vsl_ub=adj*vsl_eu_2005_ub,
+                  vsl_med=(vsl_lb+vsl_ub)/2) %>%
     dplyr::select(scenario,region,year,vsl_med,vsl_lb,vsl_ub) %>%
     dplyr::mutate(vsl_med=vsl_med*1E-6,
-           vsl_lb=vsl_lb*1E-6,
-           vsl_ub=vsl_ub*1E-6) %>%
+                  vsl_lb=vsl_lb*1E-6,
+                  vsl_ub=vsl_ub*1E-6) %>%
     dplyr::mutate(unit="Million$2005")
 
   #------------------------------------------------------------------------------------
@@ -397,7 +411,7 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
 
     # Calculate the median damages
     dplyr::mutate(Damage_med=round(mort_med*vsl_med*gcamdata::gdp_deflator(2015,base_year = 2005),0),
-           unit="Million$2015")
+                  unit="Million$2015")
 
   #------------------------------------------------------------------------------------
   # Write the output
@@ -437,7 +451,8 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
               folder ="output/maps/m3/maps_pm25_mort_ecoloss",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
   #----------------------------------------------------------------------
@@ -445,7 +460,7 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
 
   pm.mort.EcoLoss<-dplyr::bind_rows(pm.mort.EcoLoss.list)
 
-  invisible(pm.mort.EcoLoss)
+  return(invisible(pm.mort.EcoLoss))
 
 }
 
@@ -465,10 +480,12 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                          ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -505,8 +522,8 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     gcamdata::left_join_error_no_match(yll.pm.mort, by=c("region","disease")) %>%
     dplyr::rename(yll=value) %>%
     dplyr::mutate(yll_med=med*yll,
-           yll_LB=LB*yll,
-           yll_UB=UB*yll) %>%
+                  yll_LB=LB*yll,
+                  yll_UB=UB*yll) %>%
     dplyr::select(region,year,disease,yll_med,yll_LB,yll_UB) %>%
     #only select median value
     dplyr::select(-yll_LB,-yll_UB)
@@ -556,7 +573,8 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
               folder ="output/maps/m3/maps_pm25_yll",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -565,7 +583,7 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
   pm.yll.fin<-dplyr::bind_rows(pm.yll.list)
 
-  invisible(pm.yll.fin)
+  return(invisible(pm.yll.fin))
 
 }
 
@@ -586,10 +604,12 @@ m3_get_yll_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                                  ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -675,7 +695,8 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
               folder ="output/maps/m3/maps_pm25_yll_ecoloss",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -685,7 +706,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 
   pm.yll.EcoLoss<-dplyr::bind_rows(pm.yll.EcoLoss.list)
 
-  invisible(pm.yll.EcoLoss)
+  return(invisible(pm.yll.EcoLoss))
 
 }
 
@@ -706,10 +727,12 @@ m3_get_yll_pm25_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                           ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -741,13 +764,13 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   #------------------------------------------------------------------------------------
   daly.calc.pm.adj<-tibble::as_tibble(daly_calc_pm) %>%
     dplyr::filter(year==max(year),
-           disease != "diab") %>%
+                  disease != "diab") %>%
     dplyr::select(-year) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=unique(levels(as.factor(pm.mort$year))))) %>%
     dplyr::bind_rows(tibble::as_tibble(daly_calc_pm) %>%
                        dplyr::filter(year==max(year),
-                       disease != "diab",
-                       region=="RUS") %>%
+                                     disease != "diab",
+                                     region=="RUS") %>%
                        dplyr::select(-year) %>%
                        dplyr::mutate(region="RUE") %>%
                 gcamdata::repeat_add_columns(tibble::tibble(year=unique(levels(as.factor(pm.mort$year))))))
@@ -758,8 +781,8 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     gcamdata::left_join_error_no_match(daly.calc.pm.adj, by=c("region","disease","year")) %>%
     dplyr::rename(daly=DALY_ratio) %>%
     dplyr::mutate(daly_med=med*daly,
-           daly_LB=LB*daly,
-           daly_UB=UB*daly) %>%
+                  daly_LB=LB*daly,
+                  daly_UB=UB*daly) %>%
     dplyr::select(region,year,disease,daly_med,daly_LB,daly_UB) %>%
     #only select median value
     dplyr::select(-daly_LB,-daly_UB)
@@ -810,7 +833,8 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
               folder ="output/maps/m3/maps_pm25_daly",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -819,7 +843,7 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 
   pm.daly.tot.fin<-dplyr::bind_rows(pm.daly.tot.fin.list)
 
-  invisible(pm.daly.tot.fin)
+  return(invisible(pm.daly.tot.fin))
 
 }
 
@@ -841,10 +865,12 @@ m3_get_daly_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                         ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -887,10 +913,13 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     dplyr::mutate(year=as.character(year)) %>%
     gcamdata::left_join_error_no_match(pop.all,by=c("region","year")) %>%
     dplyr::mutate(pop_af=pop_tot*1E6*perc_pop_30) %>%
-    gcamdata::left_join_error_no_match(mort.rates %>%  dplyr::filter(year>=2010) %>% dplyr::rename(mr_resp=value), by=c("region","year","disease")) %>%
+    gcamdata::left_join_error_no_match(mort.rates %>%
+                                         dplyr::filter(year>=2010) %>%
+                                         dplyr::rename(mr_resp=value),
+                                       by=c("region","year","disease")) %>%
     dplyr::mutate(adj=1-exp(-(m6m-cf_o3)*rr_resp_o3),
-           adj=dplyr::if_else(adj<0,0,adj),
-           mort_o3=round(pop_af*mr_resp*adj,0)) %>%
+                  adj=dplyr::if_else(adj<0,0,adj),
+                  mort_o3=round(pop_af*mr_resp*adj,0)) %>%
     dplyr::select(region,year,disease,mort_o3)
 
   #------------------------------------------------------------------------------------
@@ -929,7 +958,8 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
               folder ="output/maps/m3/maps_o3_mort",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
   #----------------------------------------------------------------------
@@ -937,7 +967,7 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   o3.mort<-dplyr::bind_rows(o3.mort.list)
 
-  invisible(o3.mort)
+  return(invisible(o3.mort))
 
 }
 
@@ -958,10 +988,12 @@ m3_get_mort_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,ssp="SSP2",queries,saveOutput=T,map=F){
+m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,
+                                 ssp="SSP2",queries,saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -1011,7 +1043,7 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
     dplyr::select(-scenario) %>%
     # Calculate the median damages
     dplyr::mutate(Damage_med=round(mort_o3*vsl_med*gcamdata::gdp_deflator(2015,base_year = 2005),0),
-           unit="Million$2015") %>%
+                  unit="Million$2015") %>%
     dplyr::select(region,year,disease,Damage_med,unit)
 
   #------------------------------------------------------------------------------------
@@ -1050,7 +1082,8 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
               folder ="output/maps/m3/maps_o3_mort_ecoloss",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
   #----------------------------------------------------------------------
@@ -1058,7 +1091,7 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
 
   o3.mort.EcoLoss<-dplyr::bind_rows(o3.mort.EcoLoss.list)
 
-  invisible(o3.mort.EcoLoss)
+  return(invisible(o3.mort.EcoLoss))
 
 }
 
@@ -1078,10 +1111,12 @@ m3_get_mort_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,s
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                        ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -1115,7 +1150,7 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
     dplyr::mutate(year=as.character(year)) %>%
     gcamdata::left_join_error_no_match(o3.mort, by=c("region","year")) %>%
     dplyr::mutate(yll_o3=round(value*mort_o3,0),
-           disease="resp") %>%
+                  disease="resp") %>%
     dplyr::select(region,year,disease,yll_o3)
 
   #------------------------------------------------------------------------------------
@@ -1153,7 +1188,8 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
               folder ="output/maps/m3/maps_o3_yll",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
   #----------------------------------------------------------------------
@@ -1161,7 +1197,7 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
 
   o3.yll<-dplyr::bind_rows(o3.yll.list)
 
-  invisible(o3.yll)
+  return(invisible(o3.yll))
 
 
 }
@@ -1183,10 +1219,12 @@ m3_get_yll_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ss
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                                ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -1231,7 +1269,7 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
     gcamdata::left_join_error_no_match(vsly, by=c("region","year")) %>%
     dplyr::select(-scenario) %>%
     dplyr::mutate(Damage_med=round(yll_o3*vsly*gcamdata::gdp_deflator(2015,base_year = 2005),0),
-           unit="Thous$2015") %>%
+                  unit="Thous$2015") %>%
     dplyr::select(region,year,disease,Damage_med,unit)
 
   #------------------------------------------------------------------------------------
@@ -1271,7 +1309,8 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
               folder ="output/maps/m3/maps_o3_yll_ecoloss",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -1280,7 +1319,7 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 
   o3.yll.EcoLoss<-dplyr::bind_rows(o3.yll.EcoLoss.list)
 
-  invisible(o3.yll.EcoLoss)
+  return(invisible(o3.yll.EcoLoss))
 
 }
 
@@ -1301,10 +1340,12 @@ m3_get_yll_o3_ecoloss<-function(db_path,query_path,db_name,prj_name,scen_name,qu
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,ssp="SSP2",saveOutput=T,map=F){
+m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                         ssp="SSP2",saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -1340,7 +1381,7 @@ m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     gcamdata::repeat_add_columns(tibble::tibble(year=unique(levels(as.factor(o3.mort$year))))) %>%
     dplyr::bind_rows(tibble::as_tibble(daly_calc_o3) %>%
                        dplyr::filter(year==max(year),
-                       region=="RUS") %>%
+                                     region=="RUS") %>%
                        dplyr::select(-year) %>%
                        dplyr::mutate(region="RUE") %>%
                 gcamdata::repeat_add_columns(tibble::tibble(year=unique(levels(as.factor(o3.mort$year)))))) %>%
@@ -1402,7 +1443,8 @@ m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
               folder ="output/maps/m3/maps_o3_daly",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -1411,7 +1453,7 @@ m3_get_daly_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   o3.daly.tot.fin<-dplyr::bind_rows(o3.daly.tot.fin.list)
 
-  invisible(o3.daly.tot.fin)
+  return(invisible(o3.daly.tot.fin))
 
 }
 

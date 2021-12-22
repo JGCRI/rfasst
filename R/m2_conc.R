@@ -12,10 +12,12 @@
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                           saveOutput=T,map=F, anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -46,13 +48,13 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   base_conc<-raw.base_conc %>%
     tidyr::gather(pollutant,value,-COUNTRY,-AREA_M2,-POP) %>%
     dplyr::mutate(units=dplyr::if_else(pollutant %in% c("O3","M6M","M3M"),"ppbv","ug/m3"),
-           year="base") %>%
+                  year="base") %>%
     dplyr::rename(region=COUNTRY)
 
   base_em<-raw.base_em %>%
     tidyr::gather(pollutant,value,-COUNTRY) %>%
     dplyr::mutate(units="kt",
-           year="base")
+                  year="base")
 
 
   # Then, we load all the SRC matrix for PM2.5, O3 and the specific measures: AOT, Mi and M6M
@@ -88,17 +90,19 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     gcamdata::repeat_add_columns(tibble::tibble(base_year=all_years)) %>%
     dplyr::select(-year) %>%
     dplyr::rename(year=base_year,
-           region=COUNTRY) %>%
+                  region=COUNTRY) %>%
     dplyr::filter(region != "*TOTAL*") %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
-    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>% dplyr::mutate(year=as.factor(year)),by=c("region","year","pollutant")) %>%
+    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>%
+                                         dplyr::mutate(year=as.factor(year)),
+                                       by=c("region","year","pollutant")) %>%
     dplyr::mutate(value_div=value.x)
 
   # Calculated the normalized CH4 HTAP change
   delta_em_ch4_htap<-delta_em %>%
     dplyr::filter(pollutant=="CH4") %>%
     dplyr::mutate(pollutant="CH4_HTAP",
-           value_div=ch4_htap_pert)
+                  value_div=ch4_htap_pert)
 
   delta_em<-delta_em %>%
     dplyr::bind_rows(delta_em_ch4_htap) %>%
@@ -107,7 +111,7 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     dplyr::mutate(delta_em=dplyr::if_else(pollutant=="PM25",0,delta_em)) %>%
     dplyr::arrange(region) %>%
     dplyr::mutate(delta_em = replace(delta_em, is.nan(delta_em), 0),
-           delta_em = replace(delta_em, !is.finite(delta_em), 0),) %>%
+                  delta_em = replace(delta_em, !is.finite(delta_em), 0),) %>%
     dplyr::mutate(region=gsub("AIR","Air",region),
            region=gsub("SHIP","Ship",region))  %>%
     #not consider air and ship as in delta_Em_SR in the excel
@@ -123,17 +127,19 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(no3_so2 %>%
-                  tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2")) %>%
+                       tidyr::gather(receptor,value,-COUNTRY) %>%
+                       dplyr::mutate(pollutant="SO2")) %>%
     dplyr::bind_rows(no3_nh3 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                dplyr::mutate(pollutant="NH3")) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="NH3")) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","NH3")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","NH3")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_no3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_no3=sum(delta_no3)) %>%
@@ -148,17 +154,19 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(so4_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                dplyr::mutate(pollutant="SO2")) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2")) %>%
     dplyr::bind_rows(so4_nh3 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                dplyr::mutate(pollutant="NH3")) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="NH3")) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","NH3")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","NH3")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_so4=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_so4=sum(delta_so4)) %>%
@@ -173,17 +181,19 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(nh4_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2")) %>%
+                       tidyr::gather(receptor,value,-COUNTRY) %>%
+                       dplyr::mutate(pollutant="SO2")) %>%
     dplyr::bind_rows(nh4_nh3 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="NH3")) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="NH3")) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","NH3")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","NH3")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_nh4=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_nh4=sum(delta_nh4)) %>%
@@ -202,15 +212,17 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR")) %>%
-    #left_join(delta_em %>% filter(pollutant %in% c("NOX","SO2","NH3")),by=c("pollutant","year","region"))
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("BC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("BC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_bc=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_bc=sum(delta_bc)) %>%
     dplyr::ungroup() %>%
     dplyr::rename(region=receptor) %>%
     dplyr::filter(region %!in% c("Air","Ship","Ocean","EUR")) %>%
-    gcamdata::left_join_error_no_match(tibble::as_tibble(urb_incr) %>% dplyr::select(region,BC),by="region") %>%
+    gcamdata::left_join_error_no_match(tibble::as_tibble(urb_incr) %>%
+                                         dplyr::select(region,BC),by="region") %>%
     dplyr::mutate(delta_bc=delta_bc*BC) %>%
     dplyr::select(-BC) %>%
     dplyr::rename(value=delta_bc) %>%
@@ -225,14 +237,18 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("OM")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("OM")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_pom=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_pom=sum(delta_pom)) %>%
     dplyr::ungroup() %>%
     dplyr::rename(region=receptor) %>%
     dplyr::filter(region %!in% c("Air","Ship","Ocean","EUR")) %>%
-    gcamdata::left_join_error_no_match(tibble::as_tibble(urb_incr) %>% dplyr::select(region,POM),by="region") %>%
+    gcamdata::left_join_error_no_match(tibble::as_tibble(urb_incr) %>%
+                                         dplyr::select(region,POM),
+                                       by="region") %>%
     dplyr::mutate(delta_pom=delta_pom*POM) %>%
     dplyr::select(-POM) %>%
     dplyr::rename(value=delta_pom) %>%
@@ -266,7 +282,9 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   #----------------------------------------------------------------------
   # PM2.5 disaggregated by particulate type
   pm25<-tibble::as_tibble(delta_pm25) %>%
-    gcamdata::left_join_error_no_match(base_conc %>% dplyr::select(-AREA_M2,-POP,-year),by=c("region","pollutant")) %>%
+    gcamdata::left_join_error_no_match(base_conc %>%
+                                         dplyr::select(-AREA_M2,-POP,-year),
+                                       by=c("region","pollutant")) %>%
     dplyr::mutate(value.y=as.numeric(value.y)) %>%
     dplyr::mutate(value=value.x+value.y) %>%
     dplyr::select(-value.x,-value.y) %>%
@@ -277,8 +295,8 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   # PM2.5 aggregated to primary, secondary, and natural
   pm25_pr_sec<-pm25 %>%
     dplyr::mutate(type=dplyr::if_else(pollutant %in% c("NO3","SO4","NH4"),"SEC","a"),
-           type=dplyr::if_else(pollutant %in% c("BC","POM"),"PRIM",type),
-           type=dplyr::if_else(pollutant %in% c("DUST","SS"),"NAT",type)) %>%
+                  type=dplyr::if_else(pollutant %in% c("BC","POM"),"PRIM",type),
+                  type=dplyr::if_else(pollutant %in% c("DUST","SS"),"NAT",type)) %>%
     dplyr::group_by(region,year,units,type) %>%
     dplyr::summarise(value=sum(value)) %>%
     dplyr::ungroup()
@@ -348,7 +366,8 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
               shape = fasstSubset,
               folder = "output/maps/m2/maps_pm2.5",
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -356,7 +375,7 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   #----------------------------------------------------------------------
   pm<-dplyr::bind_rows(pm25.agg.list)
 
-  invisible(pm)
+  return(invisible(pm))
 
 
  }
@@ -377,10 +396,12 @@ m2_get_conc_pm25<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ch4_o3  Includes the CH4 effect on O3 based on Fiore et al (2008).By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,ch4_o3=T,map=F){
+m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                         saveOutput=T,ch4_o3=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -427,7 +448,9 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
                   region=COUNTRY) %>%
     dplyr::filter(region != "*TOTAL*") %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
-    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>% dplyr::mutate(year=as.factor(year)),by=c("region","year","pollutant")) %>%
+    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>%
+                                         dplyr::mutate(year=as.factor(year)),
+                                       by=c("region","year","pollutant")) %>%
     dplyr::mutate(value_div=value.x)
 
   # Calculated the normalized CH4 HTAP change
@@ -467,19 +490,21 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(o3_so2 %>%
-                dplyr::filter(COUNTRY %!in% c("Ocean","EUR")) %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      dplyr::filter(COUNTRY %!in% c("Ocean","EUR")) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(o3_nmvoc %>%
                        dplyr::filter(COUNTRY %!in% c("Ocean","EUR")) %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                       tidyr::gather(receptor,value,-COUNTRY) %>%
+                       dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -498,7 +523,9 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
    gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
    dplyr::mutate(year=as.factor(as.character(year))) %>%
    dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-   gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+   gcamdata::left_join_error_no_match(delta_em %>%
+                                        dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                      by=c("pollutant","year","region")) %>%
    dplyr::mutate(delta_o3=value*delta_em) %>%
    dplyr::group_by(receptor,year) %>%
    dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -523,7 +550,9 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
   #----------------------------------------------------------------------
 
   conc_o3<-tibble::as_tibble(delta_o3) %>%
-    gcamdata::left_join_error_no_match(base_conc %>% dplyr::select(-AREA_M2,-POP,-year),by=c("region","pollutant")) %>%
+    gcamdata::left_join_error_no_match(base_conc %>%
+                                         dplyr::select(-AREA_M2,-POP,-year),
+                                       by=c("region","pollutant")) %>%
     dplyr::mutate(value.y=as.numeric(value.y)) %>%
     dplyr::mutate(value=value.x+value.y) %>%
     dplyr::select(-value.x,-value.y) %>%
@@ -561,7 +590,8 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
               shape = fasstSubset,
               folder = "output/maps/m2/maps_o3",
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
 
@@ -570,7 +600,7 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   o3<-dplyr::bind_rows(o3.list)
 
-  invisible(o3)
+  return(invisible(o3))
 
 
 }
@@ -590,11 +620,13 @@ m2_get_conc_o3<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
 
-m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                          saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -641,7 +673,9 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
                   region=COUNTRY) %>%
     dplyr::filter(region != "*TOTAL*") %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
-    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>% dplyr::mutate(year=as.factor(year)),by=c("region","year","pollutant")) %>%
+    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>%
+                                         dplyr::mutate(year=as.factor(year)),
+                                       by=c("region","year","pollutant")) %>%
     dplyr::mutate(value_div=value.x)
 
   # Calculated the normalized CH4 HTAP change
@@ -685,7 +719,9 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -704,7 +740,9 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("SO2")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("SO2")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -723,7 +761,9 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -742,7 +782,9 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -763,7 +805,9 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     dplyr::group_by(region,pollutant,year) %>%
     dplyr::summarise(value=sum(value)) %>%
     dplyr::ungroup() %>%
-    gcamdata::left_join_error_no_match(base_conc %>% dplyr::select(-AREA_M2,-POP,-year),by=c("region","pollutant")) %>%
+    gcamdata::left_join_error_no_match(base_conc %>%
+                                         dplyr::select(-AREA_M2,-POP,-year),
+                                       by=c("region","pollutant")) %>%
     dplyr::mutate(value.y=as.numeric(value.y)) %>%
     dplyr::mutate(value=value.x+value.y) %>%
     dplyr::select(-value.x,-value.y) %>%
@@ -802,7 +846,8 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
               shape = fasstSubset,
               folder = "output/maps/m2/maps_m6m",
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
   }
   #----------------------------------------------------------------------
@@ -811,7 +856,7 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 
   m6m<-dplyr::bind_rows(m6m.list)
 
-  invisible(m6m)
+  return(invisible(m6m))
 
 
 }
@@ -831,11 +876,13 @@ m2_get_conc_m6m<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
 
-m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                            saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -884,7 +931,9 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
                   region=COUNTRY) %>%
     dplyr::filter(region != "*TOTAL*") %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
-    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>% dplyr::mutate(year=as.factor(year)),by=c("region","year","pollutant")) %>%
+    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>%
+                                         dplyr::mutate(year=as.factor(year)),
+                                       by=c("region","year","pollutant")) %>%
     dplyr::mutate(value_div=value.x)
 
   # Calculated the normalized CH4 HTAP change
@@ -946,17 +995,19 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(wheat_aot40_so2 %>%
-                  tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(wheat_aot40_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -975,7 +1026,9 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -998,17 +1051,19 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(rice_aot40_so2 %>%
-                  tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                        tidyr::gather(receptor,value,-COUNTRY) %>%
+                        dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(rice_aot40_nmvoc %>%
-                  tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                        tidyr::gather(receptor,value,-COUNTRY) %>%
+                        dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1027,7 +1082,9 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1045,21 +1102,23 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
   #----------------------------------------------------------------------
 
   # Maize
-  delta_aot40_maize_noch4<-tibble::as_tibble (maize_aot40_nox) %>%
+  delta_aot40_maize_noch4<-tibble::as_tibble(maize_aot40_nox) %>%
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(maize_aot40_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(maize_aot40_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1078,7 +1137,9 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1100,17 +1161,19 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(soy_aot40_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(soy_aot40_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1129,7 +1192,9 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1139,7 +1204,7 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
     dplyr::rename(value=delta_o3) %>%
     dplyr::mutate(pollutant="AOT_SOY")
 
-  delta_aot40_soy<-dplyr::bind_rows(delta_aot40_soy_noch4,delta_aot40_soy_ch4)%>%
+  delta_aot40_soy<-dplyr::bind_rows(delta_aot40_soy_noch4,delta_aot40_soy_ch4) %>%
     dplyr::group_by(region,year,pollutant) %>%
     dplyr::summarise(value=sum(value)) %>%
     dplyr::ungroup()
@@ -1151,7 +1216,9 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 
     # AOT (base+delta)
   aot<-tibble::as_tibble(delta_aot) %>%
-    gcamdata::left_join_error_no_match(base_aot %>% dplyr::select(-year),by=c("region","pollutant")) %>%
+    gcamdata::left_join_error_no_match(base_aot %>%
+                                         dplyr::select(-year),
+                                       by=c("region","pollutant")) %>%
     dplyr::mutate(value.y=as.numeric(value.y)) %>%
     dplyr::mutate(value=value.x+value.y) %>%
     dplyr::select(-value.x,-value.y) %>%
@@ -1197,7 +1264,8 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
               shape = fasstSubset,
               folder =paste0("output/maps/m2/maps_aot40/maps_aot40_",unique(df$crop)),
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
    }
 
@@ -1210,7 +1278,7 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 
   aot40<-dplyr::bind_rows(aot.list)
 
-  invisible(aot40)
+  return(invisible(aot40))
 
 }
 
@@ -1230,11 +1298,13 @@ m2_get_conc_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,querie
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
 
-m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                         saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -1283,7 +1353,9 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
                   region=COUNTRY) %>%
     dplyr::filter(region != "*TOTAL*") %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
-    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>% dplyr::mutate(year=as.factor(year)),by=c("region","year","pollutant")) %>%
+    gcamdata::left_join_error_no_match(dplyr::bind_rows(em.list) %>%
+                                         dplyr::mutate(year=as.factor(year)),
+                                       by=c("region","year","pollutant")) %>%
     dplyr::mutate(value_div=value.x)
 
   # Calculated the normalized CH4 HTAP change
@@ -1344,17 +1416,19 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(wheat_mi_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(wheat_mi_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1373,7 +1447,9 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1395,17 +1471,19 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(rice_mi_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(rice_mi_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1424,7 +1502,9 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1445,17 +1525,19 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(maize_mi_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(maize_mi_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1474,7 +1556,9 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1495,17 +1579,19 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     tidyr::gather(receptor,value,-COUNTRY) %>%
     dplyr::mutate(pollutant="NOX") %>%
     dplyr::bind_rows(soy_mi_so2 %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="SO2",value=as.numeric(value))) %>%
     dplyr::bind_rows(soy_mi_nmvoc %>%
-                tidyr::gather(receptor,value,-COUNTRY) %>%
-                  dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
+                      tidyr::gather(receptor,value,-COUNTRY) %>%
+                      dplyr::mutate(pollutant="VOC",value=as.numeric(value))) %>%
     dplyr::rename(region=COUNTRY) %>%
     dplyr::arrange(region) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("NOX","SO2","VOC")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em*5) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1524,7 +1610,9 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::mutate(year=as.factor(as.character(year))) %>%
     dplyr::filter(region %!in% c("Ocean","EUR","ARCTIC_LAND","ARCTIC_SEA")) %>%
-    gcamdata::left_join_error_no_match(delta_em %>% dplyr::filter(pollutant %in% c("CH4_HTAP")),by=c("pollutant","year","region")) %>%
+    gcamdata::left_join_error_no_match(delta_em %>%
+                                         dplyr::filter(pollutant %in% c("CH4_HTAP")),
+                                       by=c("pollutant","year","region")) %>%
     dplyr::mutate(delta_o3=value*delta_em) %>%
     dplyr::group_by(receptor,year) %>%
     dplyr::summarise(delta_o3=sum(delta_o3)) %>%
@@ -1547,7 +1635,9 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   # Mi (base+delta)
   mi<-tibble::as_tibble(delta_mi) %>%
-    gcamdata::left_join_error_no_match(base_mi %>% dplyr::select(-year),by=c("region","pollutant")) %>%
+    gcamdata::left_join_error_no_match(base_mi %>%
+                                         dplyr::select(-year),
+                                       by=c("region","pollutant")) %>%
     dplyr::mutate(value.y=as.numeric(value.y)) %>%
     dplyr::mutate(value=value.x+value.y) %>%
     dplyr::select(-value.x,-value.y) %>%
@@ -1594,7 +1684,8 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
                 shape = fasstSubset,
                 folder =paste0("output/maps/m2/maps_Mi/maps_Mi_",unique(df$crop)),
                 legendType = "pretty",
-                background  = T)
+                background  = T,
+                animate = anim)
 
     }
 
@@ -1607,7 +1698,7 @@ m2_get_conc_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 
   mi<-dplyr::bind_rows(mi.list)
 
-  invisible(mi)
+  return(invisible(mi))
 
 
 }
