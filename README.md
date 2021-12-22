@@ -100,6 +100,7 @@ In addition, the package includes some default mapping files and default values,
 - GCAM crop categories to be included in the analysis
 - Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS)
 - Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts.
+- Baseline moratlity rates.
 - Median values for the health impact economic assessment (Value of Statistical Life)
 - Other
 
