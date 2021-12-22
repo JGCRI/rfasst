@@ -15,7 +15,8 @@ calc_price_gcam(
   scen_name,
   queries,
   saveOutput = T,
-  map = F
+  map = F,
+  anim = T
 )
 }
 \arguments{
@@ -34,9 +35,11 @@ calc_price_gcam(
 \item{saveOutput}{Writes the emission files.By default=T}
 
 \item{map}{Produce the maps. By default=F}
+
+\item{anim}{If set to T, produces multi-year animations. By default=T}
 }
 \value{
-Future agricultural price levels from GCAM for each GCAM region for all years
+Future agricultural price levels from GCAM for each GCAM region for all years ($1975/kg). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 }
 \description{
 Extract future agricultural price levels from GCAM

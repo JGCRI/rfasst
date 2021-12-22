@@ -12,7 +12,8 @@ m2_get_conc_pm25(
   scen_name,
   queries,
   saveOutput = T,
-  map = F
+  map = F,
+  anim = T
 )
 }
 \arguments{
@@ -31,9 +32,11 @@ m2_get_conc_pm25(
 \item{saveOutput}{Writes the files.By default=T}
 
 \item{map}{Produce the maps. By default=F}
+
+\item{anim}{If set to T, produces multi-year animations. By default=T}
 }
 \value{
-Produce particulate matter (PM2.5) concentration levels for each TM5-FASST regions for all years (ug/m3)
+Particulate matter (PM2.5) concentration levels for each TM5-FASST regions for all years (ug/m3).The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 }
 \description{
 Produce fine particulate matter (PM2.5) concentration levels for TM5-FASST regions based on re-scaled emission pathways.

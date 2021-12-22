@@ -12,10 +12,12 @@
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                         saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -41,13 +43,13 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
   prod <- rgcam::getQuery(prj,"ag production by crop type") %>%
     dplyr::rename(unit = Units) %>%
     dplyr::mutate(variable="prod_ag",
-           sector = gsub(" ", "_", sector),
-           sector = gsub("\\-", "_", sector),
-           unit = sub("\\$", "usd", unit),
-           unit = gsub(" ", "_", unit),
-           unit = gsub("\\-", "_", unit),
-           unit = gsub("/", "_", unit),
-           unit = sub("Million", "mil", unit)) %>%
+                  sector = gsub(" ", "_", sector),
+                  sector = gsub("\\-", "_", sector),
+                  unit = sub("\\$", "usd", unit),
+                  unit = gsub(" ", "_", unit),
+                  unit = gsub("\\-", "_", unit),
+                  unit = gsub("/", "_", unit),
+                  unit = sub("Million", "mil", unit)) %>%
     dplyr::select(scenario, region, variable, sector, unit, year, value) %>%
     dplyr::filter(unit=="Mt", year %in% all_years) %>%
     dplyr::mutate(sector = gsub("Root_Tuber", "RootTuber", sector)) %>%
@@ -58,7 +60,7 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
     tidyr::spread(year, prod_ag) %>%
     tidyr::gather(year, prod, -scenario, -region, -sector) %>%
     dplyr::mutate(year = as.numeric(substr(year, 2,5)),
-           unit = "Mt") %>%
+                  unit = "Mt") %>%
     dplyr::arrange(scenario, region, sector, year)
 
 
@@ -86,12 +88,12 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
               ncol = 2,
               shape = rmap::mapGCAMReg32,
               legendType = "pretty",
-              background  = T)
-
+              background  = T,
+              animate = anim)
 
   }
 
-  invisible(prod)
+  return(invisible(prod))
 
 }
 
@@ -110,10 +112,12 @@ calc_prod_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,s
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                          saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -139,13 +143,13 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
   price<-rgcam::getQuery(prj,"Ag Commodity Prices") %>%
     dplyr::rename(unit = Units) %>%
     dplyr::mutate(variable = "price_ag",
-           sector = gsub(" ", "_", sector),
-           sector = gsub("\\-", "_", sector),
-           unit = sub("\\$", "usd", unit),
-           unit = gsub(" ", "_", unit),
-           unit = gsub("\\-", "_", unit),
-           unit = gsub("/", "_", unit),
-           unit = sub("Million", "mil", unit)) %>%
+                  sector = gsub(" ", "_", sector),
+                  sector = gsub("\\-", "_", sector),
+                  unit = sub("\\$", "usd", unit),
+                  unit = gsub(" ", "_", unit),
+                  unit = gsub("\\-", "_", unit),
+                  unit = gsub("/", "_", unit),
+                  unit = sub("Million", "mil", unit)) %>%
     dplyr::select(scenario, region, variable, sector, unit, year, value) %>%
     dplyr::filter(year %in% all_years) %>%
     dplyr::mutate(sector = gsub("Root_Tuber", "RootTuber", sector)) %>%
@@ -180,11 +184,12 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
               shape = rmap::mapGCAMReg32,
               ncol = 2,
               legendType = "pretty",
-              background  = T)
-
+              background  = T,
+              animate = anim)
 
   }
-  invisible(price)
+
+  return(invisible(price))
 
 }
 
@@ -203,10 +208,12 @@ calc_price_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                        saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -271,12 +278,13 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
               shape = rmap::mapGCAMReg32,
               ncol = 2,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
 
   }
 
-  invisible(rev)
+  return(invisible(rev))
 
 }
 
@@ -294,10 +302,12 @@ calc_rev_gcam<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                           saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -382,14 +392,13 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
               folder ="output/maps/m4/maps_ryl_aot40",
               ncol = 2,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
 
   }
 
-  #------------------------------------------------------------------------------------
-  #------------------------------------------------------------------------------------
-  invisible(ryl.aot.40.fin)
+  return(invisible(ryl.aot.40.fin))
 
 }
 
@@ -408,10 +417,12 @@ m4_get_ryl_aot40<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                        saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -449,7 +460,7 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
     df<-tibble::as_tibble(as.data.frame(df)) %>%
       gcamdata::left_join_error_no_match(ryl.coef.mi,by="pollutant") %>%
       dplyr::mutate(ryl_mi=1-exp(-((value/a)^b))/exp(-((coef/a)^b)),
-             ryl_mi=dplyr::if_else(ryl_mi<0,0,ryl_mi))
+                    ryl_mi=dplyr::if_else(ryl_mi<0,0,ryl_mi))
 
     return(df)
   }
@@ -499,14 +510,12 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
               folder ="output/maps/m4/maps_ryl_mi",
               ncol = 2,
               legendType = "pretty",
-              background  = T)
-
+              background  = T,
+              animate = anim)
 
   }
 
-  #------------------------------------------------------------------------------------
-  #------------------------------------------------------------------------------------
-  invisible(ryl.mi.fin)
+  return(invisible(ryl.mi.fin))
 
 }
 
@@ -523,10 +532,12 @@ m4_get_ryl_mi<-function(db_path,query_path,db_name,prj_name,scen_name,queries,sa
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                           saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -561,26 +572,28 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     #------------------------------------------------------------------------------------
   ryl.fin<-ryl.aot.40.fin %>%
     dplyr::rename(ryl_aot40=value,
-           crop=pollutant) %>%
+                  crop=pollutant) %>%
     dplyr::mutate(crop=dplyr::if_else(crop=="AOT_MAIZE","maize",crop),
-           crop=dplyr::if_else(crop=="AOT_RICE","rice",crop),
-           crop=dplyr::if_else(crop=="AOT_SOY","soybean",crop),
-           crop=dplyr::if_else(crop=="AOT_WHEAT","wheat",crop)) %>%
+                  crop=dplyr::if_else(crop=="AOT_RICE","rice",crop),
+                  crop=dplyr::if_else(crop=="AOT_SOY","soybean",crop),
+                  crop=dplyr::if_else(crop=="AOT_WHEAT","wheat",crop)) %>%
     gcamdata::left_join_error_no_match(ryl.mi.fin %>%
                                          dplyr::rename(ryl_mi=value,
-                                      crop=pollutant) %>%
+                                                       crop=pollutant) %>%
                                         dplyr::mutate(crop=dplyr::if_else(crop=="M_MAIZE","maize",crop),
-                                      crop=dplyr::if_else(crop=="M_RICE","rice",crop),
-                                      crop=dplyr::if_else(crop=="M_SOY","soybean",crop),
-                                      crop=dplyr::if_else(crop=="M_WHEAT","wheat",crop)),
-                             by=c("region","year","crop")) %>%
+                                                      crop=dplyr::if_else(crop=="M_RICE","rice",crop),
+                                                      crop=dplyr::if_else(crop=="M_SOY","soybean",crop),
+                                                      crop=dplyr::if_else(crop=="M_WHEAT","wheat",crop)),
+                                       by=c("region","year","crop")) %>%
     dplyr::select(-unit.x,-unit.y)
 
   #------------------------------------------------------------------------------------
   #  downscale the values to country level
   harv<-tibble::as_tibble(d.ha) %>%
-    dplyr::left_join(Regions %>% dplyr::rename(iso=ISO3) %>% dplyr::mutate(iso=tolower(iso))
-              ,by="iso") %>%
+    dplyr::left_join(Regions %>%
+                       dplyr::rename(iso=ISO3) %>%
+                       dplyr::mutate(iso=tolower(iso)),
+                     by="iso") %>%
     dplyr::filter(complete.cases(.)) %>%
     dplyr::rename(`GCAM region`=`GCAM Region`) %>%
     dplyr::select(crop,iso,harvested.area,`FASST region`,`GCAM region`) %>%
@@ -606,30 +619,32 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
     gcamdata::left_join_error_no_match(perc_GCAM, by=c("CROP","GCAM region")) %>%
     gcamdata::left_join_error_no_match(perc_FASST, by=c("CROP","FASST region")) %>%
     dplyr::mutate(perc_GCAM=harvested.area/tot_area_GCAM,
-           perc_FASST=harvested.area/tot_area_FASST ) %>%
+                  perc_FASST=harvested.area/tot_area_FASST ) %>%
     dplyr::arrange(`FASST region`) %>%
     dplyr::filter(CROP %in% c("maize","rice","soybean","wheat")) %>%
     dplyr::select(-tot_area_FASST,-tot_area_GCAM) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::rename(crop=CROP) %>%
-    gcamdata::left_join_error_no_match(ryl.fin %>% dplyr::rename(`FASST region`=region) %>% dplyr::mutate(year=as.character(year))
-                             ,by=c("FASST region","year","crop")) %>%
+    gcamdata::left_join_error_no_match(ryl.fin %>%
+                                         dplyr::rename(`FASST region`=region) %>%
+                                         dplyr::mutate(year=as.character(year)),
+                                       by=c("FASST region","year","crop")) %>%
     dplyr::mutate(country_ryl_aot40=ryl_aot40,
-           country_ryl_mi=ryl_mi) %>%
+                  country_ryl_mi=ryl_mi) %>%
     dplyr::mutate(adj_country_ryl_aot40=country_ryl_aot40*perc_GCAM,
-           adj_country_ryl_mi=country_ryl_mi*perc_GCAM) %>%
+                  adj_country_ryl_mi=country_ryl_mi*perc_GCAM) %>%
     dplyr::group_by(crop,`GCAM region`,year) %>%
     dplyr::summarise(ryl_aot40=sum(adj_country_ryl_aot40),
-              ryl_mi=sum(adj_country_ryl_mi)) %>%
+                    ryl_mi=sum(adj_country_ryl_mi)) %>%
     dplyr::ungroup() %>%
     dplyr::rename(GCAM_region_name=`GCAM region`) %>%
     dplyr::left_join(d.weight.gcam,by=c("GCAM_region_name","crop")) %>%
     dplyr::mutate(ryl_aot40 = ryl_aot40 * weight,
-           ryl_mi = ryl_mi * weight) %>%
+                  ryl_mi = ryl_mi * weight) %>%
     dplyr::select(-crop,-weight) %>%
     dplyr::group_by(GCAM_region_name, GCAM_commod, year) %>%
     dplyr::summarise(ryl_aot40 = sum(ryl_aot40, na.rm = T),
-              ryl_mi = sum(ryl_mi, na.rm = T),) %>%
+                     ryl_mi = sum(ryl_mi, na.rm = T),) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(GCAM_commod=dplyr::if_else(GCAM_commod=="Root_Tuber","RootTuber",as.character(GCAM_commod))) %>%
     dplyr::filter(GCAM_commod %in% CROP_ANALYSIS)
@@ -646,7 +661,7 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
                                    dplyr::rename(region=GCAM_region_name,
                                    sector=GCAM_commod) %>% dplyr::mutate(year=as.numeric(year)),prod %>%
                                    dplyr::select(region,sector,year),
-                          by = c("region", "sector", "year"))
+                                 by = c("region", "sector", "year"))
 
   #------------------------------------------------------------------------------------
 
@@ -654,10 +669,11 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   # Production losses:
   prod.loss<- prod %>%
     # Using left_join because of the places with no production
-    dplyr::left_join(dam %>% dplyr::rename(region=GCAM_region_name,sector=GCAM_commod) %>% dplyr::mutate(year=as.numeric(year)),
-              by = c("region", "sector", "year")) %>%
+    dplyr::left_join(dam %>%
+                       dplyr::rename(region=GCAM_region_name,sector=GCAM_commod) %>% dplyr::mutate(year=as.numeric(year)),
+                     by = c("region", "sector", "year")) %>%
     dplyr::mutate(prod_loss_aot40=prod*ryl_aot40,
-           prod_loss_mi=prod*ryl_mi) %>%
+                  prod_loss_mi=prod*ryl_mi) %>%
     dplyr::select(scenario,region,sector,year,prod_loss_aot40,prod_loss_mi,unit) %>%
     dplyr::rename(crop=sector)
 
@@ -696,7 +712,8 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
               shape = rmap::mapGCAMReg32,
               ncol = 4,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
 
 
   }
@@ -704,7 +721,7 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
   #------------------------------------------------------------------------------------
   prod.loss<-dplyr::bind_rows(prod.loss.list)
 
-  invisible(prod.loss)
+  return(invisible(prod.loss))
 
 }
 
@@ -723,10 +740,12 @@ m4_get_prod_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files.By default=T
 #' @param map Produce the maps. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                          saveOutput=T,map=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -812,8 +831,9 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
     dplyr::select(-tot_area_FASST,-tot_area_GCAM) %>%
     gcamdata::repeat_add_columns(tibble::tibble(year=all_years)) %>%
     dplyr::rename(crop=CROP) %>%
-    gcamdata::left_join_error_no_match(ryl.fin %>% dplyr::rename(`FASST region`=region) %>% dplyr::mutate(year=as.character(year))
-                                       ,by=c("FASST region","year","crop")) %>%
+    gcamdata::left_join_error_no_match(ryl.fin %>% dplyr::rename(`FASST region`=region) %>%
+                                         dplyr::mutate(year=as.character(year)),
+                                       by=c("FASST region","year","crop")) %>%
     dplyr::mutate(country_ryl_aot40=ryl_aot40,
                   country_ryl_mi=ryl_mi) %>%
     dplyr::mutate(adj_country_ryl_aot40=country_ryl_aot40*perc_GCAM,
@@ -838,11 +858,12 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
   # Revenue losses:
   rev.loss<- rev %>%
     # Using left_join because of the places with no production
-    dplyr::left_join(dam %>% dplyr::rename(region=GCAM_region_name,sector=GCAM_commod) %>% dplyr::mutate(year=as.numeric(year)),
-              by = c("region", "sector", "year")) %>%
+    dplyr::left_join(dam %>% dplyr::rename(region=GCAM_region_name,sector=GCAM_commod) %>%
+                       dplyr::mutate(year=as.numeric(year)),
+                     by = c("region", "sector", "year")) %>%
     dplyr::rename(revenue=revenue_bil_2010usd) %>%
     dplyr::mutate(rev_loss_aot40=revenue*ryl_aot40,
-           rev_loss_mi=revenue*ryl_mi) %>%
+                  rev_loss_mi=revenue*ryl_mi) %>%
     dplyr::select(scenario,region,sector,year,rev_loss_aot40,rev_loss_mi,unit) %>%
     dplyr::rename(crop=sector)
 
@@ -881,16 +902,14 @@ m4_get_rev_loss<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
               shape = rmap::mapGCAMReg32,
               ncol = 4,
               legendType = "pretty",
-              background  = T)
-
+              background  = T,
+              animate = anim)
 
   }
 
-  #------------------------------------------------------------------------------------
-  #------------------------------------------------------------------------------------
   rev.loss<-dplyr::bind_rows(rev.loss.list)
 
-  invisible(rev.loss)
+  return(invisible(rev.loss))
 
 }
 

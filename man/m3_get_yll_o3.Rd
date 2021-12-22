@@ -13,7 +13,8 @@ m3_get_yll_o3(
   queries,
   ssp = "SSP2",
   saveOutput = T,
-  map = F
+  map = F,
+  anim = T
 )
 }
 \arguments{
@@ -34,9 +35,11 @@ m3_get_yll_o3(
 \item{saveOutput}{Writes the emission files.By default=T}
 
 \item{map}{Produce the maps. By default=F}
+
+\item{anim}{If set to T, produces multi-year animations. By default=T}
 }
 \value{
-YLLs attributable to O3 exposure for each TM5-FASST regions for all years
+YLLs attributable to O3 exposure for each TM5-FASST regions for all years (# YLLs). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 }
 \description{
 Produce YLLs attributable to O3 (M6M) exposure. YLL-to-Mortalities ratios are based on TM5-FASST calculations. Premature mortalities are based on the IER functions from Jerret et al (2009), consistent with the GBD 2016 study.

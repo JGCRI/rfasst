@@ -12,10 +12,13 @@
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param saveOutput Writes the emission files. By default=T
 #' @param map Produce the maps. By default=F
+#' @param mapIndivPol If set to T, it produces the maps for individual pollutants. By default=F
+#' @param anim If set to T, produces multi-year animations. By default=T
 #' @importFrom magrittr %>%
 #' @export
 
-m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,queries,saveOutput=T,map=F){
+m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
+                               saveOutput=T,map=F,mapIndivPol=F,anim=T){
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -40,11 +43,16 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
   # Transform the loaded TM5-FASST regions
   FASST_reg<-fasst_reg %>%
     dplyr::rename(`ISO 3`=subRegionAlt,
-           `FASST Region`=fasst_region)
+                  `FASST Region`=fasst_region)
 
   # Load the rgcam project:
-  conn <- rgcam::localDBConn(db_path, db_name,migabble = FALSE)
-  prj <- rgcam::addScenario(conn,prj_name,scen_name,paste0(query_path,"/",queries),clobber=F)
+  conn <- rgcam::localDBConn(db_path,
+                             db_name,migabble = FALSE)
+  prj <- rgcam::addScenario(conn,
+                            prj_name,
+                            scen_name,
+                            paste0(query_path,"/",queries),
+                            clobber=F)
 
   rgcam::listScenarios(prj)
   QUERY_LIST <- c(rgcam::listQueries(prj, c(scen_name)))
@@ -70,7 +78,7 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
   nmvoc<-rgcam::getQuery(prj,"nonCO2 emissions by region") %>%
     dplyr::filter(grepl("NMVOC",ghg)) %>%
     dplyr::mutate(ghg="NMVOC",
-           sector="all")
+                  sector="all")
 
   scen<-scen %>%
     dplyr::filter(ghg %!in% c("OC","OC_AWB","CO2")) %>%
@@ -85,8 +93,8 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
     dplyr::rename(`GCAM Region`=region,
            Pollutant=ghg) %>%
     dplyr::mutate(Pollutant=as.factor(Pollutant),
-           year=as.factor(year),
-           `GCAM Region`=as.factor(`GCAM Region`))
+                  year=as.factor(year),
+                 `GCAM Region`=as.factor(`GCAM Region`))
 
   # Aviation:
   air<-rgcam::getQuery(prj,"International Aviation emissions") %>%
@@ -101,9 +109,11 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
     dplyr::rename(Pollutant=ghg,
            Year=year) %>%
     dplyr::mutate(Pollutant=dplyr::if_else(Pollutant=="OC","POM",as.character(Pollutant)),
-           Pollutant=as.factor(Pollutant)) %>%
+                  Pollutant=as.factor(Pollutant)) %>%
     tidyr::spread(Pollutant,value) %>%
-    dplyr::mutate(CH4=rep(0), N2O=rep(0), NH3=rep(0)) %>%
+    dplyr::mutate(CH4=rep(0),
+                  N2O=rep(0),
+                  NH3=rep(0)) %>%
     dplyr::select(Year,BC,CH4,CO2,CO,N2O,NH3,NOx,POM,SO2,NMVOC)
 
   # Shipping:
@@ -117,22 +127,28 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
     dplyr::filter(year %in% all_years) %>%
     dplyr::mutate(ghg=as.factor(ghg)) %>%
     dplyr::rename(Pollutant=ghg,
-           Year=year) %>%
+                  Year=year) %>%
     dplyr::mutate(Pollutant=dplyr::if_else(Pollutant=="OC","POM",as.character(Pollutant)),
-           Pollutant=as.factor(Pollutant))%>%
+                  Pollutant=as.factor(Pollutant))%>%
     tidyr::spread(Pollutant,value) %>%
-    dplyr::mutate(CH4=rep(0), N2O=rep(0), NH3=rep(0)) %>%
+    dplyr::mutate(CH4=rep(0),
+                  N2O=rep(0),
+                  NH3=rep(0)) %>%
     dplyr::select(Year,BC,CH4,CO2,CO,N2O,NH3,NOx,POM,SO2,NMVOC)
 
-  final_df_wide<-dplyr::left_join(Percen %>% dplyr::filter(year %in% all_years) %>% dplyr::mutate(`GCAM Region`=as.factor(`GCAM Region`)), scen, by=c('GCAM Region','Pollutant','year')) %>%
+  final_df_wide<-dplyr::left_join(Percen %>%
+                                    dplyr::filter(year %in% all_years) %>%
+                                    dplyr::mutate(`GCAM Region`=as.factor(`GCAM Region`)),
+                                  scen,
+                                  by=c('GCAM Region','Pollutant','year')) %>%
     dplyr::mutate(NewValue=Percentage*value) %>%
     dplyr::left_join(FASST_reg, by= 'ISO 3') %>%
     dplyr::group_by(`FASST Region`,year,Pollutant) %>%
     dplyr::summarise(NewValue=sum(NewValue)) %>%
     dplyr::ungroup() %>%
     dplyr::rename(Region=`FASST Region`,
-           Year=year,
-           value=NewValue) %>%
+                  Year=year,
+                  value=NewValue) %>%
     tidyr::spread(Pollutant,value)
 
 
@@ -150,7 +166,9 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
       dplyr::filter(Year==year) %>%
       dplyr::select(-Year) %>%
       dplyr::rename(COUNTRY= Region,
-             NOX=NOx, OM=POM, VOC=NMVOC) %>%
+                    NOX=NOx,
+                    OM=POM,
+                    VOC=NMVOC) %>%
       dplyr::select(COUNTRY,BC,CH4,CO2,CO,N2O,NH3,NOX,OM,SO2,VOC)
 
 
@@ -159,13 +177,17 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
       dplyr::filter(Year==year) %>%
       dplyr::mutate(COUNTRY="AIR") %>%
       dplyr::select(COUNTRY,BC,CH4,CO2,CO,N2O,NH3,NOx,POM,SO2,NMVOC) %>%
-      dplyr::rename(NOX= NOx, OM=POM, VOC=NMVOC)
+      dplyr::rename(NOX= NOx,
+                    OM=POM,
+                    VOC=NMVOC)
 
     vec_ship<-ship %>%
       dplyr::filter(Year==year) %>%
       dplyr::mutate(COUNTRY="SHIP") %>%
       dplyr::select(COUNTRY,BC,CH4,CO2,CO,N2O,NH3,NOx,POM,SO2,NMVOC) %>%
-      dplyr::rename(NOX= NOx, OM=POM, VOC=NMVOC)
+      dplyr::rename(NOX= NOx,
+                    OM=POM,
+                    VOC=NMVOC)
 
 
     # Add RUE:
@@ -173,20 +195,22 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
       dplyr::filter(COUNTRY=="RUS") %>%
       tidyr::gather(Pollutant,value, -COUNTRY) %>%
       dplyr::mutate(COUNTRY=as.character(COUNTRY),
-             Pollutant=as.character(Pollutant))
+                    Pollutant=as.character(Pollutant))
 
     rue<- a %>%
       dplyr::filter(COUNTRY=="RUS") %>%
       tidyr::gather(Pollutant,value, -COUNTRY) %>%
       dplyr::mutate(COUNTRY="RUE") %>%
       dplyr::mutate(COUNTRY=as.character(COUNTRY),
-             Pollutant=as.character(Pollutant))
+                    Pollutant=as.character(Pollutant))
 
 
     rus_fin<-dplyr::bind_rows(rus,rue) %>%
       dplyr::mutate(COUNTRY=as.factor(COUNTRY),
-             Pollutant=as.factor(Pollutant)) %>%
-      dplyr::left_join(adj_rus %>% dplyr::mutate(COUNTRY=as.factor(COUNTRY)),by=c("COUNTRY","Pollutant")) %>%
+                    Pollutant=as.factor(Pollutant)) %>%
+      dplyr::left_join(adj_rus %>%
+                         dplyr::mutate(COUNTRY=as.factor(COUNTRY)),
+                       by=c("COUNTRY","Pollutant")) %>%
       dplyr::mutate(value=value*perc) %>%
       dplyr::select(-perc) %>%
       tidyr::spread(Pollutant,value)
@@ -232,32 +256,50 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
 
   # If map=T, it produces a map with the calculated outcomes
 
-  if(map==T){
-    final_df_wide.map<-final_df_wide %>%
-      tidyr::gather(pollutant,value,-Region,-Year) %>%
-      dplyr::filter(pollutant %in% map_pol) %>%
-      dplyr::rename(subRegion=Region)%>%
-      dplyr::filter(subRegion != "RUE") %>%
-      dplyr::select(subRegion,Year,pollutant,value) %>%
-      dplyr::rename(class=pollutant,
-                    year=Year) %>%
-      dplyr::mutate(year=as.numeric(as.character(year)),
-                    value=value*1E-6,
-                    units="Gg")
+  final_df_wide.map<-final_df_wide %>%
+    tidyr::gather(pollutant,value,-Region,-Year) %>%
+    dplyr::filter(pollutant %in% map_pol) %>%
+    dplyr::rename(subRegion=Region)%>%
+    dplyr::filter(subRegion != "RUE") %>%
+    dplyr::select(subRegion,Year,pollutant,value) %>%
+    dplyr::rename(class=pollutant,
+                  year=Year) %>%
+    dplyr::mutate(year=as.numeric(as.character(year)),
+                  value=value*1E-6,
+                  units="Gg")
+
+  if(map==T & mapIndivPol == F){
 
     rmap::map(data = final_df_wide.map,
               shape = fasstSubset,
               folder ="output/maps/m1/maps_em",
               ncol = 3,
               legendType = "pretty",
-              background  = T)
+              background  = T,
+              animate = anim)
+  }
+
+  if(map==T & mapIndivPol == T){
+
+    final_df_wide.map.list<-split(final_df_wide.map,final_df_wide.map$class)
+
+    for (df in final_df_wide.map.list) {
+      rmap::map(data = df,
+                shape = fasstSubset,
+                folder =paste0("output/maps/m1/maps_em/",unique(df$class)),
+                legendType = "pretty",
+                background  = T,
+                save = T,
+                animate = anim)
+
+    }
 
   }
 
 
   # Apply the function to all of the years.
   # This can be modified and write the data just for the desired years
-  invisible(lapply(all_years,write_data))
+  return(invisible(lapply(all_years,write_data)))
 
   #----------------------------------------------------------------------
   #----------------------------------------------------------------------

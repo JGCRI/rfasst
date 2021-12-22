@@ -16,7 +16,8 @@ m3_get_mort_pm25(
   queries,
   ssp = "SSP2",
   saveOutput = T,
-  map = F
+  map = F,
+  anim = T
 )
 }
 \arguments{
@@ -37,9 +38,11 @@ m3_get_mort_pm25(
 \item{saveOutput}{Writes the emission files.By default=T}
 
 \item{map}{Produce the maps. By default=F}
+
+\item{anim}{If set to T, produces multi-year animations. By default=T}
 }
 \value{
-Premature mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years
+Premature mortality attributable to PM2.5 exposure for each TM5-FASST regions for all years (# mortalities).
 }
 \description{
 Produce premature mortality attributable to PM2.5 exposure based on the integrated exposure-response functions (IER) from Burnett et al (2014), consistent with the GBD 2016 study.
