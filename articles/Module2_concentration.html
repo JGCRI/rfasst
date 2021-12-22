@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfasst</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -83,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/JGCRI/rfasst/">
+  <a href="https://github.com/JGCRI/rfasst/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,7 +106,7 @@
       <h1 data-toc-skip>Module2_concentration</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/JGCRI/rfasst/blob/master/vignettes/Module2_concentration.Rmd"><code>vignettes/Module2_concentration.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/JGCRI/rfasst/blob/HEAD/vignettes/Module2_concentration.Rmd" class="external-link"><code>vignettes/Module2_concentration.Rmd</code></a></small>
       <div class="hidden name"><code>Module2_concentration.Rmd</code></div>
 
     </div>
@@ -230,15 +232,15 @@
 <span id="cb5-19"><a href="#cb5-19"></a>     mi.conc<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m2_get_conc_mi</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>) </span>
 <span id="cb5-20"><a href="#cb5-20"></a>                         </span>
 <span id="cb5-21"><a href="#cb5-21"></a>     <span class="kw">head</span>(mi.conc<span class="fl">.2050</span>)</span></code></pre></div>
-In addition, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations in 2050: <!--------------------------> <!-------------------------->
+In addition, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the PM2.5 concentrations in 2050: <!--------------------------> <!-------------------------->
 <p align="center" style="font-size:18px;">
 <em>PM2.5 concntration by region in 2050 (ug/m3)</em>
 </p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/vignettes/vignetteFigs/PM2.5_concentration_2050.png"></p>
+<img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/articles/vignetteFigs/PM2.5_concentration_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
-<p>As indicated in the documentation of TM5-FASST <a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html">Van Dingenen et al 2018</a>,estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary, concentration of a pollutant <span class="math inline">\(j\)</span>, in region <span class="math inline">\(y\)</span>, from all the precursors (<span class="math inline">\(i\)</span>) emitted in all regions (<span class="math inline">\(x_k\)</span>), is calculated as:</p>
+<p>As indicated in the documentation of TM5-FASST <a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html" class="external-link">Van Dingenen et al 2018</a>,estimates of PM2.5 and O3 concentration levels in a receptor region driven by the emissions of different precursors in different sources are based on parametrizations of meteorology and atmospheric chemistry drawn from the more complex TM5 model. In summary, concentration of a pollutant <span class="math inline">\(j\)</span>, in region <span class="math inline">\(y\)</span>, from all the precursors (<span class="math inline">\(i\)</span>) emitted in all regions (<span class="math inline">\(x_k\)</span>), is calculated as:</p>
 <p><span class="math display">\[C_j (y)=C_{j,base} (y)+∑_{k=1}^{n_x}∑_{i=1}^{n_i}SRC_{i,j} [x_k,y]\cdot[E_i (x_k)-E_{i,base} (x_k )]\]</span></p>
 <ul>
 <li><p><span class="math inline">\(C_{j,base} (y)\)</span> is the base-run concentration level of pollutant j in region y, pre-computed with TM5.</p></li>
@@ -287,11 +289,13 @@ In addition, for all these functions, the package allows to produce different fi
 
 
       <footer><div class="copyright">
-  <p>Developed by Jon Sampedro, Zarrar Khan, Chris Vernon.</p>
+  <p></p>
+<p>Developed by Jon Sampedro, Zarrar Khan, Chris Vernon.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -299,6 +303,8 @@ In addition, for all these functions, the package allows to produce different fi
 
   
 
+
+  
 
   </body>
 </html>

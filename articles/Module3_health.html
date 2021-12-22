@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfasst</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -83,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/JGCRI/rfasst/">
+  <a href="https://github.com/JGCRI/rfasst/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,14 +106,14 @@
       <h1 data-toc-skip>Module3_health</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/JGCRI/rfasst/blob/master/vignettes/Module3_health.Rmd"><code>vignettes/Module3_health.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/JGCRI/rfasst/blob/HEAD/vignettes/Module3_health.Rmd" class="external-link"><code>vignettes/Module3_health.Rmd</code></a></small>
       <div class="hidden name"><code>Module3_health.Rmd</code></div>
 
     </div>
 
     
     
-<p>The functions in this module estimate adverse health effects attributable to fine particulate matter (PM2.5) and ozone (O3; M6M) exposure, measured as premature mortalities, years of life lost (YLLs), and disability adjusted life years (DALYs). The following code shows as an example, the functions to estimate premature mortalities attributable to PM2.5 and the DALYs associated with ozone exposure (M6M).All the functions associated to this module can be found in the <a href="https://jgcri.github.io/rfasst/reference/index.html">References</a> page.</p>
+<p>The functions in this module estimate adverse health effects attributable to fine particulate matter (PM2.5) and ozone (O3; M6M) exposure, measured as premature mortalities, years of life lost (YLLs), and disability adjusted life years (DALYs). The following code shows as an example, the functions to estimate premature mortalities attributable to PM2.5 and the DALYs associated with ozone exposure (M6M).All the functions associated to this module can be found in the <a href="https://jgcri.github.io/rfasst/reference/index.html" class="external-link">References</a> page.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(rfasst)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(magrittr)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
@@ -136,18 +138,18 @@
 <span id="cb1-22"><a href="#cb1-22"></a></span>
 <span id="cb1-23"><a href="#cb1-23"></a>     o3.daly<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m3_get_daly_o3</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>F, <span class="dt">map=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>)</span>
 <span id="cb1-24"><a href="#cb1-24"></a>     <span class="kw">head</span>(o3.daly<span class="fl">.2050</span>)</span></code></pre></div>
-<p>The calculation of premature mortalities is consistent with the Global Burden of Disease 2016 (<a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(12)61766-8/fulltext">Lim et al</a>). Mortalities are estimated for five causes, namely stroke, ischemic heart disease (IHD), chronic obstructive pulmonary disease (COPD), acute lower respiratory illness diseases (ALRI) and lung cancer (LC). As explained in the TM5-FASST documentation paper (<a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html">Van Dingenen et al 2018</a>), cause-specific deaths are estimated following the following equation: <span class="math display">\[Mort_{t,r,c,j}=mo_{r,c,j} \cdot ((RR_{c,j}-1)/RR_{c,j})\cdot Pop_{t,r}\]</span> So premature mortality in period <span class="math inline">\(t\)</span>, region <span class="math inline">\(r\)</span>, for cause <span class="math inline">\(c\)</span>, associated with exposure to pollutant <span class="math inline">\(j\)</span> is calculated as the product between the baseline mortality rate, the change in the RR relative risk of death attributable to a change in population-weighted mean pollutant concentration, and the population exposed.</p>
+<p>The calculation of premature mortalities is consistent with the Global Burden of Disease 2016 (<a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(12)61766-8/fulltext" class="external-link">Lim et al</a>). Mortalities are estimated for five causes, namely stroke, ischemic heart disease (IHD), chronic obstructive pulmonary disease (COPD), acute lower respiratory illness diseases (ALRI) and lung cancer (LC). As explained in the TM5-FASST documentation paper (<a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html" class="external-link">Van Dingenen et al 2018</a>), cause-specific deaths are estimated following the following equation: <span class="math display">\[Mort_{t,r,c,j}=mo_{r,c,j} \cdot ((RR_{c,j}-1)/RR_{c,j})\cdot Pop_{t,r}\]</span> So premature mortality in period <span class="math inline">\(t\)</span>, region <span class="math inline">\(r\)</span>, for cause <span class="math inline">\(c\)</span>, associated with exposure to pollutant <span class="math inline">\(j\)</span> is calculated as the product between the baseline mortality rate, the change in the RR relative risk of death attributable to a change in population-weighted mean pollutant concentration, and the population exposed.</p>
 <ul>
-<li><p>Cause-specific baseline mortality rates are taken from the World Health Organization projections <a href="https://www.who.int/healthinfo/global_burden_disease/cod_2008_sources_methods.pdf">WHO 2013</a>.</p></li>
-<li><p>For PM2.5, relative risk are estimated based on the Integrated Exposure-Response functions (ERFs) from <a href="https://pubmed.ncbi.nlm.nih.gov/24518036/">Burnett et al 2014</a>. For O3, relative risk is based on the ERFs from <a href="https://www.nejm.org/doi/full/10.1056/nejmoa0803894">Jerret et al 2009</a>.</p></li>
-<li><p>Population exposed is cause-specific. We assume that for all the causes adults are exposed (&gt;30 Years) while for ALRI, children under 5 years. Population fractions are calculated from the from the <a href="https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&amp;page=welcome">SSP database</a>.</p></li>
+<li><p>Cause-specific baseline mortality rates are taken from the World Health Organization projections <a href="https://www.who.int/healthinfo/global_burden_disease/cod_2008_sources_methods.pdf" class="external-link">WHO 2013</a>.</p></li>
+<li><p>For PM2.5, relative risk are estimated based on the Integrated Exposure-Response functions (ERFs) from <a href="https://pubmed.ncbi.nlm.nih.gov/24518036/" class="external-link">Burnett et al 2014</a>. For O3, relative risk is based on the ERFs from <a href="https://www.nejm.org/doi/full/10.1056/nejmoa0803894" class="external-link">Jerret et al 2009</a>.</p></li>
+<li><p>Population exposed is cause-specific. We assume that for all the causes adults are exposed (&gt;30 Years) while for ALRI, children under 5 years. Population fractions are calculated from the from the <a href="https://tntcat.iiasa.ac.at/SspDb/dsd?Action=htmlpage&amp;page=welcome" class="external-link">SSP database</a>.</p></li>
 </ul>
-<p>Years of life lost and DALYs are estimated by transforming premature mortalities into either YLLs or DALYs using constant ratios. YLL-to-Mortalities ratios are based on a reduction in statistical life expectancy (months) per 10µg/m³ increase in anthropogenic PM2.5 (TM5-FASST calculations). DALY-to-Mortalities ratios are estimated using the latest available data on mortailities and DALYs from the Institute for Health Metrics and Evaluation (<a href="http://www.healthdata.org/">IHME</a>). We note that these ratios (both for YLLs and for DALYs) are calculated regionally so they differ across regions.</p>
-<p>Economic damages associated to the health impacts are calculated multiplying either the premature mortalities or the years of life lost by the corresponding Value of Statistical Life (VSL) or Value of Statistical Life Year (VSLY). Both the VSL and the VSLY are based on the widely accepted OECD values for 2005. According to the literature, this value ranges between US$1.8 and $4.5 million for VSL. The calculations for all regions are based on the “unit value transfer approach” which adjusts the VSL according to their GDP and GDP growth rates, as detialed in <a href="https://openknowledge.worldbank.org/handle/10986/24440">Narain and Sall 2016</a>. In this version, we assume the income elasticity of both the VSL and the VSLY are equal to 0.8, with no adjustments across regions. A potential regional adjustment of these income elasticities will be explored in further developments of the package. We note that the central OECD values could be adjusted by the user. Finally, the damages reported by the functions use the median values of VSL and VSLY for simplicity. The reporting of Lower and Upper Bounds can be selected by the user, but requires some code changes. The systematic reporting of LB and UB is planned for the next package development.</p>
+<p>Years of life lost and DALYs are estimated by transforming premature mortalities into either YLLs or DALYs using constant ratios. YLL-to-Mortalities ratios are based on a reduction in statistical life expectancy (months) per 10µg/m³ increase in anthropogenic PM2.5 (TM5-FASST calculations). DALY-to-Mortalities ratios are estimated using the latest available data on mortailities and DALYs from the Institute for Health Metrics and Evaluation (<a href="http://www.healthdata.org/" class="external-link">IHME</a>). We note that these ratios (both for YLLs and for DALYs) are calculated regionally so they differ across regions.</p>
+<p>Economic damages associated to the health impacts are calculated multiplying either the premature mortalities or the years of life lost by the corresponding Value of Statistical Life (VSL) or Value of Statistical Life Year (VSLY). Both the VSL and the VSLY are based on the widely accepted OECD values for 2005. According to the literature, this value ranges between US$1.8 and $4.5 million for VSL. The calculations for all regions are based on the “unit value transfer approach” which adjusts the VSL according to their GDP and GDP growth rates, as detialed in <a href="https://openknowledge.worldbank.org/handle/10986/24440" class="external-link">Narain and Sall 2016</a>. In this version, we assume the income elasticity of both the VSL and the VSLY are equal to 0.8, with no adjustments across regions. A potential regional adjustment of these income elasticities will be explored in further developments of the package. We note that the central OECD values could be adjusted by the user. Finally, the damages reported by the functions use the median values of VSL and VSLY for simplicity. The reporting of Lower and Upper Bounds can be selected by the user, but requires some code changes. The systematic reporting of LB and UB is planned for the next package development.</p>
 <p>The following code shows some examples for the monetized premature deaths associated to exposure to PM2.5 and monetized years of life lost attributable to O3 exposure:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst" class="external-link">rfasst</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
 
  <span class="va">db_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_database"</span>
  <span class="va">query_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_queries_file"</span>
@@ -164,11 +166,11 @@
 
   <span class="co"># To save this data by TM5-FASST region in year 2050 as dataframes:</span>
 
-     <span class="va">pm25.mort.ecoloss.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/m3_get_mort_o3_ecoloss.html">m3_get_mort_o3_ecoloss</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span>
-     <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pm25.mort.ecoloss.2050</span><span class="op">)</span>
+     <span class="va">pm25.mort.ecoloss.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/m3_get_mort_o3_ecoloss.html">m3_get_mort_o3_ecoloss</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span>
+     <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pm25.mort.ecoloss.2050</span><span class="op">)</span>
 
-     <span class="va">o3.yll.ecoloss.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="fu">m3_get_yll_o3_Ecoloss</span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span>
-     <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">o3.yll.ecoloss.2050</span><span class="op">)</span></code></pre></div>
+     <span class="va">o3.yll.ecoloss.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">m3_get_yll_o3_Ecoloss</span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span>
+     <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">o3.yll.ecoloss.2050</span><span class="op">)</span></code></pre></div>
 <p>The complete list of outputs generated by the suite of functions that form this module is listed below:</p>
 <ul>
 <li><code>PM25_MORT_[scenario]_[year].csv</code></li>
@@ -182,14 +184,14 @@
 <li><code>O3_MORT_ECOLOSS_[scenario]_[year].csv</code></li>
 <li><code>O3_YLL_ECOLOSS__[scenario]_[year].csv</code></li>
 </ul>
-<p>As in Module 2, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the premature mortalities attributable to PM2.5 exposure by cause in 2050.</p>
+<p>As in Module 2, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a> package documented in the following <a href="https://jgcri.github.io/rmap/" class="external-link">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the premature mortalities attributable to PM2.5 exposure by cause in 2050.</p>
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;">
 <em>Premature Mortalities attributable to PM2.5 concentration by cause in 2050 (#)</em>
 </p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/vignettes/vignetteFigs/PM2.5_mort_2050.png"></p>
+<img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/articles/vignetteFigs/PM2.5_mort_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
   </div>
@@ -203,11 +205,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jon Sampedro, Zarrar Khan, Chris Vernon.</p>
+  <p></p>
+<p>Developed by Jon Sampedro, Zarrar Khan, Chris Vernon.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -215,6 +219,8 @@
 
   
 
+
+  
 
   </body>
 </html>

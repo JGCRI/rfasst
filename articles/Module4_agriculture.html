@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfasst</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -83,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/JGCRI/rfasst/">
+  <a href="https://github.com/JGCRI/rfasst/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,7 +106,7 @@
       <h1 data-toc-skip>Module4_agriculture</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/JGCRI/rfasst/blob/master/vignettes/Module4_agriculture.Rmd"><code>vignettes/Module4_agriculture.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/JGCRI/rfasst/blob/HEAD/vignettes/Module4_agriculture.Rmd" class="external-link"><code>vignettes/Module4_agriculture.Rmd</code></a></small>
       <div class="hidden name"><code>Module4_agriculture.Rmd</code></div>
 
     </div>
@@ -112,11 +114,11 @@
     
     
 <p>The functions that form this module estimate adverse agricultural impacts attributable to ozone exposure. These functions calculate relative yield losses (RYLs) and the subsequent production and revenue losses damages, combining O3 concentration data (see <a href="file:///C:/Users/samp699/Desktop/rfasst/docs/articles/%5BModule2%20concentration%5D.html">Module2 concentration</a>), with agricultural production and price projections from GCAM.</p>
-<p>RYLs are estimated for four main crops (maize, rice, soybeans, and wheat), using exposure-response functions (ERFs), and are calculated using two different indicators for O3 exposure: accumulated daytime hourly O3 concentration above a threshold of 40 ppbV (AOT40) and the seasonal mean daytime O3 concentration (M7 for the 7-hour mean and M12 for the 12-hour mean). These damges are then extended to the rest of the commodities based on their carbon fixation pathway, as explained below. For AOT40, RYLs are calculated with a linear function described in <a href="https://www.sciencedirect.com/science/article/pii/S1352231006011356?via%3Dihub">Mills et al (2007)</a>:</p>
+<p>RYLs are estimated for four main crops (maize, rice, soybeans, and wheat), using exposure-response functions (ERFs), and are calculated using two different indicators for O3 exposure: accumulated daytime hourly O3 concentration above a threshold of 40 ppbV (AOT40) and the seasonal mean daytime O3 concentration (M7 for the 7-hour mean and M12 for the 12-hour mean). These damges are then extended to the rest of the commodities based on their carbon fixation pathway, as explained below. For AOT40, RYLs are calculated with a linear function described in <a href="https://www.sciencedirect.com/science/article/pii/S1352231006011356?via%3Dihub" class="external-link">Mills et al (2007)</a>:</p>
 <p><span class="math display">\[RYL_{t,r,j}=\alpha_j \cdot AOT40_{t,r,j} \]</span></p>
-<p>For Mi, the exposure-response function is detailed in <a href="https://www.sciencedirect.com/science/article/pii/S1352231004004182?via%3Dihub">Wang and Mauzerall (2004)</a> and follows a Weibull distribution (for <span class="math inline">\(M_i\)</span>&gt;<span class="math inline">\(c\)</span>, 0 otherwise):</p>
+<p>For Mi, the exposure-response function is detailed in <a href="https://www.sciencedirect.com/science/article/pii/S1352231004004182?via%3Dihub" class="external-link">Wang and Mauzerall (2004)</a> and follows a Weibull distribution (for <span class="math inline">\(M_i\)</span>&gt;<span class="math inline">\(c\)</span>, 0 otherwise):</p>
 <p><span class="math display">\[RYL_{t,r,j}=1-\frac{exp~[-(\frac{M_{t,r,j}}{a_j})^{b_j}]}{exp~[-(\frac{c_j}{a_j})^{b_j}]}\]</span></p>
-<p>More information on the methodology used for the estimation of agricultural damages can be found in the TM5-FASST documentation paper (<a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html">Van Dingenen et al (2018)</a>) and in <a href="https://www.sciencedirect.com/science/article/pii/S1352231008009424?via%3Dihub">Van Dingenen et al (2009)</a>. The combined use of the models for estimating agricultural damages is explained in more detail in <a href="https://www.sciencedirect.com/science/article/pii/S1352231020302739">Sampedro et al (2020)</a>.</p>
+<p>More information on the methodology used for the estimation of agricultural damages can be found in the TM5-FASST documentation paper (<a href="https://acp.copernicus.org/articles/18/16173/2018/acp-18-16173-2018-discussion.html" class="external-link">Van Dingenen et al (2018)</a>) and in <a href="https://www.sciencedirect.com/science/article/pii/S1352231008009424?via%3Dihub" class="external-link">Van Dingenen et al (2009)</a>. The combined use of the models for estimating agricultural damages is explained in more detail in <a href="https://www.sciencedirect.com/science/article/pii/S1352231020302739" class="external-link">Sampedro et al (2020)</a>.</p>
 <p>Production losses are calculated combining the RYLs with projected agricultural production levels of the analyzed GCAM scenario. In addition, multiplying the projected price by the production losses (quantities), we estimate revenue losses for period <span class="math inline">\(t\)</span>, region <span class="math inline">\(i\)</span>, and crop <span class="math inline">\(j\)</span> as:</p>
 <p><span class="math display">\[Damage_{t,r,j}=Prod_{t,r,j} \cdot Price_{t,r,j} \cdot Pulse.RYL_{t,r,j}\]</span> As explained above, the module combines O3 concentration data with agricultural production and price projections. However, in order to complete all the calculations, the package includes some additional information:</p>
 <ul>
@@ -173,14 +175,14 @@
 <span id="cb1-37"><a href="#cb1-37"></a></span>
 <span id="cb1-38"><a href="#cb1-38"></a>    <span class="co"># Revenue losses (includes losses using both AOT40 and Mi).</span></span>
 <span id="cb1-39"><a href="#cb1-39"></a>       rev.loss<span class="fl">.2050</span>&lt;-dplyr<span class="op">::</span><span class="kw">bind_rows</span>(<span class="kw">m4_get_rev_loss</span>(db_path,query_path,db_name,prj_name,scen_name,queries,<span class="dt">saveOutput=</span>T, <span class="dt">map=</span>F)) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2050</span>)</span></code></pre></div>
-<p>As in Modules 2 and 3, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the production losses attributable to O3 exposure in 2050.</p>
+<p>As in Modules 2 and 3, for all these functions, the package allows to produce different figures and/or animations, generated using the <a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a> package documented in the following <a href="jgcri.github.io/rmap/">page</a>. To generate these maps, the user needs to include the <code>map=T</code> parameter, and they will be generated and stored in the corresponding output sub-directory. As an example for this module, the following map shows the production losses attributable to O3 exposure in 2050.</p>
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;">
 <em>Agricultural production losses attributable to O3 exposure by commodity in 2050 (Mt)</em>
 </p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/vignettes/vignetteFigs/Prod_Loss_2050.png"></p>
+<img src="https://raw.githubusercontent.com/JGCRI/rfasst/main/articles/vignetteFigs/Prod_Loss_2050.png"></p>
 <!-------------------------->
 <!-------------------------->
   </div>
@@ -194,11 +196,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jon Sampedro, Zarrar Khan, Chris Vernon.</p>
+  <p></p>
+<p>Developed by Jon Sampedro, Zarrar Khan, Chris Vernon.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -206,6 +210,8 @@
 
   
 
+
+  
 
   </body>
 </html>
