@@ -12,7 +12,9 @@ m1_emissions_rescale(
   scen_name,
   queries,
   saveOutput = T,
-  map = F
+  map = F,
+  mapIndivPol = F,
+  anim = T
 )
 }
 \arguments{
@@ -31,12 +33,16 @@ m1_emissions_rescale(
 \item{saveOutput}{Writes the emission files. By default=T}
 
 \item{map}{Produce the maps. By default=F}
+
+\item{mapIndivPol}{If set to T, it produces the maps for individual pollutants. By default=F}
+
+\item{anim}{If set to T, produces multi-year animations. By default=T}
 }
 \value{
-Emissions per TM5-FASST region for all the selected years (all_years)
+Emissions per TM5-FASST region (Kg) for all the selected years (all_years). The list of countries that form each region and the full name of the region can be found in Table S2.2 in the TM5-FASST documentation paper: Van Dingenen, R., Dentener, F., Crippa, M., Leitao, J., Marmer, E., Rao, S., Solazzo, E. and Valentini, L., 2018. TM5-FASST: a global atmospheric source-receptor model for rapid impact analysis of emission changes on air quality and short-lived climate pollutants. Atmospheric Chemistry and Physics, 18(21), pp.16173-16211.
 }
 \description{
-Re-scales emissions from GCAM regions to TM5-FASST regions. The function also completes some additional transformation required such as pollutant transformation (e.g. OC to POM) or unit changes (Tg to Kg).
+Re-scale emissions from GCAM regions to TM5-FASST regions. The function also completes some additional transformation required such as pollutant transformation (e.g. OC to POM) or unit changes (Tg to Kg).
 }
 \keyword{emissions}
 \keyword{module_1,}

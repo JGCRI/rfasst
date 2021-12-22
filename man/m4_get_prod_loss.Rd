@@ -12,7 +12,8 @@ m4_get_prod_loss(
   scen_name,
   queries,
   saveOutput = T,
-  map = F
+  map = F,
+  anim = T
 )
 }
 \arguments{
@@ -31,9 +32,11 @@ m4_get_prod_loss(
 \item{saveOutput}{Writes the emission files.By default=T}
 
 \item{map}{Produce the maps. By default=F}
+
+\item{anim}{If set to T, produces multi-year animations. By default=T}
 }
 \value{
-Ag losses attributable to O3 for each GCAM region for all years
+Ag losses attributable to O3 for each GCAM region for all years (Mt).The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.
 }
 \description{
 Produce agricultural production losses attributable to ozone exposure for all GCAM crops. Losses have been calculated using two ozone exposure indicators: AOT40 and Mi.
