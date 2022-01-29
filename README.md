@@ -2,7 +2,7 @@
 [![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
 [![codecov](https://codecov.io/gh/JGCRI/rfasst/branch/main/graph/badge.svg?token=2IBODRZKVF)](https://codecov.io/gh/JGCRI/rfasst)
 [![DOI](https://zenodo.org/badge/344924589.svg)](https://zenodo.org/badge/latestdoi/344924589)
-[![status](https://joss.theoj.org/papers/5929b37e7cba14d15a73639ac949059d/status.svg)](https://joss.theoj.org/papers/5929b37e7cba14d15a73639ac949059d)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.03820/status.svg)](https://doi.org/10.21105/joss.03820)
 
 
 <!-- ------------------------>
