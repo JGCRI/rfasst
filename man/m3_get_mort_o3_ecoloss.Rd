@@ -13,6 +13,7 @@ m3_get_mort_o3_ecoloss(
   db_name,
   prj_name,
   scen_name,
+  final_db_year = 2100,
   ssp = "SSP2",
   queries,
   saveOutput = T,
@@ -30,6 +31,8 @@ m3_get_mort_o3_ecoloss(
 \item{prj_name}{Name of the rgcam project. This can be an existing project, or, if not, this will be the name}
 
 \item{scen_name}{Name of the GCAM scenario to be processed}
+
+\item{final_db_year}{Final year in the GCAM database (this allows to process databases with user-defined "stop periods")}
 
 \item{ssp}{Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2}
 

@@ -3,7 +3,7 @@ library(rfasst); library(testthat); library(magrittr); library(rprojroot);librar
 # Load the GCAM db form the Zenodo repository
 db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 rpackageutils::download_unpack_zip(data_directory = db_path,
-                                   url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
+                                   url = "https://zenodo.org/record/7326437/files/database_basexdb_ref.zip?download=1")
 
 
 #-----------------------------
@@ -15,10 +15,11 @@ test_that("module 1 fucntion works", {
 
   em_reg<-dplyr::bind_rows(m1_emissions_rescale(db_path = db_path,
                             query_path="./inst/extdata",
-                            db_name = "database_basexdb_5p3_release",
+                            db_name = "database_basexdb_ref",
                             prj_name = "scentest.dat",
-                            scen_name = "Reference_gcam5p3_release",
+                            scen_name = "Reference",
                             queries ="queries_rfasst.xml",
+                            final_db_year = 2030,
                             saveOutput = F))%>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -41,10 +42,11 @@ test_that("m2 calculates PM2.5 concentration", {
 
   pm25_reg<-dplyr::bind_rows(m2_get_conc_pm25(db_path = db_path,
                                                 query_path="./inst/extdata",
-                                                db_name = "database_basexdb_5p3_release",
+                                                db_name = "database_basexdb_ref",
                                                 prj_name = "scentest.dat",
-                                                scen_name = "Reference_gcam5p3_release",
+                                                scen_name = "Reference",
                                                 queries ="queries_rfasst.xml",
+                                                final_db_year = 2030,
                                                 saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -63,9 +65,10 @@ test_that("m2 calculates O3 concentration", {
 
   o3_reg<-dplyr::bind_rows(m2_get_conc_o3(db_path = db_path,
                                               query_path="./inst/extdata",
-                                              db_name = "database_basexdb_5p3_release",
+                                              db_name = "database_basexdb_ref",
                                               prj_name = "scentest.dat",
-                                              scen_name = "Reference_gcam5p3_release",
+                                              scen_name = "Reference",
+                                              final_db_year = 2030,
                                               queries ="queries_rfasst.xml",
                                               saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
@@ -84,10 +87,11 @@ test_that("m2 calculates O3-M6M concentration", {
 
   m6m_reg<-dplyr::bind_rows(m2_get_conc_m6m(db_path = db_path,
                                           query_path="./inst/extdata",
-                                          db_name = "database_basexdb_5p3_release",
+                                          db_name = "database_basexdb_ref",
                                           prj_name = "scentest.dat",
-                                          scen_name = "Reference_gcam5p3_release",
+                                          scen_name = "Reference",
                                           queries ="queries_rfasst.xml",
+                                          final_db_year = 2030,
                                           saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -105,10 +109,11 @@ test_that("m2 calculates O3-AOT40 concentration", {
 
   aot40_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
                                             query_path="./inst/extdata",
-                                            db_name = "database_basexdb_5p3_release",
+                                            db_name = "database_basexdb_ref",
                                             prj_name = "scentest.dat",
-                                            scen_name = "Reference_gcam5p3_release",
+                                            scen_name = "Reference",
                                             queries ="queries_rfasst.xml",
+                                            final_db_year = 2030,
                                             saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -126,10 +131,11 @@ test_that("m2 calculates O3-Mi concentration", {
 
   mi_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
                                                 query_path="./inst/extdata",
-                                                db_name = "database_basexdb_5p3_release",
+                                                db_name = "database_basexdb_ref",
                                                 prj_name = "scentest.dat",
-                                                scen_name = "Reference_gcam5p3_release",
+                                                scen_name = "Reference",
                                                 queries ="queries_rfasst.xml",
+                                                final_db_year = 2030,
                                                 saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -153,10 +159,11 @@ test_that("m3 calculates PM2.5-premature mortality", {
 
   pm25_mort_reg<-dplyr::bind_rows(m3_get_mort_pm25(db_path = db_path,
                                               query_path="./inst/extdata",
-                                              db_name = "database_basexdb_5p3_release",
+                                              db_name = "database_basexdb_ref",
                                               prj_name = "scentest.dat",
-                                              scen_name = "Reference_gcam5p3_release",
+                                              scen_name = "Reference",
                                               queries ="queries_rfasst.xml",
+                                              final_db_year = 2030,
                                               saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -175,10 +182,11 @@ test_that("m3 calculates O3-premature mortality", {
 
   o3_mort_reg<-dplyr::bind_rows(m3_get_mort_o3(db_path = db_path,
                                                    query_path="./inst/extdata",
-                                                   db_name = "database_basexdb_5p3_release",
+                                                   db_name = "database_basexdb_ref",
                                                    prj_name = "scentest.dat",
-                                                   scen_name = "Reference_gcam5p3_release",
+                                                   scen_name = "Reference",
                                                    queries ="queries_rfasst.xml",
+                                                   final_db_year = 2030,
                                                    saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -197,10 +205,11 @@ test_that("m3 calculates PM2.5-YLL", {
 
   pm25_yll_reg<-dplyr::bind_rows(m3_get_yll_pm25(db_path = db_path,
                                                query_path="./inst/extdata",
-                                               db_name = "database_basexdb_5p3_release",
+                                               db_name = "database_basexdb_ref",
                                                prj_name = "scentest.dat",
-                                               scen_name = "Reference_gcam5p3_release",
+                                               scen_name = "Reference",
                                                queries ="queries_rfasst.xml",
+                                               final_db_year = 2030,
                                                saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -219,10 +228,11 @@ test_that("m3 calculates PM2.5-DALYs", {
 
   pm25_daly_reg<-dplyr::bind_rows(m3_get_daly_pm25(db_path = db_path,
                                                  query_path="./inst/extdata",
-                                                 db_name = "database_basexdb_5p3_release",
+                                                 db_name = "database_basexdb_ref",
                                                  prj_name = "scentest.dat",
-                                                 scen_name = "Reference_gcam5p3_release",
+                                                 scen_name = "Reference",
                                                  queries ="queries_rfasst.xml",
+                                                 final_db_year = 2030,
                                                  saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -241,10 +251,11 @@ test_that("m3 calculates O3-YLL", {
 
   o3_yll_reg<-dplyr::bind_rows(m3_get_yll_o3(db_path = db_path,
                                                  query_path="./inst/extdata",
-                                                 db_name = "database_basexdb_5p3_release",
+                                                 db_name = "database_basexdb_ref",
                                                  prj_name = "scentest.dat",
-                                                 scen_name = "Reference_gcam5p3_release",
+                                                 scen_name = "Reference",
                                                  queries ="queries_rfasst.xml",
+                                                 final_db_year = 2030,
                                                  saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -263,10 +274,11 @@ test_that("m3 calculates O3-DALYs", {
 
   o3_daly_reg<-dplyr::bind_rows(m3_get_daly_pm25(db_path = db_path,
                                                    query_path="./inst/extdata",
-                                                   db_name = "database_basexdb_5p3_release",
+                                                   db_name = "database_basexdb_ref",
                                                    prj_name = "scentest.dat",
-                                                   scen_name = "Reference_gcam5p3_release",
+                                                   scen_name = "Reference",
                                                    queries ="queries_rfasst.xml",
+                                                   final_db_year = 2030,
                                                    saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -285,10 +297,11 @@ test_that("m3 calculates PM2.5-Mort-EcoLoss", {
 
   pm25_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_pm25_ecoloss(db_path = db_path,
                                                  query_path="./inst/extdata",
-                                                 db_name = "database_basexdb_5p3_release",
+                                                 db_name = "database_basexdb_ref",
                                                  prj_name = "scentest.dat",
-                                                 scen_name = "Reference_gcam5p3_release",
+                                                 scen_name = "Reference",
                                                  queries ="queries_rfasst.xml",
+                                                 final_db_year = 2030,
                                                  saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -307,10 +320,11 @@ test_that("m3 calculates O3-Mort-EcoLoss", {
 
   o3_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_o3_ecoloss(db_path = db_path,
                                                                    query_path="./inst/extdata",
-                                                                   db_name = "database_basexdb_5p3_release",
+                                                                   db_name = "database_basexdb_ref",
                                                                    prj_name = "scentest.dat",
-                                                                   scen_name = "Reference_gcam5p3_release",
+                                                                   scen_name = "Reference",
                                                                    queries ="queries_rfasst.xml",
+                                                                   final_db_year = 2030,
                                                                    saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -329,10 +343,11 @@ test_that("m3 calculates PM2.5-YLL-EcoLoss", {
 
   pm25_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_pm25_ecoloss(db_path = db_path,
                                                                    query_path="./inst/extdata",
-                                                                   db_name = "database_basexdb_5p3_release",
+                                                                   db_name = "database_basexdb_ref",
                                                                    prj_name = "scentest.dat",
-                                                                   scen_name = "Reference_gcam5p3_release",
+                                                                   scen_name = "Reference",
                                                                    queries ="queries_rfasst.xml",
+                                                                   final_db_year = 2030,
                                                                    saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -351,10 +366,11 @@ test_that("m3 calculates O3-YLL-EcoLoss", {
 
   o3_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_o3_ecoloss(db_path = db_path,
                                                                  query_path="./inst/extdata",
-                                                                 db_name = "database_basexdb_5p3_release",
+                                                                 db_name = "database_basexdb_ref",
                                                                  prj_name = "scentest.dat",
-                                                                 scen_name = "Reference_gcam5p3_release",
+                                                                 scen_name = "Reference",
                                                                  queries ="queries_rfasst.xml",
+                                                                 final_db_year = 2030,
                                                                  saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -376,10 +392,11 @@ test_that("m4 calculates RYL-AOT40", {
 
   ryl_aot40_reg<-dplyr::bind_rows(m4_get_ryl_aot40(db_path = db_path,
                                                              query_path="./inst/extdata",
-                                                             db_name = "database_basexdb_5p3_release",
+                                                             db_name = "database_basexdb_ref",
                                                              prj_name = "scentest.dat",
-                                                             scen_name = "Reference_gcam5p3_release",
+                                                             scen_name = "Reference",
                                                              queries ="queries_rfasst.xml",
+                                                             final_db_year = 2030,
                                                              saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -398,10 +415,11 @@ test_that("m4 calculates RYL-Mi", {
 
   ryl_mi_reg<-dplyr::bind_rows(m4_get_ryl_mi(db_path = db_path,
                                                    query_path="./inst/extdata",
-                                                   db_name = "database_basexdb_5p3_release",
+                                                   db_name = "database_basexdb_ref",
                                                    prj_name = "scentest.dat",
-                                                   scen_name = "Reference_gcam5p3_release",
+                                                   scen_name = "Reference",
                                                    queries ="queries_rfasst.xml",
+                                                   final_db_year = 2030,
                                                    saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -420,10 +438,11 @@ test_that("m4 calculates ProdLoss", {
 
   prod_loss_reg<-dplyr::bind_rows(m4_get_prod_loss(db_path = db_path,
                                              query_path="./inst/extdata",
-                                             db_name = "database_basexdb_5p3_release",
+                                             db_name = "database_basexdb_ref",
                                              prj_name = "scentest.dat",
-                                             scen_name = "Reference_gcam5p3_release",
+                                             scen_name = "Reference",
                                              queries ="queries_rfasst.xml",
+                                             final_db_year = 2030,
                                              saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 
@@ -442,10 +461,11 @@ test_that("m4 calculates RevLoss", {
 
   rev_loss_reg<-dplyr::bind_rows(m4_get_rev_loss(db_path = db_path,
                                                    query_path="./inst/extdata",
-                                                   db_name = "database_basexdb_5p3_release",
+                                                   db_name = "database_basexdb_ref",
                                                    prj_name = "scentest.dat",
-                                                   scen_name = "Reference_gcam5p3_release",
+                                                   scen_name = "Reference",
                                                    queries ="queries_rfasst.xml",
+                                                   final_db_year = 2030,
                                                    saveOutput = F)) %>%
     dplyr::filter(region %!in% c("RUE","AIR","SHIP"))
 

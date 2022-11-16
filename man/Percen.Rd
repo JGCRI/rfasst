@@ -5,10 +5,16 @@
 \alias{Percen}
 \title{#' Percen}
 \format{
-An object of class \code{data.frame} with 17490 rows and 6 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 23804 rows and 6 columns.
 }
 \source{
-RCP database: https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&page=welcome
+For GHGs: European Commission, Joint Research Centre (EC-JRC)/Netherlands Environmental Assessment Agency (PBL) (EDGARv7.0_GHG website (https://edgar.jrc.ec.europa.eu/dataset_ghg70)).
+Emissions Database for Global Atmospheric Research (EDGAR), release EDGAR v7.0_GHG (1970 - 2021) of September 2022. For the energy related sectors the activity data are mainly based on IEA data from IEA (2021) World Energy Balances, www.iea.org/statistics,
+Crippa, M., Guizzardi, D., Banja, M., Solazzo, E., Muntean, M., Schaaf, E., Pagani, F., Monforti-Ferrario, F., Olivier, J., Quadrelli, R., Risquez Martin, A., Taghavi-Moharamli, P., Grassi, G., Rossi, S., Jacome Felix Oom, D., Branco, A., San-Miguel-Ayanz, J. and Vignati, E., CO2 emissions of all world countries - 2022 Report, EUR 31182 EN, Publications Office of the European Union, Luxembourg, 2022, doi:10.2760/730164, JRC130363
+Crippa, M., Guizzardi, D., Solazzo, E., Muntean, M., Schaaf, E., Monforti-Ferrario, F., Banja, M., Olivier, J.G.J., Grassi, G., Rossi, S., Vignati, E.,GHG emissions of all world countries - 2021 Report, EUR 30831 EN, Publications Office of the European Union, Luxembourg, 2021, ISBN 978-92-76-41547-3, doi:10.2760/173513, JRC126363
+For APs: https://zenodo.org/record/3754964#.Y3O_lXbMKUk (CEDS-GBD)
+
+
 \dontrun{
  library(rfasst);
  rfasst::Percen

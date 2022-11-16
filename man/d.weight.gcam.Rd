@@ -5,7 +5,7 @@
 \alias{d.weight.gcam}
 \title{d.weight.gcam}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 872 rows and 4 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1215 rows and 4 columns.
 }
 \source{
 Own assumptions

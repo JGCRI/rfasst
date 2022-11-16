@@ -10,6 +10,7 @@
 #' @param prj_name Name of the rgcam project. This can be an existing project, or, if not, this will be the name
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
+#' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
 #' @param saveOutput Writes the emission files. By default=T
 #' @param map Produce the maps. By default=F
 #' @param mapIndivPol If set to T, it produces the maps for individual pollutants. By default=F
@@ -17,8 +18,10 @@
 #' @importFrom magrittr %>%
 #' @export
 
-m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,queries,
-                               saveOutput=T,map=F,mapIndivPol=F,anim=T){
+m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
+                               saveOutput = T, map = F, mapIndivPol = F, anim = T){
+
+  all_years<-all_years[all_years <= final_db_year]
 
   # Create the directories if they do not exist:
   if (!dir.exists("output")) dir.create("output")
@@ -51,38 +54,49 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
   prj <- rgcam::addScenario(conn,
                             prj_name,
                             scen_name,
-                            paste0(query_path,"/",queries),
-                            clobber=F)
+                            paste0(query_path,"/",queries))
 
   rgcam::listScenarios(prj)
   QUERY_LIST <- c(rgcam::listQueries(prj, c(scen_name)))
 
+
   # Generate the adjusted emission database +air and ship emissions
   # Emission data (scen)
-  scen<-rgcam::getQuery(prj,"nonCO2 emissions by sector (incl resources)") %>%
+  scen_sct<-rgcam::getQuery(prj,"nonCO2 emissions by sector") %>%
     dplyr::arrange(ghg) %>%
-    dplyr::filter(ghg %in% unique(levels(as.factor(my_pol$My_Pollutant))))
+    dplyr::mutate(ghg = dplyr::if_else(grepl("SO2", ghg), "SO2", ghg)) %>%
+    dplyr::filter(ghg %in% unique(levels(as.factor(my_pol$My_Pollutant)))) %>%
+    dplyr::group_by(Units, scenario, region, sector, ghg, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup()
+
+  scen_rsc<-rgcam::getQuery(prj,"nonCO2 emissions by resource production") %>%
+    dplyr::arrange(ghg) %>%
+    dplyr::mutate(ghg = dplyr::if_else(grepl("SO2", ghg), "SO2", ghg)) %>%
+    dplyr::filter(ghg %in% unique(levels(as.factor(my_pol$My_Pollutant)))) %>%
+    dplyr::select(-subresource) %>%
+    dplyr::rename(sector = resource) %>%
+    dplyr::mutate(sector = "rsc production") %>%
+    dplyr::group_by(Units, scenario, region, sector, ghg, year) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup()
+
+  scen<-dplyr::bind_rows(scen_sct, scen_rsc)
 
   # Transform OC to POM
   pom<-scen %>%
-    dplyr::filter( ghg %in% c("OC","OC_AWB")) %>%
-    dplyr::mutate(value=dplyr::if_else(ghg=="OC_AWB",value*CONV_OCawb_POM,value*CONV_OC_POM)) %>%
-    dplyr::mutate(ghg="POM")
+    dplyr::filter(ghg %in% c("OC","OC_AWB")) %>%
+    dplyr::mutate(value = dplyr::if_else(ghg=="OC_AWB", value * CONV_OCawb_POM, value * CONV_OC_POM)) %>%
+    dplyr::mutate(ghg = "POM")
 
   # Transform MTC to MTCO2
   co2<-scen %>%
-    dplyr::filter( ghg=="CO2") %>%
-    dplyr::mutate(value=value*MTC_MTCO2)
-
-  # NMVOC are not reported by sector, so it needs to be treated independently
-  nmvoc<-rgcam::getQuery(prj,"nonCO2 emissions by region") %>%
-    dplyr::filter(grepl("NMVOC",ghg)) %>%
-    dplyr::mutate(ghg="NMVOC",
-                  sector="all")
+    dplyr::filter(ghg == "CO2") %>%
+    dplyr::mutate(value = value * MTC_MTCO2)
 
   scen<-scen %>%
     dplyr::filter(ghg %!in% c("OC","OC_AWB","CO2")) %>%
-    dplyr::bind_rows(pom,co2,nmvoc) %>%
+    dplyr::bind_rows(pom,co2) %>%
     # transform value to kg
     dplyr::mutate(value=value*TG_KG) %>%
     dplyr::group_by(scenario,region,Units,ghg,year) %>%
@@ -90,27 +104,27 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
     dplyr::ungroup()%>%
     dplyr::select(-scenario,-Units) %>%
     dplyr::filter(year %in% all_years) %>%
-    dplyr::rename(`GCAM Region`=region,
-           Pollutant=ghg) %>%
-    dplyr::mutate(Pollutant=as.factor(Pollutant),
-                  year=as.factor(year),
-                 `GCAM Region`=as.factor(`GCAM Region`))
+    dplyr::rename(`GCAM Region` = region,
+                  Pollutant = ghg) %>%
+    dplyr::mutate(Pollutant = as.factor(Pollutant),
+                  year = as.factor(year),
+                 `GCAM Region` = as.factor(`GCAM Region`))
 
   # Aviation:
   air<-rgcam::getQuery(prj,"International Aviation emissions") %>%
-    dplyr::mutate(ghg=dplyr::if_else(grepl("SO2",ghg),"SO2",as.character(ghg))) %>%
+    dplyr::mutate(ghg=dplyr::if_else(grepl("SO2",ghg), "SO2", as.character(ghg))) %>%
     dplyr::group_by(ghg,year) %>%
     dplyr::summarise(value=sum(value)) %>%
     dplyr::ungroup() %>%
     # transform value to kg
-    dplyr::mutate(value=value*TG_KG)  %>%
+    dplyr::mutate(value=value * TG_KG)  %>%
     dplyr::filter(year %in% all_years) %>%
-    dplyr::mutate(ghg=as.factor(ghg)) %>%
-    dplyr::rename(Pollutant=ghg,
-           Year=year) %>%
-    dplyr::mutate(Pollutant=dplyr::if_else(Pollutant=="OC","POM",as.character(Pollutant)),
-                  Pollutant=as.factor(Pollutant)) %>%
-    tidyr::spread(Pollutant,value) %>%
+    dplyr::mutate(ghg = as.factor(ghg)) %>%
+    dplyr::rename(Pollutant = ghg,
+                  Year  =year) %>%
+    dplyr::mutate(Pollutant = dplyr::if_else(Pollutant =="OC","POM", as.character(Pollutant)),
+                  Pollutant = as.factor(Pollutant)) %>%
+    tidyr::spread(Pollutant, value) %>%
     dplyr::mutate(CH4=rep(0),
                   N2O=rep(0),
                   NH3=rep(0)) %>%
@@ -118,18 +132,18 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
 
   # Shipping:
   ship<-rgcam::getQuery(prj,"International Shipping emissions") %>%
-    dplyr::mutate(ghg=dplyr::if_else(grepl("SO2",ghg),"SO2",as.character(ghg))) %>%
+    dplyr::mutate(ghg = dplyr::if_else(grepl("SO2",ghg),"SO2", as.character(ghg))) %>%
     dplyr::group_by(ghg,year) %>%
     dplyr::summarise(value=sum(value)) %>%
     dplyr::ungroup() %>%
     # transform value to kg
-    dplyr::mutate(value=value*TG_KG) %>%
+    dplyr::mutate(value = value * TG_KG) %>%
     dplyr::filter(year %in% all_years) %>%
-    dplyr::mutate(ghg=as.factor(ghg)) %>%
-    dplyr::rename(Pollutant=ghg,
-                  Year=year) %>%
-    dplyr::mutate(Pollutant=dplyr::if_else(Pollutant=="OC","POM",as.character(Pollutant)),
-                  Pollutant=as.factor(Pollutant))%>%
+    dplyr::mutate(ghg = as.factor(ghg)) %>%
+    dplyr::rename(Pollutant = ghg,
+                  Year = year) %>%
+    dplyr::mutate(Pollutant = dplyr::if_else(Pollutant =="OC","POM", as.character(Pollutant)),
+                  Pollutant = as.factor(Pollutant))%>%
     tidyr::spread(Pollutant,value) %>%
     dplyr::mutate(CH4=rep(0),
                   N2O=rep(0),
@@ -141,7 +155,7 @@ m1_emissions_rescale<-function(db_path,query_path,db_name,prj_name,scen_name,que
                                     dplyr::mutate(`GCAM Region`=as.factor(`GCAM Region`)),
                                   scen,
                                   by=c('GCAM Region','Pollutant','year')) %>%
-    dplyr::mutate(NewValue=Percentage*value) %>%
+    dplyr::mutate(NewValue= Percentage * value) %>%
     dplyr::left_join(FASST_reg, by= 'ISO 3') %>%
     dplyr::group_by(`FASST Region`,year,Pollutant) %>%
     dplyr::summarise(NewValue=sum(NewValue)) %>%
