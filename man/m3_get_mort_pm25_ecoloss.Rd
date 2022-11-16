@@ -14,6 +14,7 @@ m3_get_mort_pm25_ecoloss(
   prj_name,
   scen_name,
   ssp = "SSP2",
+  final_db_year = 2100,
   queries,
   saveOutput = T,
   map = F,
@@ -32,6 +33,8 @@ m3_get_mort_pm25_ecoloss(
 \item{scen_name}{Name of the GCAM scenario to be processed}
 
 \item{ssp}{Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2}
+
+\item{final_db_year}{Final year in the GCAM database (this allows to process databases with user-defined "stop periods")}
 
 \item{queries}{Name of the GCAM query file. The file by default includes the queries required to run rfasst}
 

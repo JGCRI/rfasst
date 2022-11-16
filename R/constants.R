@@ -11,25 +11,26 @@ all_years<-c('2005','2010','2020','2030','2040','2050','2060','2070','2080','209
 ch4_htap_pert<-77000000000
 
 # Crops that are included in the analysis
-CROP_ANALYSIS <- c("Corn", "FiberCrop", "FodderGrass", "FodderHerb", "MiscCrop",
-                   "OilCrop", "OtherGrain", "PalmFruit", "Rice", "RootTuber", "SugarCrop", "Wheat")
+CROP_ANALYSIS <- c("Corn", "FiberCrop", "FodderGrass", "FodderHerb", "FodderHerb_C4", "Fruits", "Legumes", "MiscCrop", "NutsSeeds",
+                   "OilCrop", "OilPalm", "OtherGrain", "OtherGrain_C4", "PalmFruit", "Rice", "RootTuber","Soybean", "SugarCrop",
+                   "SugarCrop_C4", "Vegetables", "Wheat")
 
 # Percentages to divide population between Russia and Russia Eastern
 perc_pop_rus<-0.767
 perc_pop_rue<-0.233
 
 # Indicate the pollutants whose emissions are mapped (if map=T in m1_emissions_rescale)
-map_pol<-c("BC","NH3","NMVOC","NOx","POM","SO2")
+map_pol<-c("BC", "NH3", "NMVOC", "NOx", "POM", "SO2")
 
 
 # Set of values to monetize health damages
 gdp_eu_2005<-32700
 vsl_eu_2005_lb<-1.8*1E6
 vsl_eu_2005_ub<-5.4*1E6
-vsl_eu_2005<-(vsl_eu_2005_lb+vsl_eu_2005_ub)/2
+vsl_eu_2005<-(vsl_eu_2005_lb + vsl_eu_2005_ub) / 2
 inc_elas_vsl<-0.8
 vsly_eu_2014<-158448 #Schlander, M., Schaefer, R. and Schwarz, O., 2017. Empirical studies on the economic value of a Statistical Life Year (VSLY) in Europe: what do they tell us?. Value in Health, 20(9), p.A666.
-vsly_eu_2005<-vsly_eu_2014*gcamdata::gdp_deflator(2005,base_year = 2014)
+vsly_eu_2005<-vsly_eu_2014 * gcamdata::gdp_deflator(2005, base_year = 2014)
 
 # Counterfactual threshold for ozone (Jerret et al 2009)
 cf_o3<-33.3
@@ -38,7 +39,7 @@ cf_o3<-33.3
 rr_resp_o3<-3.92E-03
 
 # List of diseases for readng relative risk
-dis=c("alri","copd","ihd","stroke","lc")
+dis=c("alri", "copd", "ihd", "stroke", "lc")
 
 
 # List of coefficients for AOT40 based on Mills et al (2007)

@@ -5,7 +5,7 @@
 \alias{CROP_ANALYSIS}
 \title{CROP_ANALYSIS}
 \format{
-An object of class \code{character} of length 12.
+An object of class \code{character} of length 21.
 }
 \usage{
 CROP_ANALYSIS

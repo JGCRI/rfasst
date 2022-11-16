@@ -5,7 +5,7 @@
 \alias{d.gcam.commod.o3}
 \title{d.gcam.commod.o3}
 \format{
-An object of class \code{data.frame} with 28 rows and 2 columns.
+An object of class \code{data.frame} with 39 rows and 2 columns.
 }
 \source{
 Own assumptions

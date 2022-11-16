@@ -5,7 +5,7 @@
 \alias{GCAM_reg}
 \title{GCAM_reg}
 \format{
-An object of class \code{data.frame} with 234 rows and 3 columns.
+An object of class \code{data.frame} with 235 rows and 3 columns.
 }
 \source{
 GCAM

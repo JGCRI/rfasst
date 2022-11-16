@@ -11,6 +11,7 @@ m2_get_conc_o3(
   prj_name,
   scen_name,
   queries,
+  final_db_year = 2100,
   saveOutput = T,
   ch4_o3 = T,
   map = F,
@@ -29,6 +30,8 @@ m2_get_conc_o3(
 \item{scen_name}{Name of the GCAM scenario to be processed}
 
 \item{queries}{Name of the GCAM query file. The file by default includes the queries required to run rfasst}
+
+\item{final_db_year}{Final year in the GCAM database (this allows to process databases with user-defined "stop periods")}
 
 \item{saveOutput}{Writes the emission files.By default=T}
 

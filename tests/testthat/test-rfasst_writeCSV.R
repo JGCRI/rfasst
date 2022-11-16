@@ -3,7 +3,7 @@ library(rfasst); library(testthat); library(magrittr); library(rprojroot);librar
 # Load the GCAM db form the Zenodo repository
 db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 rpackageutils::download_unpack_zip(data_directory = db_path,
-                                   url = "https://zenodo.org/record/4763523/files/database_basexdb_5p3_release.zip?download=1")
+                                   url = "https://zenodo.org/record/7326437/files/database_basexdb_ref.zip?download=1")
 outdir = paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
 #-----------------------------
@@ -13,14 +13,15 @@ test_that("module 1 writes csv file", {
 
     a<-dplyr::bind_rows(m1_emissions_rescale(db_path = db_path,
                        query_path="./inst/extdata",
-                       db_name = "database_basexdb_5p3_release",
+                       db_name = "database_basexdb_ref",
                        prj_name = "scentest.dat",
-                       scen_name = "Reference_gcam5p3_release",
+                       scen_name = "Reference",
                        queries ="queries_rfasst.xml",
+                       final_db_year = 2030,
                        saveOutput = T))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_em<-read.csv(paste0(outdir,"/m1/",scen_name,"_",selected_year,".csv"))
 
@@ -37,15 +38,16 @@ test_that("module 2 writes csv file for PM2.5 concentration", {
 
   a<-dplyr::bind_rows(m2_get_conc_pm25(db_path = db_path,
                                            query_path="./inst/extdata",
-                                           db_name = "database_basexdb_5p3_release",
+                                           db_name = "database_basexdb_ref",
                                            prj_name = "scentest.dat",
-                                           scen_name = "Reference_gcam5p3_release",
+                                           scen_name = "Reference",
                                            queries ="queries_rfasst.xml",
+                                           final_db_year = 2030,
                                            saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_pm25_conc<-read.csv(paste0(outdir,"/m2/","PM2.5_",scen_name,"_",selected_year,".csv"))
 
@@ -58,15 +60,16 @@ test_that("module 2 writes csv file for O3 concentration", {
 
   a<-dplyr::bind_rows(m2_get_conc_o3(db_path = db_path,
                                        query_path="./inst/extdata",
-                                       db_name = "database_basexdb_5p3_release",
+                                       db_name = "database_basexdb_ref",
                                        prj_name = "scentest.dat",
-                                       scen_name = "Reference_gcam5p3_release",
+                                       scen_name = "Reference",
                                        queries ="queries_rfasst.xml",
+                                       final_db_year = 2030,
                                        saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_o3_conc<-read.csv(paste0(outdir,"/m2/","O3_",scen_name,"_",selected_year,".csv"))
 
@@ -79,15 +82,16 @@ test_that("module 2 writes csv file for O3-M6M concentration", {
 
   a<-dplyr::bind_rows(m2_get_conc_m6m(db_path = db_path,
                                      query_path="./inst/extdata",
-                                     db_name = "database_basexdb_5p3_release",
+                                     db_name = "database_basexdb_ref",
                                      prj_name = "scentest.dat",
-                                     scen_name = "Reference_gcam5p3_release",
+                                     scen_name = "Reference",
                                      queries ="queries_rfasst.xml",
+                                     final_db_year = 2030,
                                      saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_m6m_conc<-read.csv(paste0(outdir,"/m2/","M6M_",scen_name,"_",selected_year,".csv"))
 
@@ -100,15 +104,16 @@ test_that("module 2 writes csv file for O3-AOT40 concentration", {
 
   a<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
                                       query_path="./inst/extdata",
-                                      db_name = "database_basexdb_5p3_release",
+                                      db_name = "database_basexdb_ref",
                                       prj_name = "scentest.dat",
-                                      scen_name = "Reference_gcam5p3_release",
+                                      scen_name = "Reference",
                                       queries ="queries_rfasst.xml",
+                                      final_db_year = 2030,
                                       saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_aot40_conc<-read.csv(paste0(outdir,"/m2/","AOT40_",scen_name,"_",selected_year,".csv"))
 
@@ -121,15 +126,16 @@ test_that("module 2 writes csv file for O3-Mi concentration", {
 
   a<-dplyr::bind_rows(m2_get_conc_mi(db_path = db_path,
                                         query_path="./inst/extdata",
-                                        db_name = "database_basexdb_5p3_release",
+                                        db_name = "database_basexdb_ref",
                                         prj_name = "scentest.dat",
-                                        scen_name = "Reference_gcam5p3_release",
+                                        scen_name = "Reference",
                                         queries ="queries_rfasst.xml",
+                                        final_db_year = 2030,
                                         saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_mi_conc<-read.csv(paste0(outdir,"/m2/","Mi_",scen_name,"_",selected_year,".csv"))
 
@@ -148,15 +154,16 @@ test_that("module 3 writes csv file for PM2.5 mort", {
 
   a<-dplyr::bind_rows(m3_get_mort_pm25(db_path = db_path,
                                      query_path="./inst/extdata",
-                                     db_name = "database_basexdb_5p3_release",
+                                     db_name = "database_basexdb_ref",
                                      prj_name = "scentest.dat",
-                                     scen_name = "Reference_gcam5p3_release",
+                                     scen_name = "Reference",
                                      queries ="queries_rfasst.xml",
+                                     final_db_year = 2030,
                                      saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_pm25_mort<-read.csv(paste0(outdir,"/m3/","PM25_MORT_",scen_name,"_",selected_year,".csv"))
 
@@ -169,15 +176,16 @@ test_that("module 3 writes csv file for O3 mort", {
 
   a<-dplyr::bind_rows(m3_get_mort_o3(db_path = db_path,
                                        query_path="./inst/extdata",
-                                       db_name = "database_basexdb_5p3_release",
+                                       db_name = "database_basexdb_ref",
                                        prj_name = "scentest.dat",
-                                       scen_name = "Reference_gcam5p3_release",
+                                       scen_name = "Reference",
                                        queries ="queries_rfasst.xml",
+                                       final_db_year = 2030,
                                        saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_o3_mort<-read.csv(paste0(outdir,"/m3/","O3_MORT_",scen_name,"_",selected_year,".csv"))
 
@@ -190,15 +198,16 @@ test_that("module 3 writes csv file for PM2.5-YLL", {
 
   a<-dplyr::bind_rows(m3_get_yll_pm25(db_path = db_path,
                                      query_path="./inst/extdata",
-                                     db_name = "database_basexdb_5p3_release",
+                                     db_name = "database_basexdb_ref",
                                      prj_name = "scentest.dat",
-                                     scen_name = "Reference_gcam5p3_release",
+                                     scen_name = "Reference",
                                      queries ="queries_rfasst.xml",
+                                     final_db_year = 2030,
                                      saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_pm25_yll<-read.csv(paste0(outdir,"/m3/","PM25_YLL_",scen_name,"_",selected_year,".csv"))
 
@@ -211,15 +220,16 @@ test_that("module 3 writes csv file for O3-YLL", {
 
   a<-dplyr::bind_rows(m3_get_yll_o3(db_path = db_path,
                                       query_path="./inst/extdata",
-                                      db_name = "database_basexdb_5p3_release",
+                                      db_name = "database_basexdb_ref",
                                       prj_name = "scentest.dat",
-                                      scen_name = "Reference_gcam5p3_release",
+                                      scen_name = "Reference",
                                       queries ="queries_rfasst.xml",
+                                      final_db_year = 2030,
                                       saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_o3_yll<-read.csv(paste0(outdir,"/m3/","O3_YLL_",scen_name,"_",selected_year,".csv"))
 
@@ -232,15 +242,16 @@ test_that("module 3 writes csv file for PM2.5-DALYs", {
 
   a<-dplyr::bind_rows(m3_get_daly_pm25(db_path = db_path,
                                     query_path="./inst/extdata",
-                                    db_name = "database_basexdb_5p3_release",
+                                    db_name = "database_basexdb_ref",
                                     prj_name = "scentest.dat",
-                                    scen_name = "Reference_gcam5p3_release",
+                                    scen_name = "Reference",
                                     queries ="queries_rfasst.xml",
+                                    final_db_year = 2030,
                                     saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_pm25_daly<-read.csv(paste0(outdir,"/m3/","PM25_DALY_",scen_name,"_",selected_year,".csv"))
 
@@ -253,15 +264,16 @@ test_that("module 3 writes csv file for O3-DALYs", {
 
   a<-dplyr::bind_rows(m3_get_daly_o3(db_path = db_path,
                                        query_path="./inst/extdata",
-                                       db_name = "database_basexdb_5p3_release",
+                                       db_name = "database_basexdb_ref",
                                        prj_name = "scentest.dat",
-                                       scen_name = "Reference_gcam5p3_release",
+                                       scen_name = "Reference",
                                        queries ="queries_rfasst.xml",
+                                       final_db_year = 2030,
                                        saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_o3_daly<-read.csv(paste0(outdir,"/m3/","O3_DALY_",scen_name,"_",selected_year,".csv"))
 
@@ -274,15 +286,16 @@ test_that("module 3 writes csv file for PM2.5-Mort-EcoLoss", {
 
   a<-dplyr::bind_rows(m3_get_mort_pm25_ecoloss(db_path = db_path,
                                      query_path="./inst/extdata",
-                                     db_name = "database_basexdb_5p3_release",
+                                     db_name = "database_basexdb_ref",
                                      prj_name = "scentest.dat",
-                                     scen_name = "Reference_gcam5p3_release",
+                                     scen_name = "Reference",
                                      queries ="queries_rfasst.xml",
+                                     final_db_year = 2030,
                                      saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_pm25_mort_ecoloss<-read.csv(paste0(outdir,"/m3/","PM25_MORT_ECOLOSS_",scen_name,"_",selected_year,".csv"))
 
@@ -295,15 +308,16 @@ test_that("module 3 writes csv file for PM2.5-O3-EcoLoss", {
 
   a<-dplyr::bind_rows(m3_get_mort_o3_ecoloss(db_path = db_path,
                                                query_path="./inst/extdata",
-                                               db_name = "database_basexdb_5p3_release",
+                                               db_name = "database_basexdb_ref",
                                                prj_name = "scentest.dat",
-                                               scen_name = "Reference_gcam5p3_release",
+                                               scen_name = "Reference",
                                                queries ="queries_rfasst.xml",
+                                               final_db_year = 2030,
                                                saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_o3_mort_ecoloss<-read.csv(paste0("./output/m3/","O3_MORT_ECOLOSS_",scen_name,"_",selected_year,".csv"))
 
@@ -316,15 +330,16 @@ test_that("module 3 writes csv file for PM2.5-YLL-EcoLoss", {
 
   a<-dplyr::bind_rows(m3_get_yll_pm25_ecoloss(db_path = db_path,
                                                query_path="./inst/extdata",
-                                               db_name = "database_basexdb_5p3_release",
+                                               db_name = "database_basexdb_ref",
                                                prj_name = "scentest.dat",
-                                               scen_name = "Reference_gcam5p3_release",
+                                               scen_name = "Reference",
                                                queries ="queries_rfasst.xml",
+                                               final_db_year = 2030,
                                                saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_pm25_yll_ecoloss<-read.csv(paste0(outdir,"/m3/","PM25_YLL_ECOLOSS_",scen_name,"_",selected_year,".csv"))
 
@@ -337,15 +352,16 @@ test_that("module 3 writes csv file for O3-YLL-EcoLoss", {
 
   a<-dplyr::bind_rows(m3_get_yll_o3_ecoloss(db_path = db_path,
                                               query_path="./inst/extdata",
-                                              db_name = "database_basexdb_5p3_release",
+                                              db_name = "database_basexdb_ref",
                                               prj_name = "scentest.dat",
-                                              scen_name = "Reference_gcam5p3_release",
+                                              scen_name = "Reference",
                                               queries ="queries_rfasst.xml",
+                                              final_db_year = 2030,
                                               saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_o3_yll_ecoloss<-read.csv(paste0(outdir,"/m3/","O3_YLL_ECOLOSS_",scen_name,"_",selected_year,".csv"))
 
@@ -361,15 +377,16 @@ test_that("module 4 writes csv file for RYL-AOT40", {
 
   a<-dplyr::bind_rows(m4_get_ryl_aot40(db_path = db_path,
                                             query_path="./inst/extdata",
-                                            db_name = "database_basexdb_5p3_release",
+                                            db_name = "database_basexdb_ref",
                                             prj_name = "scentest.dat",
-                                            scen_name = "Reference_gcam5p3_release",
+                                            scen_name = "Reference",
                                             queries ="queries_rfasst.xml",
+                                            final_db_year = 2030,
                                             saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_ryl_aot40<-read.csv(paste0(outdir,"/m4/","RYL_AOT40_",scen_name,"_",selected_year,".csv"))
 
@@ -382,15 +399,16 @@ test_that("module 4 writes csv file for RYL-Mi", {
 
   a<-dplyr::bind_rows(m4_get_ryl_mi(db_path = db_path,
                                        query_path="./inst/extdata",
-                                       db_name = "database_basexdb_5p3_release",
+                                       db_name = "database_basexdb_ref",
                                        prj_name = "scentest.dat",
-                                       scen_name = "Reference_gcam5p3_release",
+                                       scen_name = "Reference",
                                        queries ="queries_rfasst.xml",
+                                       final_db_year = 2030,
                                        saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_ryl_mi<-read.csv(paste0(outdir,"/m4/","RYL_Mi_",scen_name,"_",selected_year,".csv"))
 
@@ -403,15 +421,16 @@ test_that("module 4 writes csv file for ProdLoss", {
 
   a<-dplyr::bind_rows(m4_get_prod_loss(db_path = db_path,
                                     query_path="./inst/extdata",
-                                    db_name = "database_basexdb_5p3_release",
+                                    db_name = "database_basexdb_ref",
                                     prj_name = "scentest.dat",
-                                    scen_name = "Reference_gcam5p3_release",
+                                    scen_name = "Reference",
                                     queries ="queries_rfasst.xml",
+                                    final_db_year = 2030,
                                     saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_ProdLoss<-read.csv(paste0(outdir,"/m4/","PROD_LOSS_",scen_name,"_",selected_year,".csv"))
 
@@ -424,15 +443,16 @@ test_that("module 4 writes csv file for RevLoss", {
 
   a<-dplyr::bind_rows(m4_get_rev_loss(db_path = db_path,
                                        query_path="./inst/extdata",
-                                       db_name = "database_basexdb_5p3_release",
+                                       db_name = "database_basexdb_ref",
                                        prj_name = "scentest.dat",
-                                       scen_name = "Reference_gcam5p3_release",
+                                       scen_name = "Reference",
                                        queries ="queries_rfasst.xml",
+                                       final_db_year = 2030,
                                        saveOutput = T)) %>%
     dplyr::mutate(year=as.numeric(as.character(year)))
 
   selected_year<-max(a$year)
-  scen_name = "Reference_gcam5p3_release"
+  scen_name = "Reference"
 
   existing_csv_RevLoss<-read.csv(paste0(outdir,"/m4/","REV_LOSS_",scen_name,"_",selected_year,".csv"))
 

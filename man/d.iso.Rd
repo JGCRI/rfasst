@@ -5,7 +5,7 @@
 \alias{d.iso}
 \title{d.iso}
 \format{
-An object of class \code{data.frame} with 238 rows and 4 columns.
+An object of class \code{data.frame} with 242 rows and 4 columns.
 }
 \usage{
 d.iso
