@@ -209,7 +209,7 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -378,7 +378,7 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_n
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -509,7 +509,7 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -636,7 +636,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_n
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -762,7 +762,7 @@ m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, qu
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -903,7 +903,7 @@ m3_get_mort_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -1029,7 +1029,7 @@ m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_na
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -1155,7 +1155,7 @@ m3_get_yll_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queri
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -1266,7 +1266,7 @@ m3_get_yll_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_nam
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -1390,7 +1390,7 @@ m3_get_daly_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%

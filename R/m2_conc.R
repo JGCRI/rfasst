@@ -35,7 +35,7 @@ m2_get_conc_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, qu
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -422,7 +422,7 @@ m2_get_conc_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -650,7 +650,7 @@ m2_get_conc_m6m<-function(db_path, query_path, db_name, prj_name, scen_name, que
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -909,7 +909,7 @@ m2_get_conc_aot40<-function(db_path, query_path, db_name, prj_name, scen_name, q
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -1334,7 +1334,7 @@ m2_get_conc_mi<-function(db_path, query_path, db_name, prj_name, scen_name, quer
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
