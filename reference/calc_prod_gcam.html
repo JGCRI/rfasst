@@ -29,7 +29,7 @@
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-clipboard-list"></span>
      
     Guides
@@ -88,17 +88,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_prod_gcam</span><span class="op">(</span>
-  <span class="va">db_path</span>,
-  <span class="va">query_path</span>,
-  <span class="va">db_name</span>,
-  <span class="va">prj_name</span>,
-  <span class="va">scen_name</span>,
-  <span class="va">queries</span>,
-  saveOutput <span class="op">=</span> <span class="cn">T</span>,
-  map <span class="op">=</span> <span class="cn">F</span>,
-  anim <span class="op">=</span> <span class="cn">T</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_prod_gcam</span><span class="op">(</span></span>
+<span>  <span class="va">db_path</span>,</span>
+<span>  <span class="va">query_path</span>,</span>
+<span>  <span class="va">db_name</span>,</span>
+<span>  <span class="va">prj_name</span>,</span>
+<span>  <span class="va">scen_name</span>,</span>
+<span>  <span class="va">queries</span>,</span>
+<span>  final_db_year <span class="op">=</span> <span class="fl">2100</span>,</span>
+<span>  saveOutput <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  map <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  anim <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="source">
@@ -109,26 +110,49 @@
     <h2>Arguments</h2>
     <dl><dt>db_path</dt>
 <dd><p>Path to the GCAM database</p></dd>
+
+
 <dt>query_path</dt>
 <dd><p>Path to the query file</p></dd>
+
+
 <dt>db_name</dt>
 <dd><p>Name of the GCAM database</p></dd>
+
+
 <dt>prj_name</dt>
 <dd><p>Name of the rgcam project. This can be an existing project, or, if not, this will be the name</p></dd>
+
+
 <dt>scen_name</dt>
 <dd><p>Name of the GCAM scenario to be processed</p></dd>
+
+
 <dt>queries</dt>
 <dd><p>Name of the GCAM query file. The file by default includes the queries required to run rfasst</p></dd>
+
+
+<dt>final_db_year</dt>
+<dd><p>Final year in the GCAM database (this allows to process databases with user-defined "stop periods")</p></dd>
+
+
 <dt>saveOutput</dt>
 <dd><p>Writes the emission files.By default=T</p></dd>
+
+
 <dt>map</dt>
 <dd><p>Produce the maps. By default=F</p></dd>
+
+
 <dt>anim</dt>
 <dd><p>If set to T, produces multi-year animations. By default=T</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Future agricultural production levels from GCAM for each GCAM region for all years (Mt). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.</p>
+    
+
+<p>Future agricultural production levels from GCAM for each GCAM region for all years (Mt). The countries that form each GCAM region are listed in the documentation repository: https://github.com/JGCRI/gcam-doc/blob/gh-pages/overview.md The list of commodities within each category can be found in: Kyle, G.P., Luckow, P., Calvin, K.V., Emanuel, W.R., Nathan, M. and Zhou, Y., 2011. GCAM 3.0 agriculture and land use: data sources and methods (No. PNNL-21025). Pacific Northwest National Lab.(PNNL), Richland, WA (United States), and in Sampedro, J., Waldhoff, S.T., Van de Ven, D.J., Pardo, G., Van Dingenen, R., Arto, I., del Prado, A. and Sanz, M.J., 2020. Future impacts of ozone driven damages on agricultural systems. Atmospheric Environment, 231, p.117538, Table S2.</p>
     </div>
 
   </div>
@@ -143,7 +167,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

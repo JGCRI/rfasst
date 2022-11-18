@@ -46,7 +46,7 @@
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-clipboard-list"></span>
      
     Guides
@@ -104,15 +104,11 @@
   <div class="contents col-md-9">
 
 
-<!-- ------------------------>
-<!-- ------------------------>
-<div class="section level1">
+<!-- ------------------------><!-- ------------------------><div class="section level1">
 <div class="page-header"><h1 id="contents">
 <a name="Contents"></a>Contents<a class="anchor" aria-label="anchor" href="#contents"></a>
 </h1></div>
-<!-- ------------------------>
-<!-- ------------------------>
-<ul>
+<!-- ------------------------><!-- ------------------------><ul>
 <li><a href="#KeyLinks">Key Links</a></li>
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Citation">Citation</a></li>
@@ -126,9 +122,7 @@
 <h1 id="key-links">
 <a name="KeyLinks"></a>Key Links<a class="anchor" aria-label="anchor" href="#key-links"></a>
 </h1>
-<!-- ------------------------>
-<!-- ------------------------>
-<p><a href="#Contents">Back to Contents</a></p>
+<!-- ------------------------><!-- ------------------------><p><a href="#Contents">Back to Contents</a></p>
 <ul>
 <li>Github: <a href="https://github.com/JGCRI/rfasst" class="external-link uri">https://github.com/JGCRI/rfasst</a>
 </li>
@@ -141,33 +135,24 @@
 <h1 id="introduction">
 <a name="Introduction"></a>Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h1>
-<!-- ------------------------>
-<!-- ------------------------>
-<p><a href="#Contents">Back to Contents</a></p>
+<!-- ------------------------><!-- ------------------------><p><a href="#Contents">Back to Contents</a></p>
 <p><code>rfasst</code> reports a consistent range of adverse health and agricultural effects attributable to air pollution for any scenario run by the Global Change Analysis Model (<a href="http://www.globalchange.umd.edu/gcam/" class="external-link">GCAM</a>), by replicating the calculations of the air quality reduced-form model <a href="https://ec.europa.eu/jrc/en/publication/tm5-fasst-global-atmospheric-source-receptor-model-rapid-impact-analysis-emission-changes-air" class="external-link">TM5-FASST</a>.</p>
-<!-- ------------------------>
-<!-- ------------------------>
+<!-- ------------------------><!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="citation">
 <a name="Citation"></a>Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h1>
-<!-- ------------------------>
-<!-- ------------------------>
-<p><a href="#Contents">Back to Contents</a></p>
-<!-- ------------------------>
-<!-- ------------------------>
+<!-- ------------------------><!-- ------------------------><p><a href="#Contents">Back to Contents</a></p>
+<!-- ------------------------><!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="installation-guide">
 <a name="InstallGuide"></a>Installation Guide<a class="anchor" aria-label="anchor" href="#installation-guide"></a>
 </h1>
-<!-- ------------------------>
-<!-- ------------------------>
-<p><a href="#Contents">Back to Contents</a></p>
+<!-- ------------------------><!-- ------------------------><p><a href="#Contents">Back to Contents</a></p>
 <ol style="list-style-type: decimal">
-<li>Download and install:
-<ul>
+<li>Download and install:<ul>
 <li>R (<a href="https://www.r-project.org/" class="external-link uri">https://www.r-project.org/</a>)</li>
 <li>R studio (<a href="https://www.rstudio.com/" class="external-link uri">https://www.rstudio.com/</a>)<br>
 </li>
@@ -177,34 +162,28 @@
 <li>Open R studio:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"JGCRI/rfasst"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"JGCRI/rfasst"</span><span class="op">)</span></span></code></pre></div>
 <p>(Optional)</p>
 <p>To clone the repository to the local machine: Git bash in the working directory (right click “Git Bash Here”) -&gt; In the Git console type:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>git clone https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>JGCRI<span class="op">/</span>rfasst.git</span></code></pre></div>
 <p>Then, open the Rproject (rfasst.Rproj): In the Rstudio menu, click “Build -&gt; Install and restart” (Ctrl+Shift+B)</p>
-<!-- ------------------------>
-<!-- ------------------------>
+<!-- ------------------------><!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="-how-to-guides">
 <a name="keyfunctions"></a> How to guides<a class="anchor" aria-label="anchor" href="#-how-to-guides"></a>
 </h1>
-<!-- ------------------------>
-<!-- ------------------------>
-<p><a href="#Contents">Back to Contents</a></p>
+<!-- ------------------------><!-- ------------------------><p><a href="#Contents">Back to Contents</a></p>
 <p>The package consists of a set of functions divided in four different modules: - Module 1. Emissions re-scaling: Process emissions by GCAM-region and re-scale them to TM5-FASST regions, and make some additional pollutant-related adjustments. More details in the <a href="https://jgcri.github.io/rfasst/articles/Module1_emissions.html" class="external-link">Module1 emissions</a> page. - Module 2. Concentration: Estimate fine particulate matter (PM2.5) and ozone (O3) concentration levels (measured by different indicators) for each region. More details in the <a href="https://jgcri.github.io/rfasst/articles/Module2_concentration.html" class="external-link">Module2 concentration</a> page. - Module 3. Health: Report adverse health effects attributable to exposure to fine particulate matter (PM2.5) and ozone (O3; M6M). More details in the <a href="https://jgcri.github.io/rfasst/articles/Module3_health.html" class="external-link">Module3 health</a> page. - Module 4. Agriculture: Estimate adverse agricultural impacts associated to ozone exposure, including relative yield losses (RYLs) and production and revenue losses. More details in the <a href="https://jgcri.github.io/rfasst/articles/Module4_agriculture.html" class="external-link">Module4 agriculture</a> page.</p>
 <p>In addition, the package includes some default mapping files and default values, that are read by the different functions. These can be changed by the user. Some of these constants include: - Years to be analyzed: In the <code>all_years</code> vector, the user can select the years to be included in the analysis. All the avialble years are ‘2005’,‘2010’,‘2020’,‘2030’,‘2040’,‘2050’,‘2060’,‘2070’,‘2080’,‘2090’,‘2100’.It is no possible to add any other year, but they can be reduced if desired (for example to reduce computation time). - GCAM crop categories to be included in the analysis - Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS) - Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts. - Baseline moratlity rates. - Median values for the health impact economic assessment (Value of Statistical Life) - Other</p>
-<!-- ------------------------>
-<!-- ------------------------>
+<!-- ------------------------><!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="publications">
 <a name="Publications"></a>Publications<a class="anchor" aria-label="anchor" href="#publications"></a>
 </h1>
-<!-- ------------------------>
-<!-- ------------------------>
-<p><a href="#Contents">Back to Contents</a></p>
+<!-- ------------------------><!-- ------------------------><p><a href="#Contents">Back to Contents</a></p>
 <p>Previous to the development of this package, different studies have combined the use of GCAM and TM5-FASST:</p>
 <ul>
 <li><p>Sampedro, J., Smith, S.J., Arto, I., González-Eguino, M., Markandya, A., Mulvaney, K.M., Pizarro-Irizar, C. and Van Dingenen, R., 2020. Health co-benefits and mitigation costs as per the Paris Agreement under different technological pathways for energy supply. Environment international, 136, p.105513.</p></li>
@@ -278,7 +257,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

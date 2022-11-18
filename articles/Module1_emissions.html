@@ -46,7 +46,7 @@
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-clipboard-list"></span>
      
     Guides
@@ -130,24 +130,24 @@
 <p>In addition, by setting <code>map</code> to <code>TRUE</code>, the function generates air pollutant emission maps by year and specie, using the <a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a> package documented in the following <a href="https://jgcri.github.io/rmap/" class="external-link">page</a>. The function also generates animations and individual figures for each pollutant by modifying the <code>mapIndivPol</code>and <code>anim</code> parameters.</p>
 <p>The outputs from this module generated with the function <code>m1_emissions_rescale</code> are going to read by the set of functions in Module 2, which calculate PM2.5 and O3 average concentration levels based on these emission sets.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst" class="external-link">rfasst</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
-
- <span class="va">db_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_database"</span>
- <span class="va">query_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_queries_file"</span>
- <span class="va">db_name</span><span class="op">&lt;-</span><span class="st">"name of the database"</span>
- <span class="va">prj_name</span><span class="op">&lt;-</span><span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span>
- <span class="va">scen_name</span><span class="op">&lt;-</span><span class="st">"name of the GCAM scenario"</span>
- <span class="va">queries</span><span class="op">&lt;-</span><span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the package, "queries_rfasst.xml")</span>
-
-   <span class="co">#To write the re-scaled emissions (csv files) for all years into the output folder:</span>
-     <span class="fu"><a href="../reference/m1_emissions_rescale.html">m1_emissions_rescale</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">T</span>, map<span class="op">=</span><span class="cn">T</span>,mapIndivPol<span class="op">=</span><span class="cn">F</span>, anim<span class="op">=</span><span class="cn">T</span> <span class="op">)</span>
-
-   <span class="co">#To save as data frame emisions of main pollutants by TM5-FASST region in 2050:</span>
-
-     <span class="va">em.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/m1_emissions_rescale.html">m1_emissions_rescale</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span> 
-                         
-     <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">m1_emissions_rescale</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rfasst" class="external-link">rfasst</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
+<span></span>
+<span> <span class="va">db_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_database"</span></span>
+<span> <span class="va">query_path</span><span class="op">&lt;-</span><span class="st">"path_to_your_gcam_queries_file"</span></span>
+<span> <span class="va">db_name</span><span class="op">&lt;-</span><span class="st">"name of the database"</span></span>
+<span> <span class="va">prj_name</span><span class="op">&lt;-</span><span class="st">"name for a Project to add extracted results to"</span> <span class="co"># (any name should work, avoid spaces just in case) </span></span>
+<span> <span class="va">scen_name</span><span class="op">&lt;-</span><span class="st">"name of the GCAM scenario"</span></span>
+<span> <span class="va">queries</span><span class="op">&lt;-</span><span class="st">"Name of the query file"</span> <span class="co"># (the package includes a default query file that includes all the queries required in every function in the package, "queries_rfasst.xml")</span></span>
+<span></span>
+<span>   <span class="co">#To write the re-scaled emissions (csv files) for all years into the output folder:</span></span>
+<span>     <span class="fu"><a href="../reference/m1_emissions_rescale.html">m1_emissions_rescale</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">T</span>, map<span class="op">=</span><span class="cn">T</span>,mapIndivPol<span class="op">=</span><span class="cn">F</span>, anim<span class="op">=</span><span class="cn">T</span> <span class="op">)</span></span>
+<span></span>
+<span>   <span class="co">#To save as data frame emisions of main pollutants by TM5-FASST region in 2050:</span></span>
+<span></span>
+<span>     <span class="va">em.2050</span><span class="op">&lt;-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/m1_emissions_rescale.html">m1_emissions_rescale</a></span><span class="op">(</span><span class="va">db_path</span>,<span class="va">query_path</span>,<span class="va">db_name</span>,<span class="va">prj_name</span>,<span class="va">scen_name</span>,<span class="va">queries</span>,saveOutput<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span><span class="op">==</span><span class="fl">2050</span><span class="op">)</span> </span>
+<span>                         </span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">m1_emissions_rescale</span><span class="op">)</span></span></code></pre></div>
 <!-------------------------->
 <!-------------------------->
 <p align="center" style="font-size:18px;">
@@ -174,7 +174,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
