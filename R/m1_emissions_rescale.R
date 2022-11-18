@@ -36,7 +36,7 @@ m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%

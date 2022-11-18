@@ -32,7 +32,7 @@ calc_prod_gcam<-function(db_path, query_path, db_name, prj_name, scen_name, quer
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -142,7 +142,7 @@ calc_price_gcam<-function(db_path, query_path, db_name, prj_name, scen_name, que
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -242,7 +242,7 @@ calc_rev_gcam<-function(db_path, query_path, db_name, prj_name, scen_name, queri
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -346,7 +346,7 @@ m4_get_ryl_aot40<-function(db_path, query_path, db_name, prj_name, scen_name, qu
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt=as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg,by="subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -464,7 +464,7 @@ m4_get_ryl_mi<-function(db_path, query_path, db_name, prj_name, scen_name, queri
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -582,7 +582,7 @@ m4_get_prod_loss<-function(db_path, query_path, db_name, prj_name, scen_name, qu
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
@@ -796,7 +796,7 @@ m4_get_rev_loss<-function(db_path, query_path, db_name, prj_name, scen_name, que
   # Shape subset for maps
   fasstSubset <- rmap::mapCountries
 
-  fasstSubset@data<-fasstSubset@data %>%
+  fasstSubset<-fasstSubset %>%
     dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
     dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
     dplyr::select(-subRegion) %>%
