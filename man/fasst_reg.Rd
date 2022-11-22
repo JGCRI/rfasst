@@ -5,7 +5,7 @@
 \alias{fasst_reg}
 \title{fasst_reg}
 \format{
-An object of class \code{data.frame} with 249 rows and 2 columns.
+An object of class \code{data.frame} with 256 rows and 2 columns.
 }
 \source{
 TM5-FASST
