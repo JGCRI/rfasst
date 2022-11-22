@@ -48,6 +48,8 @@
 
 [Back to Contents](#Contents)
 
+Sampedro, J., Khan, Z., Vernon, C.R., Smith, S.J., Waldhoff, S. and Van Dingenen, R., 2022. rfasst: An R tool to estimate air pollution impacts on health and agriculture. Journal of Open Source Software, 7(69), p.3820.
+
 
 <!-- ------------------------>
 <!-- ------------------------>
@@ -96,7 +98,6 @@ The package consists of a set of functions divided in four different modules:
 - Module 4. Agriculture: Estimate adverse agricultural impacts associated to ozone exposure, including relative yield losses (RYLs) and production and revenue losses. More details in the [Module4 agriculture](https://jgcri.github.io/rfasst/articles/Module4_agriculture.html) page. 
 
 In addition, the package includes some default mapping files and default values, that are read by the different functions. These can be changed by the user. Some of these constants include:
-- Years to be analyzed: In the `all_years` vector, the user can select the years to be included in the analysis. All the avialble years are '2005','2010','2020','2030','2040','2050','2060','2070','2080','2090','2100'.It is no possible to add any other year, but they can be reduced if desired (for example to reduce computation time).
 - GCAM crop categories to be included in the analysis
 - Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS)
 - Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts.
