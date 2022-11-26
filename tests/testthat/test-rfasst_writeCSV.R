@@ -7,6 +7,8 @@ test_that("module 1 writes csv file", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
     a<-dplyr::bind_rows(m1_emissions_rescale(db_path = db_path,
                        query_path="./inst/extdata",
                        db_name = "database_basexdb_ref",
@@ -34,6 +36,8 @@ test_that("module 2 writes csv file for PM2.5 concentration", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m2_get_conc_pm25(db_path = db_path,
                                            query_path="./inst/extdata",
                                            db_name = "database_basexdb_ref",
@@ -57,6 +61,8 @@ test_that("module 2 writes csv file for PM2.5 concentration", {
 test_that("module 2 writes csv file for O3 concentration", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m2_get_conc_o3(db_path = db_path,
                                        query_path="./inst/extdata",
@@ -82,6 +88,8 @@ test_that("module 2 writes csv file for O3-M6M concentration", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m2_get_conc_m6m(db_path = db_path,
                                      query_path="./inst/extdata",
                                      db_name = "database_basexdb_ref",
@@ -106,6 +114,8 @@ test_that("module 2 writes csv file for O3-AOT40 concentration", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
                                       query_path="./inst/extdata",
                                       db_name = "database_basexdb_ref",
@@ -129,6 +139,8 @@ test_that("module 2 writes csv file for O3-AOT40 concentration", {
 test_that("module 2 writes csv file for O3-Mi concentration", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m2_get_conc_mi(db_path = db_path,
                                         query_path="./inst/extdata",
@@ -160,6 +172,8 @@ test_that("module 3 writes csv file for PM2.5 mort", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m3_get_mort_pm25(db_path = db_path,
                                      query_path="./inst/extdata",
                                      db_name = "database_basexdb_ref",
@@ -183,6 +197,8 @@ test_that("module 3 writes csv file for PM2.5 mort", {
 test_that("module 3 writes csv file for O3 mort", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m3_get_mort_o3(db_path = db_path,
                                        query_path="./inst/extdata",
@@ -208,6 +224,8 @@ test_that("module 3 writes csv file for PM2.5-YLL", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m3_get_yll_pm25(db_path = db_path,
                                      query_path="./inst/extdata",
                                      db_name = "database_basexdb_ref",
@@ -231,6 +249,8 @@ test_that("module 3 writes csv file for PM2.5-YLL", {
 test_that("module 3 writes csv file for O3-YLL", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m3_get_yll_o3(db_path = db_path,
                                       query_path="./inst/extdata",
@@ -256,6 +276,8 @@ test_that("module 3 writes csv file for PM2.5-DALYs", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m3_get_daly_pm25(db_path = db_path,
                                     query_path="./inst/extdata",
                                     db_name = "database_basexdb_ref",
@@ -279,6 +301,8 @@ test_that("module 3 writes csv file for PM2.5-DALYs", {
 test_that("module 3 writes csv file for O3-DALYs", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m3_get_daly_o3(db_path = db_path,
                                        query_path="./inst/extdata",
@@ -304,6 +328,8 @@ test_that("module 3 writes csv file for PM2.5-Mort-EcoLoss", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m3_get_mort_pm25_ecoloss(db_path = db_path,
                                      query_path="./inst/extdata",
                                      db_name = "database_basexdb_ref",
@@ -327,6 +353,8 @@ test_that("module 3 writes csv file for PM2.5-Mort-EcoLoss", {
 test_that("module 3 writes csv file for PM2.5-O3-EcoLoss", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m3_get_mort_o3_ecoloss(db_path = db_path,
                                                query_path="./inst/extdata",
@@ -352,6 +380,8 @@ test_that("module 3 writes csv file for PM2.5-YLL-EcoLoss", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m3_get_yll_pm25_ecoloss(db_path = db_path,
                                                query_path="./inst/extdata",
                                                db_name = "database_basexdb_ref",
@@ -375,6 +405,8 @@ test_that("module 3 writes csv file for PM2.5-YLL-EcoLoss", {
 test_that("module 3 writes csv file for O3-YLL-EcoLoss", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m3_get_yll_o3_ecoloss(db_path = db_path,
                                               query_path="./inst/extdata",
@@ -403,6 +435,8 @@ test_that("module 4 writes csv file for RYL-AOT40", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m4_get_ryl_aot40(db_path = db_path,
                                             query_path="./inst/extdata",
                                             db_name = "database_basexdb_ref",
@@ -426,6 +460,8 @@ test_that("module 4 writes csv file for RYL-AOT40", {
 test_that("module 4 writes csv file for RYL-Mi", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m4_get_ryl_mi(db_path = db_path,
                                        query_path="./inst/extdata",
@@ -451,6 +487,8 @@ test_that("module 4 writes csv file for ProdLoss", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
+
   a<-dplyr::bind_rows(m4_get_prod_loss(db_path = db_path,
                                     query_path="./inst/extdata",
                                     db_name = "database_basexdb_ref",
@@ -474,6 +512,8 @@ test_that("module 4 writes csv file for ProdLoss", {
 test_that("module 4 writes csv file for RevLoss", {
 
   db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
+  outdir<-paste0(rprojroot::find_root(rprojroot::is_testthat),"/output")
 
   a<-dplyr::bind_rows(m4_get_rev_loss(db_path = db_path,
                                        query_path="./inst/extdata",
