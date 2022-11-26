@@ -1,13 +1,9 @@
 library(rfasst); library(testthat); library(magrittr); library(rprojroot);library(rpackageutils)
 #-----------------------------
-# Load the GCAM db form the Zenodo repository
-db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
-rpackageutils::download_unpack_zip(data_directory = db_path,
-                                   url = "https://zenodo.org/record/7326437/files/database_basexdb_ref.zip?download=1")
-
-#-----------------------------
 
 test_that("calc_pop function works", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   pop<-calc_pop()
 
@@ -22,6 +18,8 @@ test_that("calc_pop function works", {
 
 test_that("calc_gdp function works", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   gdp<-calc_gdp_pc()
 
   gdp_reg<-length(unique(gdp$region))
@@ -35,6 +33,8 @@ test_that("calc_gdp function works", {
 
 test_that("DALY PM2.5 function works", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   daly_pm25<-calc_daly_pm25()
 
   daly_pm25_reg<-length(unique(daly_pm25$region))
@@ -47,6 +47,8 @@ test_that("DALY PM2.5 function works", {
 
 test_that("DALY O3 function works", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   daly_o3<-calc_daly_o3()
 
   daly_o3_reg<-length(unique(daly_o3$region))
@@ -58,6 +60,8 @@ test_that("DALY O3 function works", {
 })
 
 test_that("GCAM production function works", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   gcam_prod<-calc_prod_gcam(db_path = db_path,
                             query_path="./inst/extdata",
@@ -78,6 +82,8 @@ test_that("GCAM production function works", {
 
 test_that("GCAM price function works", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
 
   gcam_price<-calc_price_gcam(db_path = db_path,
                             query_path="./inst/extdata",
@@ -97,6 +103,8 @@ test_that("GCAM price function works", {
 })
 
 test_that("GCAM revenue function works", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
 
   gcam_rev<-calc_rev_gcam(db_path = db_path,

@@ -1,15 +1,11 @@
 library(rfasst); library(testthat); library(magrittr); library(rprojroot);library(rpackageutils)
 #-----------------------------
-# Load the GCAM db form the Zenodo repository
-db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
-rpackageutils::download_unpack_zip(data_directory = db_path,
-                                   url = "https://zenodo.org/record/7326437/files/database_basexdb_ref.zip?download=1")
 
-
-#-----------------------------
 # Tests for module 1 function
 
 test_that("module 1 fucntion works", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -38,6 +34,8 @@ test_that("module 1 fucntion works", {
 
 test_that("m2 calculates PM2.5 concentration", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   pm25_reg<-dplyr::bind_rows(m2_get_conc_pm25(db_path = db_path,
@@ -61,6 +59,8 @@ test_that("m2 calculates PM2.5 concentration", {
 
 test_that("m2 calculates O3 concentration", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   o3_reg<-dplyr::bind_rows(m2_get_conc_o3(db_path = db_path,
@@ -82,6 +82,8 @@ test_that("m2 calculates O3 concentration", {
 })
 
 test_that("m2 calculates O3-M6M concentration", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -105,6 +107,8 @@ test_that("m2 calculates O3-M6M concentration", {
 
 test_that("m2 calculates O3-AOT40 concentration", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   aot40_reg<-dplyr::bind_rows(m2_get_conc_aot40(db_path = db_path,
@@ -126,6 +130,8 @@ test_that("m2 calculates O3-AOT40 concentration", {
 })
 
 test_that("m2 calculates O3-Mi concentration", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -155,6 +161,8 @@ test_that("m2 calculates O3-Mi concentration", {
 
 test_that("m3 calculates PM2.5-premature mortality", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   pm25_mort_reg<-dplyr::bind_rows(m3_get_mort_pm25(db_path = db_path,
@@ -177,6 +185,8 @@ test_that("m3 calculates PM2.5-premature mortality", {
 })
 
 test_that("m3 calculates O3-premature mortality", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -201,6 +211,8 @@ test_that("m3 calculates O3-premature mortality", {
 
 test_that("m3 calculates PM2.5-YLL", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   pm25_yll_reg<-dplyr::bind_rows(m3_get_yll_pm25(db_path = db_path,
@@ -223,6 +235,8 @@ test_that("m3 calculates PM2.5-YLL", {
 })
 
 test_that("m3 calculates PM2.5-DALYs", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -247,6 +261,8 @@ test_that("m3 calculates PM2.5-DALYs", {
 
 test_that("m3 calculates O3-YLL", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   o3_yll_reg<-dplyr::bind_rows(m3_get_yll_o3(db_path = db_path,
@@ -269,6 +285,8 @@ test_that("m3 calculates O3-YLL", {
 })
 
 test_that("m3 calculates O3-DALYs", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -293,6 +311,8 @@ test_that("m3 calculates O3-DALYs", {
 
 test_that("m3 calculates PM2.5-Mort-EcoLoss", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   pm25_mort_ecoloss_reg<-dplyr::bind_rows(m3_get_mort_pm25_ecoloss(db_path = db_path,
@@ -315,6 +335,8 @@ test_that("m3 calculates PM2.5-Mort-EcoLoss", {
 })
 
 test_that("m3 calculates O3-Mort-EcoLoss", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -339,6 +361,8 @@ test_that("m3 calculates O3-Mort-EcoLoss", {
 
 test_that("m3 calculates PM2.5-YLL-EcoLoss", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   pm25_yll_ecoloss_reg<-dplyr::bind_rows(m3_get_yll_pm25_ecoloss(db_path = db_path,
@@ -361,6 +385,8 @@ test_that("m3 calculates PM2.5-YLL-EcoLoss", {
 })
 
 test_that("m3 calculates O3-YLL-EcoLoss", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -388,6 +414,8 @@ test_that("m3 calculates O3-YLL-EcoLoss", {
 
 test_that("m4 calculates RYL-AOT40", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   ryl_aot40_reg<-dplyr::bind_rows(m4_get_ryl_aot40(db_path = db_path,
@@ -410,6 +438,8 @@ test_that("m4 calculates RYL-AOT40", {
 })
 
 test_that("m4 calculates RYL-Mi", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
@@ -434,6 +464,8 @@ test_that("m4 calculates RYL-Mi", {
 
 test_that("m4 calculates ProdLoss", {
 
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
+
   `%!in%` = Negate(`%in%`)
 
   prod_loss_reg<-dplyr::bind_rows(m4_get_prod_loss(db_path = db_path,
@@ -456,6 +488,8 @@ test_that("m4 calculates ProdLoss", {
 })
 
 test_that("m4 calculates RevLoss", {
+
+  db_path = paste0(rprojroot::find_root(rprojroot::is_testthat),"/testOutputs")
 
   `%!in%` = Negate(`%in%`)
 
