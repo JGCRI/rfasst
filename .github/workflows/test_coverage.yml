@@ -1,8 +1,11 @@
 #test_coverage.yml
-
-on: [push, pull_request]
-
 name: test_coverage
+
+on:
+  push:
+    branches:
+      - main
+
 
 jobs:
   build:
@@ -10,6 +13,7 @@ jobs:
     strategy:
       matrix:
         r: ['3.6']
+
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@v2-branch
@@ -22,7 +26,9 @@ jobs:
         env:
           R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
           GITHUB_PAT: ${{ secrets.GH_PAT_RFASST}}
-        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'covr'))" -e "remotes::install_deps(dependencies = TRUE)"
+
+        run: install.packages(c('remotes', 'rcmdcheck', 'covr')) 
+             remotes::install_deps(dependencies = TRUE)
       
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(error_on = 'error')"
@@ -30,6 +36,5 @@ jobs:
       - name: Test coverage
         run: |
           remotes::install_cran("covr")
-          remotes::install_deps(dependencies = TRUE)
           covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")
         shell: Rscript {0}
