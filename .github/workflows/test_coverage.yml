@@ -27,12 +27,11 @@ jobs:
           R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
           GITHUB_PAT: ${{ secrets.GH_PAT_RFASST}}
 
-        run: install.packages("remotes") 
+        run: install.packages(c('remotes', 'rcmdcheck', 'covr')) 
              remotes::install_deps(dependencies = TRUE)
       
       - name: Check
-        run: 	install.packages("rcmdcheck")
-		rcmdcheck::rcmdcheck(error_on = 'error')
+        run: Rscript -e "rcmdcheck::rcmdcheck(error_on = 'error')"
       
       - name: Test coverage
         run: |
