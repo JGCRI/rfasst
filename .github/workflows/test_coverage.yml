@@ -19,7 +19,7 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@v2-branch
             
       - name: Install dependencies
-         run: |
+         run:
           install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
