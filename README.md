@@ -98,7 +98,7 @@ The package consists of a set of functions divided in four different modules:
 - Module 3. Health: Report adverse health effects attributable to exposure to fine particulate matter (PM2.5) and ozone (O3; M6M). More details in the [Module3 health](https://jgcri.github.io/rfasst/articles/Module3_health.html) page. 
 - Module 4. Agriculture: Estimate adverse agricultural impacts associated to ozone exposure, including relative yield losses (RYLs) and production and revenue losses. More details in the [Module4 agriculture](https://jgcri.github.io/rfasst/articles/Module4_agriculture.html) page. 
 
-In addition, the package includes some default mapping files and default values, that are read by the different functions. These can be changed by the user. Some of these constants include:
+In addition, the package includes some default input files (.Rda), that are read by the different functions. These can be changed by the user. Some of these constants include:
 - GCAM crop categories to be included in the analysis
 - Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS)
 - Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts.
