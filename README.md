@@ -1,6 +1,7 @@
 [![build](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml)
 [![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
 [![codecov](https://codecov.io/gh/JGCRI/rfasst/branch/main/graph/badge.svg?token=2IBODRZKVF)](https://codecov.io/gh/JGCRI/rfasst)
+[![test_coverage](https://github.com/JGCRI/rfasst/actions/workflows/test_coverage.yml/badge.svg)](https://github.com/JGCRI/rfasst/actions/workflows/test_coverage.yml)
 [![DOI](https://zenodo.org/badge/344924589.svg)](https://zenodo.org/badge/latestdoi/344924589)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.03820/status.svg)](https://doi.org/10.21105/joss.03820)
 
@@ -97,7 +98,7 @@ The package consists of a set of functions divided in four different modules:
 - Module 3. Health: Report adverse health effects attributable to exposure to fine particulate matter (PM2.5) and ozone (O3; M6M). More details in the [Module3 health](https://jgcri.github.io/rfasst/articles/Module3_health.html) page. 
 - Module 4. Agriculture: Estimate adverse agricultural impacts associated to ozone exposure, including relative yield losses (RYLs) and production and revenue losses. More details in the [Module4 agriculture](https://jgcri.github.io/rfasst/articles/Module4_agriculture.html) page. 
 
-In addition, the package includes some default mapping files and default values, that are read by the different functions. These can be changed by the user. Some of these constants include:
+In addition, the package includes some default input files (.Rda), that are read by the different functions. These can be changed by the user. Some of these constants include:
 - GCAM crop categories to be included in the analysis
 - Shares to allocate emissions between Russia Eastern (RUE) and Russia Western (RUS)
 - Coefficients and/or counterfactual values for exposure-response functions applied to estimate adverse health and agricultural impacts.

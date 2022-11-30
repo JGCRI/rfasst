@@ -3,7 +3,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^READMEfigs$
-^rmap.master.R$
 ^extras$
 ^papers$
 ^rmap.pdf$
@@ -13,16 +12,11 @@
 ^gis$
 ^grids$
 ^gcam$
-^database_basexdb$
-^database_basexdb_Uruguay$
-^LAC_dataProj.proj$
-^Uruguay_datProj.proj
 ^DISCLAIMER$
 ^\.travis\.yml$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-rmapCheatsheet.pdf
 ^\.github$
 ^_config.yml$
 ^articles$
