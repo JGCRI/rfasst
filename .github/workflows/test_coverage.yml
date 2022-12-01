@@ -24,9 +24,7 @@ jobs:
           GITHUB_PAT: ${{ secrets.GH_PAT_RFASST}}
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "remotes::install_deps(dependencies = TRUE)"
 
-      - name: Check
-        run: Rscript -e "rcmdcheck::rcmdcheck(error_on = 'error')"
-      
+     
       - name: Test coverage
         run: Rscript -e "remotes::install_cran("covr")" -e "covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")"
           
