@@ -1,6 +1,9 @@
 #test_coverage.yml
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 name: test_coverage
 
