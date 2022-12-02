@@ -1,4 +1,4 @@
-[![build](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/rcmd.yml)
+[![build](https://github.com/JGCRI/rfasst/actions/workflows/build.yml/badge.svg)](https://github.com/JGCRI/rfasst/actions/workflows/build.yml)
 [![docs](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rfasst/actions/workflows/pkgdown.yaml)
 [![codecov](https://codecov.io/gh/JGCRI/rfasst/branch/main/graph/badge.svg?token=2IBODRZKVF)](https://codecov.io/gh/JGCRI/rfasst)
 [![test_coverage](https://github.com/JGCRI/rfasst/actions/workflows/test_coverage.yml/badge.svg)](https://github.com/JGCRI/rfasst/actions/workflows/test_coverage.yml)

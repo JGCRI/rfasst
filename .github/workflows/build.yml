@@ -15,7 +15,6 @@ jobs:
       matrix:
         config:
         - { os: windows-latest, r: 'devel'}
-        - { os: macos-latest, r: 'devel'}
         - { os: ubuntu-latest, r: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
     
     env:
@@ -43,14 +42,7 @@ jobs:
           sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
-      
-      - name: MacOS Config
-        if: startsWith(matrix.config.os, 'macOS')
-        run: |
-            brew install pkg-config
-            brew install gdal
-            brew install geos
-            brew install imagemagick@6
+
       
       - name: Install dependencies
         run: |
