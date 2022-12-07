@@ -253,11 +253,11 @@ d.ha <- read.csv("inst/extdata/mapping/area_harvest.csv")
 use_data(d.ha, overwrite = T)
 
 # Combined regions:
-Regions<-dplyr::left_join(fasst_reg %>% dplyr::rename(`ISO 3`=subRegionAlt, `FASST region`=fasst_region)
+Regions<-dplyr::left_join(fasst_reg %>% dplyr::rename(`ISO 3` = subRegionAlt, `FASST region` = fasst_region)
                           , GCAM_reg, by="ISO 3") %>%
-  dplyr::mutate(ISO3=as.factor(`ISO 3`)) %>%
+  dplyr::mutate(ISO3 = as.factor(`ISO 3`)) %>%
   dplyr::select(-`ISO 3`) %>%
-  dplyr::rename(COUNTRY=Country)
+  dplyr::rename(COUNTRY = Country)
 use_data(Regions, overwrite = T)
 
 
@@ -275,6 +275,16 @@ d.weight.gcam <- dplyr::select(d.ha, crop, iso, harvested.area) %>% # Need harve
   dplyr::arrange(GCAM_region_name, GCAM_commod, crop)
 use_data(d.weight.gcam, overwrite = T)
 
+# Shape subset for maps
+fasstSubset <- rmap::mapCountries
+
+fasstSubset<-fasstSubset %>%
+  dplyr::mutate(subRegionAlt = as.character(subRegionAlt)) %>%
+  dplyr::left_join(fasst_reg, by = "subRegionAlt") %>%
+  dplyr::select(-subRegion) %>%
+  dplyr::rename(subRegion = fasst_region) %>%
+  dplyr::mutate(subRegionAlt = as.factor(subRegionAlt))
+use_data(fasstSubset, overwrite = T)
 
 #=========================================================
 # Ancillary data
