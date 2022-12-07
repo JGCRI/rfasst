@@ -28,6 +28,7 @@ More information on the methodology used for the estimation of agricultural dama
 Production losses are calculated combining the RYLs with projected agricultural production levels of the analyzed GCAM scenario. In addition, multiplying the projected price by the production losses (quantities), we estimate revenue losses for period $t$, region $i$, and crop $j$ as:
 
    $$Damage_{t,r,j}=Prod_{t,r,j} \cdot Price_{t,r,j} \cdot Pulse.RYL_{t,r,j}$$ 
+   
 As explained above, the module combines O3 concentration data with agricultural production and price projections. However, in order to complete all the calculations, the package includes some additional information:
 
 * 2010 data on harvested area for downscalling the damages to country level in order to re-scale them to the corresponding regional disaggregation  (`d.ha`;`area_harvest.csv`)

@@ -8,7 +8,8 @@ vignette: >
 ---
 The first function of the package is `m1_emissions_rescale`. It re-scales emissions from GCAM regions to TM5-FASST regions which is the purpose of Module 1.
 
-The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the pollutant-specific country-level emissions in year 2000 reported in the [RCP database](https://tntcat.iiasa.ac.at/RcpDb/dsd?Action=htmlpage&page=welcome). This approach is planned to be revised in the future, for example with the implementation of a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM. 
+The function processes emissions outputs from GCAM to make them match with the regional disaggregation of TM5-FASST. Concretely, GCAM emissions are downscaled to country level, using a static downscaling approach based on the gas-specific country-level emissions in the final year available.
+For GHGs, we use 2021 emissions reported in the [EDGAR v7.0_GHG (1970 - 2021) release](https://edgar.jrc.ec.europa.eu/dataset_ghg70) from the Emissions Database for Global Atmospheric Research. For air pollutants, we use the country-level emissions in 2017, from the Community Emissions Data System (CEDS), updated for the Global Burden of Disease - Major Air Pollution Sources project [CEDS-GBD](https://zenodo.org/record/3754964#.Y5CFtHbMKUl). This approach is planned to be revised in the future, for example with the implementation of a dynamic GDP-based downscaling procedure linked with the scenario-specific socioeconomic data in GCAM. 
 
 Apart from the regional adjustments, this function makes some additional pollutant-related changes such as the transformation of organic carbon into organic matter.
 
