@@ -1026,6 +1026,7 @@ m3_get_mort_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
 #' @param mort_param Select the health function (GBD 2016 or Jerret et al 2009) and the Low/Med/High RR. By default = mort_o3_gbd2016_med
+#' @param Damage_vsl_range Select the VSL to calculate the damages (Damage_vsl_med, Damage_vsl_low, or Damage_vsl_high)
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -1033,7 +1034,8 @@ m3_get_mort_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, final_db_year = 2100, mort_param = "mort_o3_gbd2016_med",
+m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, final_db_year = 2100,
+                                 mort_param = "mort_o3_gbd2016_med", Damage_vsl_range = "Damage_vsl_med",
                                  ssp = "SSP2", queries, saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -1087,9 +1089,11 @@ m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_na
     gcamdata::left_join_error_no_match(vsl, by = c("region","year")) %>%
     dplyr::select(-scenario) %>%
     # Calculate the median damages
-    dplyr::mutate(Damage_med = round(mort_o3 * vsl_med * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+    dplyr::mutate(Damage_vsl_med = round(mort_o3 * vsl_med * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+                  Damage_vsl_low = round(mort_o3 * vsl_lb * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+                  Damage_vsl_high = round(mort_o3 * vsl_ub * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
                   unit = "Million$2015") %>%
-    dplyr::select(region, year, disease, Damage_med, unit)
+    dplyr::select(region, year, disease, Damage_vsl_range, unit)
 
   #------------------------------------------------------------------------------------
   # Write the output
@@ -1268,6 +1272,7 @@ m3_get_yll_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queri
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016 or Jerret et al 2009) and the Low/Med/High RR. By default = mort_o3_gbd2016_med
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -1276,7 +1281,7 @@ m3_get_yll_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queri
 #' @export
 
 m3_get_yll_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
-                                ssp = "SSP2", saveOutput = T, map = F, anim = T){
+                                ssp = "SSP2", saveOutput = T, map = F, anim = T, mort_param = "mort_o3_gbd2016_med"){
 
   all_years<-all_years[all_years <= final_db_year]
 
@@ -1301,7 +1306,8 @@ m3_get_yll_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_nam
     dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get Mortalities
-  o3.yll<-m3_get_yll_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  o3.yll<-m3_get_yll_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F,
+                        final_db_year = final_db_year, mort_param = mort_param)
 
   # Get gdp_pc
   gdp_pc<-calc_gdp_pc(ssp = ssp)
