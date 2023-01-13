@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 2.0.6
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   Module1_emissions: Module1_emissions.html
   Module2_concentration: Module2_concentration.html
   Module3_health: Module3_health.html
   Module4_agriculture: Module4_agriculture.html
-last_built: 2022-12-07T15:02Z
+last_built: 2023-01-13T14:22Z
 
