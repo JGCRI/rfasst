@@ -81,10 +81,7 @@ m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup()
 
-  scen<-dplyr::bind_rows(scen_sct, scen_rsc) %>%
-    dplyr::filter(scenario == scen_name,
-                  year <= final_db_year) %>%
-    dplyr::filter(complete.cases(.))
+  scen<-dplyr::bind_rows(scen_sct, scen_rsc)
 
   # Transform OC to POM
   pom<-scen %>%
