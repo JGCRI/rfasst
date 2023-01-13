@@ -1130,17 +1130,77 @@
 #'
 "cf_o3"
 
-#' rr_resp_o3
+#' rr_resp_o3_Jerret2009_med
 #'
-#' @description Relative risk for respiratory disease associated to ozone exposure
+#' @description Relative risk for respiratory disease associated to ozone exposure from Jerret et al 2009
 #' @source TM5-FASST
 #' \dontrun{
 #'  library(rfasst);
-#'  rfasst::rr_resp_o3
+#'  rfasst::rr_resp_o3_Jerret2009_med
 #' }
 #'
 #'
-"rr_resp_o3"
+"rr_resp_o3_Jerret2009_med"
+
+#' rr_resp_o3_Jerret2009_low
+#'
+#' @description Relative risk for respiratory disease associated to ozone exposure from Jerret et al 2009
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::rr_resp_o3_Jerret2009_low
+#' }
+#'
+#'
+"rr_resp_o3_Jerret2009_low"
+
+#' rr_resp_o3_Jerret2009_high
+#'
+#' @description Relative risk for respiratory disease associated to ozone exposure from Jerret et al 2009
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::rr_resp_o3_Jerret2009_high
+#' }
+#'
+#'
+"rr_resp_o3_Jerret2009_high"
+
+#' rr_resp_o3_GBD2016_med
+#'
+#' @description Relative risk for respiratory disease associated to ozone exposure from GBD2016
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::rr_resp_o3_GBD2016_med
+#' }
+#'
+#'
+"rr_resp_o3_GBD2016_med"
+
+#' rr_resp_o3_GBD2016_high
+#'
+#' @description Relative risk for respiratory disease associated to ozone exposure from GBD2016
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::rr_resp_o3_GBD2016_high
+#' }
+#'
+#'
+"rr_resp_o3_GBD2016_high"
+
+#' rr_resp_o3_GBD2016_low
+#'
+#' @description Relative risk for respiratory disease associated to ozone exposure from GBD2016
+#' @source TM5-FASST
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::rr_resp_o3_GBD2016_low
+#' }
+#'
+#'
+"rr_resp_o3_GBD2016_low"
 
 #' dis
 #'

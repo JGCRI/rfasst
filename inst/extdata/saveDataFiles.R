@@ -61,8 +61,23 @@ cf_o3<-33.3
 use_data(cf_o3, overwrite = T)
 
 # Relative risk for respiratory disease associated to ozone exposure
-rr_resp_o3<-3.92E-03
-use_data(rr_resp_o3, overwrite = T)
+rr_resp_o3_Jerret2009_med<- 0.0039221
+use_data(rr_resp_o3_Jerret2009_med, overwrite = T)
+
+rr_resp_o3_Jerret2009_low<- 0.00099503
+use_data(rr_resp_o3_Jerret2009_low, overwrite = T)
+
+rr_resp_o3_Jerret2009_high<- 0.0064851
+use_data(rr_resp_o3_Jerret2009_high, overwrite = T)
+
+rr_resp_o3_GBD2016_med<- 0.0083382
+use_data(rr_resp_o3_GBD2016_med, overwrite = T)
+
+rr_resp_o3_GBD2016_low<- 0.0030459
+use_data(rr_resp_o3_GBD2016_low, overwrite = T)
+
+rr_resp_o3_GBD2016_high<- 0.013926
+use_data(rr_resp_o3_GBD2016_high, overwrite = T)
 
 # List of diseases for readng relative risk
 dis=c("alri","copd","ihd","stroke","lc")

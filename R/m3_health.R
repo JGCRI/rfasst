@@ -935,10 +935,31 @@ m3_get_mort_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
                                          dplyr::filter(year >= 2010) %>%
                                          dplyr::rename(mr_resp = value),
                                        by=c("region", "year", "disease")) %>%
-    dplyr::mutate(adj = 1 - exp(-(m6m - cf_o3) * rr_resp_o3),
-                  adj = dplyr::if_else(adj < 0, 0, adj),
-                  mort_o3 = round(pop_af * mr_resp * adj, 0)) %>%
-    dplyr::select(region, year, disease, mort_o3)
+    dplyr::mutate(adj_jer_med = 1 - exp(-(m6m - cf_o3) * rr_resp_o3_Jerret2009_med),
+                  adj_jer_med = dplyr::if_else(adj_jer_med < 0, 0, adj_jer_med),
+                  mort_o3_jer_med = round(pop_af * mr_resp * adj_jer_med, 0),
+
+                  adj_jer_low = 1 - exp(-(m6m - cf_o3) * rr_resp_o3_Jerret2009_low),
+                  adj_jer_low = dplyr::if_else(adj_jer_low < 0, 0, adj_jer_low),
+                  mort_o3_jer_low = round(pop_af * mr_resp * adj_jer_low, 0),
+
+                  adj_jer_high = 1 - exp(-(m6m - cf_o3) * rr_resp_o3_Jerret2009_high),
+                  adj_jer_high = dplyr::if_else(adj_jer_high < 0, 0, adj_jer_high),
+                  mort_o3_jer_high = round(pop_af * mr_resp * adj_jer_high, 0),
+
+
+                  adj_gdb2016_med = 1 - exp(-(m6m - cf_o3) * rr_resp_o3_GBD2016_med),
+                  adj_gdb2016_med = dplyr::if_else(adj_gdb2016_med < 0, 0, adj_gdb2016_med),
+                  mort_o3_gbd2016_med = round(pop_af * mr_resp * adj_gdb2016_med, 0),
+
+                  adj_gdb2016_low = 1 - exp(-(m6m - cf_o3) * rr_resp_o3_GBD2016_low),
+                  adj_gdb2016_low = dplyr::if_else(adj_gdb2016_low < 0, 0, adj_gdb2016_low),
+                  mort_o3_gbd2016_low = round(pop_af * mr_resp * adj_gdb2016_low, 0),
+
+                  adj_gdb2016_high = 1 - exp(-(m6m - cf_o3) * rr_resp_o3_GBD2016_high),
+                  adj_gdb2016_high = dplyr::if_else(adj_gdb2016_high < 0, 0, adj_gdb2016_high),
+                  mort_o3_gbd2016_high = round(pop_af * mr_resp * adj_gdb2016_high, 0)) %>%
+    dplyr::select(region, year, disease, mort_o3_jer_med, mort_o3_jer_low, mort_o3_jer_high, mort_o3_gbd2016_med, mort_o3_gbd2016_low, mort_o3_gbd2016_high)
 
   #------------------------------------------------------------------------------------
 
@@ -1004,6 +1025,7 @@ m3_get_mort_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016 or Jerret et al 2009) and the Low/Med/High RR. By default = mort_o3_gbd2016_med
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -1011,7 +1033,7 @@ m3_get_mort_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, final_db_year = 2100,
+m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, final_db_year = 2100, mort_param = "mort_o3_gbd2016_med",
                                  ssp = "SSP2", queries, saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -1037,7 +1059,9 @@ m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_na
     dplyr::mutate(subRegionAlt=as.factor(subRegionAlt))
 
   # Get Mortalities
-  o3.mort<-m3_get_mort_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  o3.mort<-m3_get_mort_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year) %>%
+    dplyr::select(region, year, disease, mort_param) %>%
+    dplyr::rename(mort_o3 = mort_param)
 
   # Get gdp_pc
   gdp_pc<-calc_gdp_pc(ssp = ssp)
@@ -1130,6 +1154,7 @@ m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_na
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016 or Jerret et al 2009) and the Low/Med/High RR. By default = mort_o3_gbd2016_med
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -1137,7 +1162,7 @@ m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_na
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
+m3_get_yll_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100, mort_param = "mort_o3_gbd2016_med",
                         ssp = "SSP2", saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -1163,7 +1188,9 @@ m3_get_yll_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queri
     dplyr::mutate(subRegionAlt = as.factor(subRegionAlt))
 
   # Get pm.mort
-  o3.mort<-m3_get_mort_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  o3.mort<-m3_get_mort_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year) %>%
+    dplyr::select(region, year, disease, mort_param) %>%
+    dplyr::rename(mort_o3 = mort_param)
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
@@ -1365,6 +1392,7 @@ m3_get_yll_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_nam
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016 or Jerret et al 2009) and the Low/Med/High RR. By default = mort_o3_gbd2016_med
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -1372,7 +1400,7 @@ m3_get_yll_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_nam
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_daly_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
+m3_get_daly_o3<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100, mort_param = "mort_o3_gbd2016_med",
                          ssp = "SSP2", saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -1401,7 +1429,9 @@ m3_get_daly_o3<-function(db_path, query_path, db_name, prj_name, scen_name, quer
   daly_calc_o3<-calc_daly_o3()
 
   # Get pm.mort
-  o3.mort<-m3_get_mort_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  o3.mort<-m3_get_mort_o3(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year) %>%
+    dplyr::select(region, year, disease, mort_param) %>%
+    dplyr::rename(mort_o3 = mort_param)
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------

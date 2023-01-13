@@ -36,7 +36,14 @@ vsly_eu_2005<-vsly_eu_2014 * gcamdata::gdp_deflator(2005, base_year = 2014)
 cf_o3<-33.3
 
 # Relative risk for respiratory disease associated to ozone exposure
-rr_resp_o3<-3.92E-03
+rr_resp_o3_Jerret2009_med<- 0.0039221
+rr_resp_o3_Jerret2009_low<- 0.00099503
+rr_resp_o3_Jerret2009_high<- 0.0064851
+
+rr_resp_o3_GBD2016_med<- 0.0083382
+rr_resp_o3_GBD2016_low<- 0.0030459
+rr_resp_o3_GBD2016_high<- 0.013926
+
 
 # List of diseases for readng relative risk
 dis=c("alri", "copd", "ihd", "stroke", "lc")

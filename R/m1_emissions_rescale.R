@@ -81,7 +81,10 @@ m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name
     dplyr::summarise(value = sum(value)) %>%
     dplyr::ungroup()
 
-  scen<-dplyr::bind_rows(scen_sct, scen_rsc)
+  scen<-dplyr::bind_rows(scen_sct, scen_rsc) %>%
+    dplyr::filter(scenario == scen_name,
+                  year <= final_db_year) %>%
+    dplyr::filter(complete.cases(.))
 
   # Transform OC to POM
   pom<-scen %>%
@@ -96,6 +99,8 @@ m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name
 
   scen<-scen %>%
     dplyr::filter(ghg %!in% c("OC","OC_AWB","CO2")) %>%
+    dplyr::filter(scenario == scen_name,
+                  year <= final_db_year) %>%
     dplyr::bind_rows(pom,co2) %>%
     # transform value to kg
     dplyr::mutate(value=value*TG_KG) %>%
@@ -112,6 +117,8 @@ m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name
 
   # Aviation:
   air<-rgcam::getQuery(prj,"International Aviation emissions") %>%
+    dplyr::filter(scenario == scen_name,
+                  year <= final_db_year) %>%
     dplyr::mutate(ghg=dplyr::if_else(grepl("SO2",ghg), "SO2", as.character(ghg))) %>%
     dplyr::group_by(ghg,year) %>%
     dplyr::summarise(value=sum(value)) %>%
@@ -132,6 +139,8 @@ m1_emissions_rescale<-function(db_path, query_path, db_name, prj_name, scen_name
 
   # Shipping:
   ship<-rgcam::getQuery(prj,"International Shipping emissions") %>%
+    dplyr::filter(scenario == scen_name,
+                  year <= final_db_year) %>%
     dplyr::mutate(ghg = dplyr::if_else(grepl("SO2",ghg),"SO2", as.character(ghg))) %>%
     dplyr::group_by(ghg,year) %>%
     dplyr::summarise(value=sum(value)) %>%
