@@ -795,6 +795,42 @@
 #' }
 "raw.rr"
 
+#' raw.rr.param.bur2018.with
+#'
+#' @description  Parameters for the estimation of the RR of death attributable to a change in population-weighted mean pollutant concentration, with the extreme Chinese cohort, based on the GEMM model from Burnett et al 2018.
+#' @source Burnett, R., Chen, H., Szyszkowicz, M., Fann, N., Hubbell, B., Pope Iii, C.A., Apte, J.S., Brauer, M., Cohen, A., Weichenthal, S. and Coggins, J., 2018. Global estimates of mortality associated with long-term exposure to outdoor fine particulate matter. Proceedings of the National Academy of Sciences, 115(38), pp.9592-9597.
+#' @format .csv
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::raw.rr.param.bur2018.with
+#' }
+"raw.rr.param.bur2018.with"
+
+#' raw.rr.param.bur2018.without
+#'
+#' @description  Parameters for the estimation of the RR of death attributable to a change in population-weighted mean pollutant concentration, without the extreme Chinese cohort, based on the GEMM model from Burnett et al 2018.
+#' @source Burnett, R., Chen, H., Szyszkowicz, M., Fann, N., Hubbell, B., Pope Iii, C.A., Apte, J.S., Brauer, M., Cohen, A., Weichenthal, S. and Coggins, J., 2018. Global estimates of mortality associated with long-term exposure to outdoor fine particulate matter. Proceedings of the National Academy of Sciences, 115(38), pp.9592-9597.
+#' @format .csv
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::raw.rr.param.bur2018.without
+#' }
+"raw.rr.param.bur2018.without"
+
+#' raw.rr.param.gbd2016
+#'
+#' @description  Parameters for the estimation of the RR of death attributable to a change in population-weighted mean pollutant concentration, based on the GBD 2016 study.
+#' @source Forouzanfar, M.H., Afshin, A., Alexander, L.T., Anderson, H.R., Bhutta, Z.A., Biryukov, S., Brauer, M., Burnett, R., Cercy, K., Charlson, F.J. and Cohen, A.J., 2016. Global, regional, and national comparative risk assessment of 79 behavioural, environmental and occupational, and metabolic risks or clusters of risks, 1990–2015: a systematic analysis for the Global Burden of Disease Study 2015. The lancet, 388(10053), pp.1659-1724.
+#' @format .csv
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::raw.rr.param.gbd2016
+#' }
+"raw.rr.param.gbd2016"
+
 #' raw.daly
 #'
 #' @description  Data on Disability Adjusted Life Years (DALYs). Used the latest available data (2019)

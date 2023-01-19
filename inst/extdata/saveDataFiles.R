@@ -597,9 +597,21 @@ rawDataFolder_m3 = "inst/extdata/module_3/"
 raw.mort.rates = read.csv(paste0(rawDataFolder_m3,"mort_rates.csv"))
 use_data(raw.mort.rates, overwrite = T)
 
-# raw.rr
+# raw.rr (Burnett et al 2014)
 raw.rr = read.csv(paste0(rawDataFolder_m3,"tot_rr.csv"))
 use_data(raw.rr, overwrite = T)
+
+# raw.rr.param.bur2018.with
+raw.rr.param.bur2018.with = read.csv(paste0(rawDataFolder_m3,"BURNETT2018WITH_parameters.csv"))
+use_data(raw.rr.param.bur2018.with, overwrite = T)
+
+# raw.rr.param.bur2018.without
+raw.rr.param.bur2018.without = read.csv(paste0(rawDataFolder_m3,"BURNETT2018WITHOUT_parameters.csv"))
+use_data(raw.rr.param.bur2018.without, overwrite = T)
+
+# raw.rr.param.gbd2016
+raw.rr.param.gbd2016 = read.csv(paste0(rawDataFolder_m3,"GBD2016_parameters.csv"))
+use_data(raw.rr.param.gbd2016, overwrite = T)
 
 # raw.daly
 raw.daly = read.csv(paste0(rawDataFolder_m3,"IHME-GBD_2019_DATA_DALYs.csv"))

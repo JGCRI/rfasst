@@ -224,6 +224,62 @@ calc_gdp_pc<-function(ssp="SSP2"){
 }
 
 
+#' calc_rr_updt
+#'
+#' Function to calculate RR tables using updated epidemiological functions
+#' @source  "Assessment of air pollution health co-benefits of Net-zero climate policies" Masther's thesis by CRB
+#' @return RR for a series of PM2.5 levels
+#' @importFrom magrittr %>%
+#' @export
+
+calc_rr_updt<- function(){
+
+# upload parameter values according to GBD2016, BURNETT2018 (WITH and WITHOUT) the extreme Chinese cohort
+G = raw.rr.param.gbd2016
+BW = raw.rr.param.bur2018.with
+BWO = raw.rr.param.bur2018.without
+
+# create rr table for all diseases whose parameters are available
+pm_index = c(1:500)
+disease_list = c('ihd','copd','stroke','lc')
+rr = tibble::tibble()
+for (d in disease_list) {
+  #print(d)
+  rr_tmp = expand.grid('pm_index' = pm_index,'disease' = d)
+  rr_tmp = tibble::as_tibble(rr_tmp) %>%
+    dplyr::rowwise() %>%
+    # IER: rr = 1 - alpha * (1 - exp(-beta * z ^ delta)), z = max(0, pm - pm_cf)
+    dplyr::mutate('GBD2016_low' = 1 + G[G$disease == d & G$ci == 'low',]$alpha * (1 - exp(-G[G$disease == d & G$ci == 'low',]$beta * max(0, pm_index - G[G$disease == d & G$ci == 'low',]$cf_pm) ^ G[G$disease == d & G$ci == 'low',]$delta))) %>%
+    dplyr::mutate('GBD2016_medium' = 1 + G[G$disease == d & G$ci == 'medium',]$alpha * (1 - exp(-G[G$disease == d & G$ci == 'medium',]$beta * max(0, pm_index - G[G$disease == d & G$ci == 'medium',]$cf_pm) ^ G[G$disease == d & G$ci == 'medium',]$delta))) %>%
+    dplyr::mutate('GBD2016_high' = 1 + G[G$disease == d & G$ci == 'high',]$alpha * (1 - exp(-G[G$disease == d & G$ci == 'high',]$beta * max(0, pm_index - G[G$disease == d & G$ci == 'high',]$cf_pm) ^ G[G$disease == d & G$ci == 'high',]$delta))) %>%
+    # GEMM: rr = exp( theta * log ( 1 + (z / alpha)) * 1 / (1 + exp(-(z - mu)/ nu))), z = pm - pm_cf. If z < 0, rr = 1
+    dplyr::mutate('BURNETT2018WITH_low' = ifelse(pm_index - BW[BW$disease == d & BW$ci == 'low',]$cf_pm < 0, 1,
+                                                 exp(BW[BW$disease == d & BW$ci == 'low',]$theta * log(1 + ((pm_index - BW[BW$disease == d & BW$ci == 'low',]$cf_pm) / (BW[BW$disease == d & BW$ci == 'low',]$alpha))) /
+                                                       (1 + exp( -( (pm_index - BW[BW$disease == d & BW$ci == 'low',]$cf_pm) - BW[BW$disease == d & BW$ci == 'low',]$mu) / BW[BW$disease == d & BW$ci == 'low',]$nu))))) %>%
+    dplyr::mutate('BURNETT2018WITH_medium' = ifelse(pm_index - BW[BW$disease == d & BW$ci == 'medium',]$cf_pm < 0, 1,
+                                                 exp(BW[BW$disease == d & BW$ci == 'medium',]$theta * log(1 + ((pm_index - BW[BW$disease == d & BW$ci == 'medium',]$cf_pm) / (BW[BW$disease == d & BW$ci == 'medium',]$alpha))) /
+                                                       (1 + exp( -( (pm_index - BW[BW$disease == d & BW$ci == 'medium',]$cf_pm) - BW[BW$disease == d & BW$ci == 'medium',]$mu) / BW[BW$disease == d & BW$ci == 'medium',]$nu))))) %>%
+    dplyr::mutate('BURNETT2018WITH_high' = ifelse(pm_index - BW[BW$disease == d & BW$ci == 'high',]$cf_pm < 0, 1,
+                                                 exp(BW[BW$disease == d & BW$ci == 'high',]$theta * log(1 + ((pm_index - BW[BW$disease == d & BW$ci == 'high',]$cf_pm) / (BW[BW$disease == d & BW$ci == 'high',]$alpha))) /
+                                                       (1 + exp( -( (pm_index - BW[BW$disease == d & BW$ci == 'high',]$cf_pm) - BW[BW$disease == d & BW$ci == 'high',]$mu) / BW[BW$disease == d & BW$ci == 'high',]$nu))))) %>%
+    dplyr::mutate('BURNETT2018WITHOUT_low' = ifelse(pm_index - BWO[BWO$disease == d & BWO$ci == 'low',]$cf_pm < 0, 1,
+                                                 exp(BWO[BWO$disease == d & BWO$ci == 'low',]$theta * log(1 + ((pm_index - BWO[BWO$disease == d & BWO$ci == 'low',]$cf_pm) / (BWO[BWO$disease == d & BWO$ci == 'low',]$alpha))) /
+                                                       (1 + exp( -( (pm_index - BWO[BWO$disease == d & BWO$ci == 'low',]$cf_pm) - BWO[BWO$disease == d & BWO$ci == 'low',]$mu) / BWO[BWO$disease == d & BWO$ci == 'low',]$nu))))) %>%
+    dplyr::mutate('BURNETT2018WITHOUT_medium' = ifelse(pm_index - BWO[BWO$disease == d & BWO$ci == 'medium',]$cf_pm < 0, 1,
+                                                    exp(BWO[BWO$disease == d & BWO$ci == 'medium',]$theta * log(1 + ((pm_index - BWO[BWO$disease == d & BWO$ci == 'medium',]$cf_pm) / (BWO[BWO$disease == d & BWO$ci == 'medium',]$alpha))) /
+                                                          (1 + exp( -( (pm_index - BWO[BWO$disease == d & BWO$ci == 'medium',]$cf_pm) - BWO[BWO$disease == d & BWO$ci == 'medium',]$mu) / BWO[BWO$disease == d & BWO$ci == 'medium',]$nu))))) %>%
+    dplyr::mutate('BURNETT2018WITHOUT_high' = ifelse(pm_index - BWO[BWO$disease == d & BWO$ci == 'high',]$cf_pm < 0, 1,
+                                                    exp(BWO[BWO$disease == d & BWO$ci == 'high',]$theta * log(1 + ((pm_index - BWO[BWO$disease == d & BWO$ci == 'high',]$cf_pm) / (BWO[BWO$disease == d & BWO$ci == 'high',]$alpha))) /
+                                                          (1 + exp( -( (pm_index - BWO[BWO$disease == d & BWO$ci == 'high',]$cf_pm) - BWO[BWO$disease == d & BWO$ci == 'high',]$mu) / BWO[BWO$disease == d & BWO$ci == 'high',]$nu)))))
+
+  rr = dplyr::bind_rows(rr, rr_tmp)
+
+}
+
+return(invisible(rr))
+
+}
+
 #' interpLinear
 #'
 #' Function to interpolate annual values using decade-averages

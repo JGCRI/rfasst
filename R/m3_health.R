@@ -223,33 +223,80 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
   pop.all<-calc_pop(ssp = ssp)
   # Get baseline mortality rates
   mort.rates<-calc_mort_rates()
-  # Get relative risk
-  rr<-raw.rr
+
+  # Get relative risk from Burnett et al 2014 (default in TM5-FASST)
+  rr<-raw.rr %>%
+    dplyr::filter(pm_index <= 500,
+                  pm_index > 0)
+
+  # Get the updated RR values:
+  rr_updt<-calc_rr_updt()
+
+  # Combine RR values
+  rr_fin<- rr %>%
+    dplyr::left_join(rr_updt, by = c("pm_index", "disease")) %>%
+    dplyr::rename(BURNETT2014_medium = med,
+                  BURNETT2014_low = low,
+                  BURNETT2014_high = high)
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
   # Intrapolate RR values based on PM2.5 concentration levels
   pm.rr<-tibble::as_tibble(pm) %>%
-    dplyr::mutate(value_down = floor(value),
-           value_up = ceiling(value)) %>%
+    dplyr::mutate(value_up = floor(value),
+           value_down = ceiling(value)) %>%
     gcamdata::repeat_add_columns(tibble::tibble(disease = dis)) %>%
-    gcamdata::left_join_error_no_match(rr %>%
-                                         dplyr::rename(value_down = pm_index),
-                                       by=c("disease", "value_down")) %>%
-    dplyr::rename(med_down = med,
-                  low_down = low,
-                  high_down = high)  %>%
-    gcamdata::left_join_error_no_match(rr %>%
-                                         dplyr::rename(value_up = pm_index),
-                                       by=c("disease", "value_up")) %>%
-    dplyr::rename(med_up = med,
-                  low_up = low,
-                  high_up = high) %>%
-    dplyr::mutate(rr_med = ((med_up - med_down) * (value - value_down)) + med_down,
-                  rr_low = ((low_up - low_down) * (value - value_down)) + low_down,
-                  rr_high=((high_up - high_down) * (value - value_down)) + high_down) %>%
+    dplyr::left_join(rr_fin %>%
+                       dplyr::rename(value_down = pm_index),
+                     by=c("disease", "value_down")) %>%
+    dplyr::rename(BURNETT2014_med_down = BURNETT2014_medium,
+                  BURNETT2014_low_down = BURNETT2014_low,
+                  BURNETT2014_high_down = BURNETT2014_high,
+                  GBD2016_medium_down = GBD2016_medium,
+                  GBD2016_low_down = GBD2016_low,
+                  GBD2016_high_down = GBD2016_high,
+                  BURNETT2018WITH_medium_down = BURNETT2018WITH_medium,
+                  BURNETT2018WITH_low_down = BURNETT2018WITH_low,
+                  BURNETT2018WITH_high_down = BURNETT2018WITH_high,
+                  BURNETT2018WITHOUT_medium_down = BURNETT2018WITHOUT_medium,
+                  BURNETT2018WITHOUT_low_down = BURNETT2018WITHOUT_low,
+                  BURNETT2018WITHOUT_high_down = BURNETT2018WITHOUT_high)  %>%
+    dplyr::left_join(rr_fin %>%
+                           dplyr::rename(value_up = pm_index),
+                         by=c("disease", "value_up")) %>%
+    dplyr::rename(BURNETT2014_med_up = BURNETT2014_medium,
+                  BURNETT2014_low_up = BURNETT2014_low,
+                  BURNETT2014_high_up = BURNETT2014_high,
+                  GBD2016_medium_up = GBD2016_medium,
+                  GBD2016_low_up = GBD2016_low,
+                  GBD2016_high_up = GBD2016_high,
+                  BURNETT2018WITH_medium_up = BURNETT2018WITH_medium,
+                  BURNETT2018WITH_low_up = BURNETT2018WITH_low,
+                  BURNETT2018WITH_high_up = BURNETT2018WITH_high,
+                  BURNETT2018WITHOUT_medium_up = BURNETT2018WITHOUT_medium,
+                  BURNETT2018WITHOUT_low_up = BURNETT2018WITHOUT_low,
+                  BURNETT2018WITHOUT_high_up = BURNETT2018WITHOUT_high) %>%
+    dplyr::mutate(rr_BURNETT2014_med = ((BURNETT2014_med_up - BURNETT2014_med_down) * (value - value_down)) + BURNETT2014_med_down,
+                  rr_BURNETT2014_low = ((BURNETT2014_low_up - BURNETT2014_low_down) * (value - value_down)) + BURNETT2014_low_down,
+                  rr_BURNETT2014_high =((BURNETT2014_high_up - BURNETT2014_high_down) * (value - value_down)) + BURNETT2014_high_down,
+
+                  rr_GBD2016_medium = ((GBD2016_medium_up - GBD2016_medium_down) * (value - value_down)) + GBD2016_medium_down,
+                  rr_GBD2016_low = ((GBD2016_low_up - GBD2016_low_down) * (value - value_down)) + GBD2016_low_down,
+                  rr_GBD2016_high = ((GBD2016_high_up - GBD2016_high_down) * (value - value_down)) + GBD2016_high_down,
+
+                  rr_BURNETT2018WITH_medium = ((BURNETT2018WITH_medium_up - BURNETT2018WITH_medium_down) * (value - value_down)) + BURNETT2018WITH_medium_down,
+                  rr_BURNETT2018WITH_low = ((BURNETT2018WITH_low_up - BURNETT2018WITH_low_down) * (value - value_down)) + BURNETT2018WITH_low_down,
+                  rr_BURNETT2018WITH_high = ((BURNETT2018WITH_high_up - BURNETT2018WITH_high_down) * (value - value_down)) + BURNETT2018WITH_high_down,
+
+                  rr_BURNETT2018WITHOUT_medium = ((BURNETT2018WITHOUT_medium_up - BURNETT2018WITHOUT_medium_down) * (value - value_down)) + BURNETT2018WITHOUT_medium_down,
+                  rr_BURNETT2018WITHOUT_low = ((BURNETT2018WITHOUT_low_up - BURNETT2018WITHOUT_low_down) * (value - value_down)) + BURNETT2018WITHOUT_low_down,
+                  rr_BURNETT2018WITHOUT_high = ((BURNETT2018WITHOUT_high_up - BURNETT2018WITHOUT_high_down) * (value - value_down)) + BURNETT2018WITHOUT_high_down) %>%
+
     dplyr::rename(pm_conc = value) %>%
-    dplyr::select(region, year, pm_conc, disease, rr_med, rr_low, rr_high) %>%
+    dplyr::select(region, year, pm_conc, disease, rr_BURNETT2014_med, rr_BURNETT2014_low, rr_BURNETT2014_high,
+                  rr_GBD2016_medium, rr_GBD2016_low, rr_GBD2016_high,
+                  rr_BURNETT2018WITH_medium, rr_BURNETT2018WITH_low, rr_BURNETT2018WITH_high,
+                  rr_BURNETT2018WITHOUT_medium, rr_BURNETT2018WITHOUT_low, rr_BURNETT2018WITHOUT_high) %>%
     dplyr::mutate(year = as.character(year))
 
   #------------------------------------------------------------------------------------
@@ -259,6 +306,7 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
     dplyr::filter(year >= 2010) %>%
     dplyr::select(-pm_conc) %>%
     tidyr::gather(rr, value, -region, -year, -disease) %>%
+    tidyr::replace_na(list(value = 0)) %>%
     tidyr::spread(disease, value) %>%
     dplyr::mutate(rr = gsub("rr_","",rr)) %>%
     dplyr::left_join(pop.all, by = c("region", "year")) %>%
@@ -272,21 +320,23 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
                        dplyr::filter(year %in% all_years) %>%
                        dplyr::select(-mr_cp, -mr_resp),
                      by = c("region", "year")) %>%
-    dplyr::rename(rr_range = rr) %>%
+    dplyr::rename(mort_param = rr) %>%
     dplyr::mutate(mort_alri = pop_tot * perc_pop_5 * mr_alri * (1 - 1/alri),
                   mort_copd = pop_tot * perc_pop_30 * mr_copd * (1 - 1/copd),
                   mort_ihd = pop_tot * perc_pop_30 * mr_ihd * (1 - 1/ihd),
                   mort_stroke = pop_tot * perc_pop_30 * mr_stroke * (1 - 1/stroke),
                   mort_lc = pop_tot * perc_pop_30 * mr_lc * (1 - 1/lc)) %>%
-    dplyr::select(region, year, rr_range, mort_alri, mort_copd, mort_ihd, mort_stroke, mort_lc) %>%
+    dplyr::select(region, year, mort_param, mort_alri, mort_copd, mort_ihd, mort_stroke, mort_lc) %>%
+    tidyr::gather(disease, value, -region, -year, -mort_param) %>%
+    dplyr::filter(is.finite(value)) %>%
+    dplyr::mutate(value = round(value, 0)) %>%
+    tidyr::spread(disease, value) %>%
+    tidyr::replace_na(list(mort_alri = 0)) %>%
     dplyr::mutate(mort_tot = mort_alri + mort_copd + mort_ihd + mort_stroke + mort_lc) %>%
-    tidyr::gather(disease, value, -region, -year, -rr_range) %>%
-    tidyr::spread(rr_range, value) %>%
-    dplyr::mutate(disease = gsub("mort_", "", disease)) %>%
-    dplyr::select(region, year, disease, med, LB = low, UB = high) %>%
-    dplyr::mutate(med = round(med, 0),
-                  LB = round(LB, 0),
-                  UB = round(UB, 0))
+    tidyr::gather(disease, value, -region, -year, -mort_param) %>%
+    tidyr::spread(mort_param, value) %>%
+    dplyr::mutate(disease = gsub("mort_", "", disease))
+
   #------------------------------------------------------------------------------------
 
   # Write the output

@@ -14,7 +14,8 @@ m3_get_mort_o3_ecoloss(
   prj_name,
   scen_name,
   final_db_year = 2100,
-  mort_param = mort_o3_gbd2016_med,
+  mort_param = "mort_o3_gbd2016_med",
+  Damage_vsl_range = "Damage_vsl_med",
   ssp = "SSP2",
   queries,
   saveOutput = T,
@@ -36,6 +37,8 @@ m3_get_mort_o3_ecoloss(
 \item{final_db_year}{Final year in the GCAM database (this allows to process databases with user-defined "stop periods")}
 
 \item{mort_param}{Select the health function (GBD 2016 or Jerret et al 2009) and the Low/Med/High RR. By default = mort_o3_gbd2016_med}
+
+\item{Damage_vsl_range}{Select the VSL to calculate the damages (Damage_vsl_med, Damage_vsl_low, or Damage_vsl_high)}
 
 \item{ssp}{Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2}
 
