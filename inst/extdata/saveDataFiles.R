@@ -613,6 +613,10 @@ use_data(raw.rr.param.bur2018.without, overwrite = T)
 raw.rr.param.gbd2016 = read.csv(paste0(rawDataFolder_m3,"GBD2016_parameters.csv"))
 use_data(raw.rr.param.gbd2016, overwrite = T)
 
+# raw.rr.param.bur2014
+raw.rr.param.bur2014 = read.csv(paste0("B2014.csv"))
+use_data(raw.rr.param.bur2014, overwrite = T)
+
 # raw.daly
 raw.daly = read.csv(paste0(rawDataFolder_m3,"IHME-GBD_2019_DATA_DALYs.csv"))
 use_data(raw.daly, overwrite = T)

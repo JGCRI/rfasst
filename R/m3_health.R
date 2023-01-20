@@ -224,80 +224,73 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
   # Get baseline mortality rates
   mort.rates<-calc_mort_rates()
 
-  # Get relative risk from Burnett et al 2014 (default in TM5-FASST)
-  rr<-raw.rr %>%
-    dplyr::filter(pm_index <= 500,
-                  pm_index > 0)
-
-  # Get the updated RR values:
-  rr_updt<-calc_rr_updt()
-
-  # Combine RR values
-  rr_fin<- rr %>%
-    dplyr::left_join(rr_updt, by = c("pm_index", "disease")) %>%
-    dplyr::rename(BURNETT2014_medium = med,
-                  BURNETT2014_low = low,
-                  BURNETT2014_high = high)
+  # Get relative risk parameters
+  B2014 = raw.rr.param.bur2014
+  G = raw.rr.param.gbd2016
+  BW = raw.rr.param.bur2018.with
+  BWO = raw.rr.param.bur2018.without
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
-  # Intrapolate RR values based on PM2.5 concentration levels
-  pm.rr<-tibble::as_tibble(pm) %>%
-    dplyr::mutate(value_up = floor(value),
-           value_down = ceiling(value)) %>%
-    gcamdata::repeat_add_columns(tibble::tibble(disease = dis)) %>%
-    dplyr::left_join(rr_fin %>%
-                       dplyr::rename(value_down = pm_index),
-                     by=c("disease", "value_down")) %>%
-    dplyr::rename(BURNETT2014_med_down = BURNETT2014_medium,
-                  BURNETT2014_low_down = BURNETT2014_low,
-                  BURNETT2014_high_down = BURNETT2014_high,
-                  GBD2016_medium_down = GBD2016_medium,
-                  GBD2016_low_down = GBD2016_low,
-                  GBD2016_high_down = GBD2016_high,
-                  BURNETT2018WITH_medium_down = BURNETT2018WITH_medium,
-                  BURNETT2018WITH_low_down = BURNETT2018WITH_low,
-                  BURNETT2018WITH_high_down = BURNETT2018WITH_high,
-                  BURNETT2018WITHOUT_medium_down = BURNETT2018WITHOUT_medium,
-                  BURNETT2018WITHOUT_low_down = BURNETT2018WITHOUT_low,
-                  BURNETT2018WITHOUT_high_down = BURNETT2018WITHOUT_high)  %>%
-    dplyr::left_join(rr_fin %>%
-                           dplyr::rename(value_up = pm_index),
-                         by=c("disease", "value_up")) %>%
-    dplyr::rename(BURNETT2014_med_up = BURNETT2014_medium,
-                  BURNETT2014_low_up = BURNETT2014_low,
-                  BURNETT2014_high_up = BURNETT2014_high,
-                  GBD2016_medium_up = GBD2016_medium,
-                  GBD2016_low_up = GBD2016_low,
-                  GBD2016_high_up = GBD2016_high,
-                  BURNETT2018WITH_medium_up = BURNETT2018WITH_medium,
-                  BURNETT2018WITH_low_up = BURNETT2018WITH_low,
-                  BURNETT2018WITH_high_up = BURNETT2018WITH_high,
-                  BURNETT2018WITHOUT_medium_up = BURNETT2018WITHOUT_medium,
-                  BURNETT2018WITHOUT_low_up = BURNETT2018WITHOUT_low,
-                  BURNETT2018WITHOUT_high_up = BURNETT2018WITHOUT_high) %>%
-    dplyr::mutate(rr_BURNETT2014_med = ((BURNETT2014_med_up - BURNETT2014_med_down) * (value - value_down)) + BURNETT2014_med_down,
-                  rr_BURNETT2014_low = ((BURNETT2014_low_up - BURNETT2014_low_down) * (value - value_down)) + BURNETT2014_low_down,
-                  rr_BURNETT2014_high =((BURNETT2014_high_up - BURNETT2014_high_down) * (value - value_down)) + BURNETT2014_high_down,
+  pm<- tibble::as_tibble(pm) %>%
+    gcamdata::repeat_add_columns(tibble::tibble(disease = c('ihd','copd','stroke','lc')))
 
-                  rr_GBD2016_medium = ((GBD2016_medium_up - GBD2016_medium_down) * (value - value_down)) + GBD2016_medium_down,
-                  rr_GBD2016_low = ((GBD2016_low_up - GBD2016_low_down) * (value - value_down)) + GBD2016_low_down,
-                  rr_GBD2016_high = ((GBD2016_high_up - GBD2016_high_down) * (value - value_down)) + GBD2016_high_down,
+  pm.list.dis<-split(pm, pm$disease)
 
-                  rr_BURNETT2018WITH_medium = ((BURNETT2018WITH_medium_up - BURNETT2018WITH_medium_down) * (value - value_down)) + BURNETT2018WITH_medium_down,
-                  rr_BURNETT2018WITH_low = ((BURNETT2018WITH_low_up - BURNETT2018WITH_low_down) * (value - value_down)) + BURNETT2018WITH_low_down,
-                  rr_BURNETT2018WITH_high = ((BURNETT2018WITH_high_up - BURNETT2018WITH_high_down) * (value - value_down)) + BURNETT2018WITH_high_down,
+  calc_rr<-function(df){
 
-                  rr_BURNETT2018WITHOUT_medium = ((BURNETT2018WITHOUT_medium_up - BURNETT2018WITHOUT_medium_down) * (value - value_down)) + BURNETT2018WITHOUT_medium_down,
-                  rr_BURNETT2018WITHOUT_low = ((BURNETT2018WITHOUT_low_up - BURNETT2018WITHOUT_low_down) * (value - value_down)) + BURNETT2018WITHOUT_low_down,
-                  rr_BURNETT2018WITHOUT_high = ((BURNETT2018WITHOUT_high_up - BURNETT2018WITHOUT_high_down) * (value - value_down)) + BURNETT2018WITHOUT_high_down) %>%
+    colnames(df)<-c("region", "year", "units", "value", "disease")
 
-    dplyr::rename(pm_conc = value) %>%
-    dplyr::select(region, year, pm_conc, disease, rr_BURNETT2014_med, rr_BURNETT2014_low, rr_BURNETT2014_high,
-                  rr_GBD2016_medium, rr_GBD2016_low, rr_GBD2016_high,
-                  rr_BURNETT2018WITH_medium, rr_BURNETT2018WITH_low, rr_BURNETT2018WITH_high,
-                  rr_BURNETT2018WITHOUT_medium, rr_BURNETT2018WITHOUT_low, rr_BURNETT2018WITHOUT_high) %>%
+    df_fin<-df %>%
+      dplyr::rowwise() %>%
+      # IER: rr = 1 - alpha * (1 - exp(-beta * z ^ delta)), z = max(0, pm - pm_cf)
+      dplyr::mutate('GBD2016_low' = 1 + G[G$disease == unique(df$disease) & G$ci == 'low',]$alpha * (1 - exp(-G[G$disease == unique(df$disease) & G$ci == 'low',]$beta * max(0, value - G[G$disease == unique(df$disease) & G$ci == 'low',]$cf_pm) ^ G[G$disease == unique(df$disease) & G$ci == 'low',]$delta))) %>%
+      dplyr::mutate('GBD2016_medium' = 1 + G[G$disease == unique(df$disease) & G$ci == 'medium',]$alpha * (1 - exp(-G[G$disease == unique(df$disease) & G$ci == 'medium',]$beta * max(0, value - G[G$disease == unique(df$disease) & G$ci == 'medium',]$cf_pm) ^ G[G$disease == unique(df$disease) & G$ci == 'medium',]$delta))) %>%
+      dplyr::mutate('GBD2016_high' = 1 + G[G$disease == unique(df$disease) & G$ci == 'high',]$alpha * (1 - exp(-G[G$disease == unique(df$disease) & G$ci == 'high',]$beta * max(0, value - G[G$disease == unique(df$disease) & G$ci == 'high',]$cf_pm) ^ G[G$disease == unique(df$disease) & G$ci == 'high',]$delta))) %>%
+      dplyr::mutate('BURNETT2014_medium' = 1 + B2014[B2014$disease == unique(df$disease) & B2014$ci == 'medium',]$alpha * (1 - exp(-B2014[B2014$disease == unique(df$disease) & B2014$ci == 'medium',]$beta * max(0, value - B2014[B2014$disease == unique(df$disease) & B2014$ci == 'medium',]$cf_pm) ^ B2014[B2014$disease == unique(df$disease) & B2014$ci == 'medium',]$delta))) %>%
+      # GEMM: rr = exp( theta * log ( 1 + (z / alpha)) * 1 / (1 + exp(-(z - mu)/ nu))), z = pm - pm_cf. If z < 0, rr = 1
+      dplyr::mutate('BURNETT2018WITH_low' = ifelse(value - BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$cf_pm < 0, 1,
+                                                   exp(BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$theta * log(1 + ((value - BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$cf_pm) / (BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$alpha))) /
+                                                         (1 + exp( -( (value - BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$cf_pm) - BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$mu) / BW[BW$disease == unique(df$disease) & BW$ci == 'low',]$nu))))) %>%
+      dplyr::mutate('BURNETT2018WITH_medium' = ifelse(value - BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$cf_pm < 0, 1,
+                                                      exp(BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$theta * log(1 + ((value - BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$cf_pm) / (BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$alpha))) /
+                                                            (1 + exp( -( (value - BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$cf_pm) - BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$mu) / BW[BW$disease == unique(df$disease) & BW$ci == 'medium',]$nu))))) %>%
+      dplyr::mutate('BURNETT2018WITH_high' = ifelse(value - BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$cf_pm < 0, 1,
+                                                    exp(BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$theta * log(1 + ((value - BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$cf_pm) / (BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$alpha))) /
+                                                          (1 + exp( -( (value - BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$cf_pm) - BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$mu) / BW[BW$disease == unique(df$disease) & BW$ci == 'high',]$nu))))) %>%
+      dplyr::mutate('BURNETT2018WITHOUT_low' = ifelse(value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$cf_pm < 0, 1,
+                                                      exp(BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$theta * log(1 + ((value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$cf_pm) / (BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$alpha))) /
+                                                            (1 + exp( -( (value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$cf_pm) - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$mu) / BWO[BWO$disease == unique(df$disease) & BWO$ci == 'low',]$nu))))) %>%
+      dplyr::mutate('BURNETT2018WITHOUT_medium' = ifelse(value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$cf_pm < 0, 1,
+                                                         exp(BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$theta * log(1 + ((value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$cf_pm) / (BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$alpha))) /
+                                                               (1 + exp( -( (value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$cf_pm) - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$mu) / BWO[BWO$disease == unique(df$disease) & BWO$ci == 'medium',]$nu))))) %>%
+      dplyr::mutate('BURNETT2018WITHOUT_high' = ifelse(value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$cf_pm < 0, 1,
+                                                       exp(BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$theta * log(1 + ((value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$cf_pm) / (BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$alpha))) /
+                                                             (1 + exp( -( (value - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$cf_pm) - BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$mu) / BWO[BWO$disease == unique(df$disease) & BWO$ci == 'high',]$nu))))) %>%
+      dplyr::rename(pm_conc = value)
+
+    return(invisible(df_fin))
+
+  }
+
+  pm.rr.pre<-dplyr::bind_rows(lapply(pm.list.dis,calc_rr))
+
+  # Calculate alri values to be included in burnett et al 2014
+  adj_pm_alri<-pm %>%
+    dplyr::select(-disease) %>%
+    dplyr::distinct() %>%
+    dplyr::mutate(disease = "alri") %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate('BURNETT2014_medium' = 1 + B2014[B2014$disease == "alri" & B2014$ci == 'medium',]$alpha * (1 - exp(-B2014[B2014$disease == "alri" & B2014$ci == 'medium',]$beta * max(0, value - B2014[B2014$disease == "alri" & B2014$ci == 'medium',]$cf_pm) ^ B2014[B2014$disease == "alri" & B2014$ci == 'medium',]$delta))) %>%
+    dplyr::rename(pm_conc = value)
+
+  pm.rr<- dplyr::bind_rows(pm.rr.pre, adj_pm_alri) %>%
+    dplyr::select(region, year, pm_conc, disease, BURNETT2014_medium,
+                  GBD2016_medium, GBD2016_low, GBD2016_high,
+                  BURNETT2018WITH_medium, BURNETT2018WITH_low, BURNETT2018WITH_high,
+                  BURNETT2018WITHOUT_medium, BURNETT2018WITHOUT_low, BURNETT2018WITHOUT_high) %>%
     dplyr::mutate(year = as.character(year))
+
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
@@ -306,9 +299,9 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
     dplyr::filter(year >= 2010) %>%
     dplyr::select(-pm_conc) %>%
     tidyr::gather(rr, value, -region, -year, -disease) %>%
+    dplyr::arrange(disease) %>%
     tidyr::replace_na(list(value = 0)) %>%
     tidyr::spread(disease, value) %>%
-    dplyr::mutate(rr = gsub("rr_","",rr)) %>%
     dplyr::left_join(pop.all, by = c("region", "year")) %>%
     dplyr::mutate(pop_tot = pop_tot * 1E6) %>%
     dplyr::select(-unit, -scenario) %>%

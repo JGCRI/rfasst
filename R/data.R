@@ -819,6 +819,17 @@
 #' }
 "raw.rr.param.bur2018.without"
 
+#' raw.rr.param.bur2014
+#'
+#' @description  Relative risk of death attributable to a change in population-weighted mean pollutant concentration. From Van Dingenen et al (2018): "RR for PM2:5 exposure is calculated from the integrated exposure-response (IER) functions developed by Burnett et al. (2014) and first applied in the GBD study (Lim et al., 2012)
+#' @source Lim, S.S., Vos, T., Flaxman, A.D., Danaei, G., Shibuya, K., Adair-Rohani, H., AlMazroa, M.A., Amann, M., Anderson, H.R., Andrews, K.G. and Aryee, M., 2012. A comparative risk assessment of burden of disease and injury attributable to 67 risk factors and risk factor clusters in 21 regions, 1990–2010: a systematic analysis for the Global Burden of Disease Study 2010. The lancet, 380(9859), pp.2224-2260.
+#' @examples
+#' \dontrun{
+#'  library(rfasst);
+#'  rfasst::raw.rr.param.bur2014
+#' }
+"raw.rr.param.bur2014"
+
 #' raw.rr.param.gbd2016
 #'
 #' @description  Parameters for the estimation of the RR of death attributable to a change in population-weighted mean pollutant concentration, based on the GBD 2016 study.
