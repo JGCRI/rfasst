@@ -396,6 +396,8 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016, Burnett et al, 2014 (IERs), or Burnett et al 2018 (GEMM)) and the Low/Med/High RR. By default = GBD2016_medium
+#' @param Damage_vsl_range Select the VSL to calculate the damages (Damage_vsl_med, Damage_vsl_low, or Damage_vsl_high)
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -404,6 +406,7 @@ m3_get_mort_pm25<-function(db_path,query_path, db_name, prj_name, scen_name, que
 #' @export
 
 m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_name, ssp = "SSP2", final_db_year = 2100,
+                                   mort_param = "GBD2016_medium",  Damage_vsl_range = "Damage_vsl_med",
                                    queries, saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -429,7 +432,9 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_n
     dplyr::mutate(subRegionAlt = as.factor(subRegionAlt))
 
   # Get Mortalities
-  pm.mort<-m3_get_mort_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  pm.mort<-m3_get_mort_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year) %>%
+    dplyr::select(region, year, disease, mort_param) %>%
+    dplyr::rename(mort_pm25 = mort_param)
 
   # Get gdp_pc
   gdp_pc<-calc_gdp_pc(ssp = ssp)
@@ -454,13 +459,13 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_n
   pm.mort.EcoLoss<-pm.mort %>%
     gcamdata::left_join_error_no_match(vsl, by=c("region", "year")) %>%
     dplyr::select(-scenario) %>%
-    dplyr::rename(mort_med = med,
-                  mort_lb = LB,
-                  mort_ub = UB) %>%
-
     # Calculate the median damages
-    dplyr::mutate(Damage_med = round(mort_med * vsl_med * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
-                  unit = "Million$2015")
+    dplyr::mutate(Damage_vsl_med = round(mort_pm25 * vsl_med * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+                  Damage_vsl_low = round(mort_pm25 * vsl_lb * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+                  Damage_vsl_high = round(mort_pm25 * vsl_ub * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+                  unit = "Million$2015") %>%
+    dplyr::select(region, year, disease, Damage_vsl_range, unit)
+
 
   #------------------------------------------------------------------------------------
   # Write the output
@@ -487,8 +492,8 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_n
     pm.mort.EcoLoss.map<-pm.mort.EcoLoss %>%
       dplyr::rename(subRegion = region)%>%
       dplyr::filter(subRegion != "RUE") %>%
-      dplyr::select(subRegion, year, disease, Damage_med, unit) %>%
-      dplyr::rename(value = Damage_med,
+      dplyr::select(subRegion, year, disease, Damage_vsl_range, unit) %>%
+      dplyr::rename(value = Damage_vsl_range,
                     class = disease,
                     units = unit) %>%
       dplyr::mutate(year = as.numeric(as.character(year)),
@@ -527,6 +532,7 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_n
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016, Burnett et al, 2014 (IERs), or Burnett et al 2018 (GEMM)) and the Low/Med/High RR. By default = GBD2016_medium
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -534,7 +540,7 @@ m3_get_mort_pm25_ecoloss<-function(db_path,query_path, db_name, prj_name, scen_n
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
+m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100, mort_param = "GBD2016_medium",
                           ssp = "SSP2", saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -560,7 +566,9 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
     dplyr::mutate(subRegionAlt = as.factor(subRegionAlt))
 
   # Get pm.mort
-  pm.mort<-m3_get_mort_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  pm.mort<-m3_get_mort_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year) %>%
+    dplyr::select(region, year, disease, mort_param) %>%
+    dplyr::rename(mort_pm25 = mort_param)
 
   # Get years of life lost
   yll.pm.mort<-raw.yll.pm25 %>%
@@ -573,21 +581,17 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
     dplyr::filter(disease != "tot") %>%
     gcamdata::left_join_error_no_match(yll.pm.mort, by = c("region", "disease")) %>%
     dplyr::rename(yll = value) %>%
-    dplyr::mutate(yll_med = med * yll,
-                  yll_LB = LB * yll,
-                  yll_UB = UB * yll) %>%
-    dplyr::select(region, year, disease, yll_med, yll_LB, yll_UB) %>%
-    #only select median value
-    dplyr::select(-yll_LB, -yll_UB)
+    dplyr::mutate(yll = mort_pm25 * yll) %>%
+    dplyr::select(region, year, disease, yll)
 
   pm.yll.tot<-pm.yll %>%
     dplyr::group_by(region, year) %>%
-    dplyr::summarise(yll_med = sum(yll_med)) %>%
+    dplyr::summarise(yll = sum(yll)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(disease = "tot")
 
   pm.yll.fin<-dplyr::bind_rows(pm.yll, pm.yll.tot) %>%
-    dplyr::mutate(yll_med = round(yll_med, 0))
+    dplyr::mutate(yll = round(yll))
 
   #------------------------------------------------------------------------------------
   # Write the output
@@ -596,7 +600,7 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
 
   pm.yll.write<-function(df){
     df<-as.data.frame(df) %>%
-      tidyr::spread(disease, yll_med)
+      tidyr::spread(disease, yll)
     write.csv(df,paste0("output/","m3/","PM25_YLL_", scen_name, "_", unique(df$year),".csv"), row.names = F)
   }
 
@@ -615,7 +619,7 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
     pm.yll.fin.map<-pm.yll.fin %>%
       dplyr::rename(subRegion = region)%>%
       dplyr::filter(subRegion != "RUE") %>%
-      dplyr::rename(value = yll_med,
+      dplyr::rename(value = yll,
                     class = disease) %>%
       dplyr::mutate(year = as.numeric(as.character(year)),
                     units = "YLLs")
@@ -654,6 +658,7 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016, Burnett et al, 2014 (IERs), or Burnett et al 2018 (GEMM)) and the Low/Med/High RR. By default = GBD2016_medium
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -661,7 +666,7 @@ m3_get_yll_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, que
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
+m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100, mort_param = "GBD2016_medium",
                                   ssp = "SSP2", saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -687,7 +692,8 @@ m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_n
     dplyr::mutate(subRegionAlt = as.factor(subRegionAlt))
 
   # Get Mortalities
-  pm.yll.fin<-m3_get_yll_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  pm.yll.fin<-m3_get_yll_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F,
+                              final_db_year = final_db_year, mort_param = mort_param)
 
   # Get gdp_pc
   gdp_pc<-calc_gdp_pc(ssp = ssp)
@@ -708,7 +714,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_n
   pm.yll.EcoLoss<-pm.yll.fin %>%
     gcamdata::left_join_error_no_match(vsly, by = c("region","year")) %>%
     dplyr::select(-scenario) %>%
-    dplyr::mutate(Damage_med = round(yll_med * vsly * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
+    dplyr::mutate(Damage_med = round(yll * vsly * gcamdata::gdp_deflator(2015, base_year = 2005), 0),
            unit="Thous$2015")
 
   #------------------------------------------------------------------------------------
@@ -780,6 +786,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_n
 #' @param scen_name Name of the GCAM scenario to be processed
 #' @param queries Name of the GCAM query file. The file by default includes the queries required to run rfasst
 #' @param final_db_year Final year in the GCAM database (this allows to process databases with user-defined "stop periods")
+#' @param mort_param Select the health function (GBD 2016, Burnett et al, 2014 (IERs), or Burnett et al 2018 (GEMM)) and the Low/Med/High RR. By default = GBD2016_medium
 #' @param saveOutput Writes the emission files.By default=T
 #' @param ssp Set the ssp narrative associated to the GCAM scenario. c("SSP1","SSP2","SSP3","SSP4","SSP5"). By default is SSP2
 #' @param map Produce the maps. By default=F
@@ -787,7 +794,7 @@ m3_get_yll_pm25_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_n
 #' @importFrom magrittr %>%
 #' @export
 
-m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100,
+m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, queries, final_db_year = 2100, mort_param = "GBD2016_medium",
                            ssp="SSP2", saveOutput = T, map = F, anim = T){
 
   all_years<-all_years[all_years <= final_db_year]
@@ -816,7 +823,9 @@ m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, qu
   daly_calc_pm<-calc_daly_pm25()
 
   # Get pm.mort
-  pm.mort<-m3_get_mort_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year)
+  pm.mort<-m3_get_mort_pm25(db_path, query_path, db_name, prj_name, scen_name, queries, ssp = ssp, saveOutput = F, final_db_year = final_db_year) %>%
+    dplyr::select(region, year, disease, mort_param) %>%
+    dplyr::rename(mort_pm25 = mort_param)
 
   #------------------------------------------------------------------------------------
   #------------------------------------------------------------------------------------
@@ -838,22 +847,19 @@ m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, qu
     dplyr::filter(disease != "tot") %>%
     gcamdata::left_join_error_no_match(daly.calc.pm.adj, by = c("region","disease","year")) %>%
     dplyr::rename(daly = DALY_ratio) %>%
-    dplyr::mutate(daly_med = med * daly,
-                  daly_LB = LB * daly,
-                  daly_UB = UB * daly) %>%
-    dplyr::select(region, year, disease, daly_med, daly_LB, daly_UB) %>%
-    #only select median value
-    dplyr::select(-daly_LB, -daly_UB)
+    dplyr::mutate(daly = mort_pm25 * daly) %>%
+    dplyr::select(region, year, disease, daly)
+
 
   pm.daly.tot<-pm.daly %>%
     dplyr::group_by(region, year) %>%
-    dplyr::summarise(daly_med = sum(daly_med)) %>%
+    dplyr::summarise(daly = sum(daly)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(disease = "tot")
 
 
   pm.daly.tot.fin<-dplyr::bind_rows(pm.daly, pm.daly.tot) %>%
-    dplyr::mutate(daly_med = round(daly_med, 0))
+    dplyr::mutate(daly = round(daly, 0))
 
   #------------------------------------------------------------------------------------
   # Write the output
@@ -861,7 +867,7 @@ m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, qu
 
   pm.daly.tot.fin.write<-function(df){
     df<-as.data.frame(df) %>%
-      tidyr::spread(disease, daly_med)
+      tidyr::spread(disease, daly)
     write.csv(df,paste0("output/","m3/","PM25_DALY_",scen_name,"_",unique(df$year),".csv"),row.names = F)
   }
 
@@ -880,8 +886,8 @@ m3_get_daly_pm25<-function(db_path, query_path, db_name, prj_name, scen_name, qu
     pm.daly.tot.fin.map<-pm.daly.tot.fin %>%
       dplyr::rename(subRegion = region)%>%
       dplyr::filter(subRegion != "RUE") %>%
-      dplyr::select(subRegion, year, disease, daly_med) %>%
-      dplyr::rename(value = daly_med,
+      dplyr::select(subRegion, year, disease, daly) %>%
+      dplyr::rename(value = daly,
                     class = disease) %>%
       dplyr::mutate(year = as.numeric(as.character(year)),
                     units = "DALYs")
@@ -1163,8 +1169,8 @@ m3_get_mort_o3_ecoloss<-function(db_path, query_path, db_name, prj_name, scen_na
     o3.mort.EcoLoss.map<-o3.mort.EcoLoss %>%
       dplyr::rename(subRegion = region)%>%
       dplyr::filter(subRegion != "RUE") %>%
-      dplyr::select(subRegion, year, Damage_med) %>%
-      dplyr::rename(value = Damage_med) %>%
+      dplyr::select(subRegion, year, Damage_vsl_range) %>%
+      dplyr::rename(value = Damage_vsl_range) %>%
       dplyr::mutate(year = as.numeric(as.character(year)),
                     units = "Trillion$2015",
                     value = value * 1E-6)
